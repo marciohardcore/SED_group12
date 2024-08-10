@@ -2,9 +2,9 @@
 Software Engineering Design Project - RMIT University Vietnam 
 Designing a car pooling service that allow ride-sharing among user.
 
-Group member:
-| Name |
-| Le Nguyen Khuong Duy |
-| Tran Tu Tam |
-| Tran Thanh Lam |
-| Vu Van Tuan |
+| Group Member | Name                |
+|--------------|---------------------|
+| 1            | Le Nguyen Khuong Duy|
+| 2            | Tran Tu Tam         |
+| 3            | Tran Thanh Lam      |
+| 4            | Vu Van Tuan         |
