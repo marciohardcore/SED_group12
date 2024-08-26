@@ -1,12 +1,6 @@
 class User {
-private:
-    string userName;
-    string password;
-    string fullName;
-    string phoneNumber;
-    string email;
-    string idType;
-    string idNumber;
+protected:
+    string userName, password, fullName, phoneNumber, email, idType, idNumber;
     int creditPoint = 10;
 
 public:
@@ -35,22 +29,10 @@ public:
     {
         return email;
     }
-    // Method to view the user profile
-    void viewProfile() 
-    {
-        cout << "User Profile:\n";
-        cout << "Your Username: " << userName << "\n";
-        cout << "Your Full Name: " << fullName << "\n";
-        cout << "Your Phone Number: " << phoneNumber << "\n";
-        cout << "Your Email: " << email << "\n";
-        cout << "Your Credit Points: " << creditPoint << "\n";
-    }
 
     // Method to update the user profile
-
     void updateProfile(string newFullName, string newPhoneNumber, string newEmail) 
     {   
-
         fullName = newFullName;
         phoneNumber = newPhoneNumber;
         email = newEmail;
