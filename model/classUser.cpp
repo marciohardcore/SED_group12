@@ -1,55 +1,61 @@
-class User
-{
+class User {
 private:
-    string userName, password, fullName, phoneNumber, email;
-    int creditPoints = 10;
+    string userName;
+    string password;
+    string fullName;
+    string phoneNumber;
+    string email;
+    string idType;
+    string idNumber;
+    int creditPoint = 10;
 
 public:
-    User(string username, string pwd, string fullname, string phoneNum, string email)
-    {
-        this->userName = username;
-        this->password = pwd;
-        this->fullName = fullname;
-        this->phoneNumber = phoneNum;
-        this->email = email;
+    // Constructor
+    User(string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int credits)
+        : userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum), creditPoint(credits) {}
+
+    // Getters
+    string getUserName() 
+    { 
+        return userName; 
     }
-    
-    void viewProfile()
+    string getPassword() 
+    { 
+        return password; 
+    }
+
+    // Method to view the user profile
+    void viewProfile() 
     {
-        cout << "Your user name: " << userName << endl
-             << "Your Password: " << password << endl
-             << "Your full name: " << fullName << endl
-             << "Your phone number: " << phoneNumber << endl
-             << "Your email: " << email << endl;
-    };
-    void updateProfile()
+        cout << "User Profile:\n";
+        cout << "Your Username: " << userName << "\n";
+        cout << "Your Full Name: " << fullName << "\n";
+        cout << "Your Phone Number: " << phoneNumber << "\n";
+        cout << "Your Email: " << email << "\n";
+        cout << "Your Credit Points: " << creditPoint << "\n";
+    }
+
+    // Method to update the user profile
+
+    void updateProfile(string newFullName, string newPhoneNumber, string newEmail) 
+    {   
+
+        fullName = newFullName;
+        phoneNumber = newPhoneNumber;
+        email = newEmail;
+        cout << "Profile updated successfully.\n";
+    }
+
+    // Method to add credit points
+    void addCreditPoints(int points) 
     {
-        
-        // PASSWORD FILE NEEDED
-        if (oldpwd == password)
-        {
-            
-            cout << "\n"
-                 << "************************"
-                 << "\n\n";
-            cout << "Your user name: " << userName << endl
-                 << "Your Password: " << password << endl
-                 << "Your full name: " << fullName << endl
-                 << "Your phone number: " << phoneNumber << endl
-                 << "Your email: " << email << endl;
-        }
-        else
-        {
-            cerr << "Wrong password, cannot do this action!";
-        }
-    };
-    void addCreditPoints() 
+        creditPoint += points;
+        cout << points << " credit points added.\n";
+    }
+
+    // Getter for credit points
+    int getCreditPoints() 
     {
-        int addCre;
-        cout << "Please enter how many credit points do you want to add(1$ = 1p): ";
-        cin >> addCre;
-        creditPoints += addCre;
-        cout << "Adding successfully! Your total credit points: " << creditPoints;
-        
-    };
+        return creditPoint;
+    }
 };
