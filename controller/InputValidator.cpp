@@ -165,18 +165,3 @@ void inputValidator::validateTime(std::string& TimeVal) {
     }
 }
 
-
-int main() {
-    inputValidator validator;
-    std::string username, password, phoneNumber, date, time;
-
-    std::cout << "Enter a username: ";
-    std::cin >> username;
-    validator.validateUsername(username);
-    std::cout << "Username is available.\n";
-
-    std::cout << "Enter a password: ";
-    std::cin >> password;
-    validator.validatePassword(password);
-    std::cout << "Password is valid.\n";
-}

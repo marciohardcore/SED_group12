@@ -21,7 +21,7 @@ public:
     void deleteCarpoolListing();//parameter: CLID
 
     void loadUser(); // DONE
-    void loadCarpoolListing();
+    std::vector<CarpoolListing> FileManager::loadCarpoolListing();
 
     void saveData();
     void reloadData();    
@@ -44,6 +44,8 @@ void FileManager::saveUser(User &user){
                 << user.getFullName() << "," 
                 << user.getPhoneNumber() << "," 
                 << user.getEmail() << ","  
+                //<< user.getIDtype() << ","  
+                //<< user.getPassportNumber() << ","  
                 << user.getCreditPoint() << "," 
                 << user.getRatingScore() << "," 
                 << std::endl;
@@ -115,19 +117,21 @@ void FileManager::loadUser(){
 
     user_file.close();
 }
+#include <vector>
 
-//load carpool DONE, put ID at front la xong
-void FileManager::loadCarpoolListing() {
+std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
     std::ifstream carpool_file;
     std::string file_path = getFilePath(CARPOOL);
     carpool_file.open(file_path, std::ios::in);
 
     if (!carpool_file.is_open()) {
         std::cerr << "File not found\n";
-        return;
+        // Return an empty vector if the file cannot be opened
+        return std::vector<CarpoolListing>();
     }
 
-    string idCP, vehicleModel, vehicleColor, plateNumber, departureLocation, destinationLocation, departureTime, date, estimateDuration;
+    std::vector<CarpoolListing> carpoolListings;
+    std::string idCP, vehicleModel, vehicleColor, plateNumber, departureLocation, destinationLocation, departureTime, date, estimateDuration;
     int availableSeats, contributionPerPassenger;
     float minimumPassengerRating;
     bool cancelFlag;
@@ -152,16 +156,19 @@ void FileManager::loadCarpoolListing() {
         carpool_file >> cancelFlag;
         carpool_file.ignore(1, '\n');
 
-        // Create a CarpoolListing object (assuming constructor is defined to match these parameters)
+        // Create a CarpoolListing object and add it to the vector
         CarpoolListing carpool(idCP, vehicleModel, vehicleColor, plateNumber, availableSeats, 
                                departureLocation, destinationLocation, departureTime, 
                                date, estimateDuration, contributionPerPassenger, 
                                minimumPassengerRating, cancelFlag);
 
+        carpoolListings.push_back(carpool);
     }
 
     carpool_file.close();
+    return carpoolListings;
 }
+
 
 // //to update the data
 // void FileManager::saveData(){}
