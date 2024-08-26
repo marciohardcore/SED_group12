@@ -1,26 +1,73 @@
-#include <iostream>
+class UserController {
+private:
+    vector<User*> users;
 
-// class UserController: public User{
-class UserController{
 public:
-    void registerUser(std::string username, std::string password, std::string fullName, ){
+    // Method to register a new user
+    void registerUser(string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum) 
+    {
+
+        User* newUser = new User(uName, pwd, fName, pNumber, mail, idT, idNum, 10);
+        users.push_back(newUser);
+        cout << "Registered successfully!\n";
 
     }
 
-    //contact with files
-    User *loginUser(User* user){
+    // Method to login a user
+    User* loginUser(string username, string password) 
+    {
 
+        for (User* user : users) {
+            if (user->getUserName() == username && user->getPassword() == password) {
+                cout << "Login successful.\n";
+                return user;
+            }
+        }
+        cout << "Invalid username or password.\n";
+        return nullptr;
     }
 
-    void logoutUser(User* user){
-
+    // Method to logout a user
+    void logoutUser(User* user) 
+    {
+        if (user) {
+            cout << "User " << user->getUserName() << " logged out successfully.\n";
+        } else {
+            cout << "You have not logged in.\n";
+        }
     }
 
-    void manageProfile(User* user){
-
+    // Method to manage a user's profile
+    void manageProfile(User* user) 
+    {
+        if (user) {
+            string newFullName, newPhoneNumber, newEmail;
+            cout << "Enter new full name: ";
+            getline(cin, newFullName);
+            cout << "Enter new phone number: ";
+            getline(cin, newPhoneNumber);
+            cout << "Enter new email: ";
+            getline(cin, newEmail);
+            user->updateProfile(newFullName, newPhoneNumber, newEmail);
+        } else {
+            cout << "You have not logged in.\n";
+        }
     }
 
-    void purchaseCredits(User* user, int amount){
+    // Method to purchase credits
+    void purchaseCredits(User* user, int amount) {
+        if (user) {
+            user->addCreditPoints(amount);
+            cout << "Credit point: " << user->getCreditPoints();
+        } else {
+            cout << "You have not logged in.\n";
+        }
+    }
 
+    // Destructor to clean up user objects
+    ~UserController() {
+        for (User* user : users) {
+            delete user;
+        }
     }
 };
