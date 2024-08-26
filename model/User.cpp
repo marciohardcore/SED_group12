@@ -23,7 +23,18 @@ public:
     { 
         return password; 
     }
-
+    string getFullName()
+    {
+        return fullName;
+    }
+    string getPhoneNumber()
+    {
+        return phoneNumber;
+    }
+    string getEmail()
+    {
+        return email;
+    }
     // Method to view the user profile
     void viewProfile() 
     {
