@@ -1,3 +1,5 @@
+#include <iostream>
+#include <vector>
 class UserController {
 private:
     vector<User*> users;
