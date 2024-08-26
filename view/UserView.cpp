@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+
 class UserView : public User {
 public:
     // Constructor that calls the User constructor
