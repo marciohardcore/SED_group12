@@ -1,3 +1,8 @@
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <algorithm>
+
 class User {
 protected:
     string userName, password, fullName, phoneNumber, email, idType, idNumber;
