@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <fstream>
 #include <string>
-#include <InputValidator.h>
+#include "..\lib\InputValidator.h"
 using namespace std;
 
 // Console text formatting
@@ -22,9 +22,9 @@ void introduction() {
     std::cout << RED << "Group:" << BLUE << " 12\n";
     std::cout << "-----------------------------------\n";
     std::cout << YELLOW << "s4026694" << GREEN << " Le Nguyen Khuong Duy\n";
-    std::cout << YELLOW << "s4026694" << GREEN << " Vu Van Tuan\n";
-    std::cout << YELLOW << "s4026694" << GREEN << " Tran Thanh Lam\n";
-    std::cout << YELLOW << "s4026694" << GREEN << " Tran Tu Tam\n";
+    std::cout << YELLOW << "s4040269" << GREEN << " Vu Van Tuan\n";
+    std::cout << YELLOW << "s4038329" << GREEN << " Tran Thanh Lam\n";
+    std::cout << YELLOW << "s3999159" << GREEN << " Tran Tu Tam\n";
     std::cout << "\n" << RESET;
     system("pause");
 }
@@ -153,17 +153,17 @@ void memberOption() {
 
 void newRegister(){
     std::string username, password, fullName, phoneNumber, email, IDtype, passportNumber;
-
+    inputValidator input;
     std::cout << BOLD << "\t \t Register New User \n" << RESET;
     std::cout << "-----------------------------------\n";
 
     std::cout << GREEN << "Enter your username: " << RESET;
     std::cin >> username;
-    //inputValidator::validateUsername(username);
+    input.inputValidator::validateUsername(username);
 
     std::cout << GREEN << "Enter your password: " << RESET;
     std::cin >> password;
-    //inputValidator::validatePassword(password);
+    input.inputValidator::validatePassword(password);
 
     std::cout << GREEN << "Enter your full name: " << RESET;
     std::cin.ignore(); 
@@ -173,11 +173,11 @@ void newRegister(){
 
     std::cout << GREEN << "Enter your phone number: " << RESET;
     std::cin >> phoneNumber;
-    //inputValidator::validatePhoneNumber(phoneNumber);
+    input.inputValidator::validatePhoneNumber(phoneNumber);
 
     std::cout << GREEN << "Enter your email: " << RESET;
     std::cin >> email;
-    //inputValidator::validatePhoneNumber;  chua lam
+    // inputValidator::validatePhoneNumber;  chua lam
 
     std::cout << GREEN << "Enter your ID type (e.g., Passport, National ID): " << RESET;
     std::cin.ignore();

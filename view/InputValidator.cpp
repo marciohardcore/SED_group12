@@ -4,16 +4,10 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include "..\lib\InputValidator.h"
+
 
 using namespace std;
-class inputValidator {
-public:
-    void validateUsername(std::string& usernameVal);
-    void validatePassword(std::string& passwordVal);
-    void validatePhoneNumber(std::string& PhoneNumberVal);
-    void validateDate(std::string& DateVal);
-    void validateTime(std::string& TimeVal);
-};
 
 bool find(const std::string& usernameVal, const std::string& filePath) {
     std::ifstream file(filePath);
@@ -45,8 +39,10 @@ void inputValidator::validateUsername(std::string& usernameVal) {
     while (find(usernameVal, "../data/user.dat")) {
         std::cout << "Username already taken, please try again\n";
         std::cout << "Enter a username: ";
-        std::cin >> usernameVal;
+        std::getline(cin, usernameVal);
+        //find.isspace()...
     }
+    
 }
 
 void inputValidator::validatePassword(std::string& passwordVal) {

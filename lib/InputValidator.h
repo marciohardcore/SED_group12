@@ -6,6 +6,10 @@
 #include <string>
 
 using namespace std;
+
+#ifndef HGUARD1
+#define HGUARD1
+
 class inputValidator {
 public:
     void validateUsername(std::string& usernameVal);
@@ -16,3 +20,5 @@ public:
 };
 
 bool find(const std::string& usernameVal, const std::string& filePath);
+
+#endif
