@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <fstream>
 #include <string>
+
 #include "..\lib\InputValidator.h"
 using namespace std;
 
@@ -33,16 +34,14 @@ void introduction() {
 void viewCarpoolListings(){
     std::cout << BOLD << "Active Carpool Listings:\n" << RESET;
     std::cout << "----------------------------------\n";
-    // GuestView::displayCarpoolDetails(); briefly, can check parameter
-
+    // GuestView::displayCarpoolDetails(); xong roi ma chua connect file voi nhau
 }
 
-void viewBookings() {
-
-    std::cout << BOLD << "Active Bookings:\n" << RESET;
-    std::cout << "----------------------------------\n";
-    // GuestView::displayBookingDetails(); chua lam
-}
+// void viewBookings() {
+//     std::cout << BOLD << "Active Bookings:\n" << RESET;
+//     std::cout << "----------------------------------\n";
+//     // GuestView::displayBookingDetails(); chua lam
+// }
 
 
 // Profile management function
@@ -55,11 +54,11 @@ void profileManagement() {
 }
 
 
-void userUtils(){
+void passengerUtils(){
     char choice;
     std::cout << BOLD << "\t \t Login as \n" << /*User::getName() <<*/ RESET;
     std::cout << "-----------------------------------\n";
-    std::cout << YELLOW << "Options:\n1. Profile Management\n2. Booking\n3. Add credit point\n4. Log out" << RESET;
+    std::cout << YELLOW << "Options:\n1. Account Management\n2. Booking\n3. Add credit point\n4. Log out" << RESET;
     std::cin >> choice;
 
     while (choice != '1' && choice != '2' && choice != '3' && choice != '4') {
@@ -80,9 +79,8 @@ void userUtils(){
         // Logout();
         // UserController::logoutUser();
     }
-
-
 }
+
 void passenger(){
     std::string username, password;
     //log in
@@ -93,22 +91,25 @@ void passenger(){
 
     std::cout << "Enter password: ";
     std::cin >> password;
+    // switch to login user , if ok then go to options
     // if (UserController::loginUser(username, password) == true){
-    //     userUtils();
+    //     std::cout << "Login successfully";
+    //     system("pause");
+    //     passengerUtils();
     // }
     std::cout << "wrong username or password, please try again";
     system("pause");
 }
 
-void driver(){
+void driverUtils(){
     char choice;
     std::cout << BOLD << "Driver\n" << RESET;
-    std::cout << YELLOW << "Options:\n1. List Carpool\n2. Unlist Carpool\n3. Quit\n" << RESET;
+    std::cout << YELLOW << "Options:\n1. List Carpool\n2. Unlist Carpool\n3. View Request\n4. View Rating\n" << RESET;
     std::cout << GREEN << "Enter your choice: " << RESET;
     std::cin >> choice;
 
-    while (choice != '1' && choice != '2' && choice != '3') {
-        std::cout << RED << "Invalid input, please enter a number from 1 to 3\n" << RESET;
+    while (choice != '1' && choice != '2' && choice != '3' && choice != '4') {
+        std::cout << RED << "Invalid input, please enter a number from 1 to 4\n" << RESET;
         std::cout << GREEN << "Enter your choice: " << RESET;
         std::cin >> choice;
     }
@@ -118,22 +119,45 @@ void driver(){
     if (choice == '1') {
         //CarpoolController::createCarpool();
     } else if (choice == '2') {
-        driver();
+        //CarpoolController::unlistCarpool();
     } else if (choice == '3') {
-        // Admin();
+        //CarpoolController::viewRequest();        
+    } else if (choice == '4') {
+        //CarpoolController::viewRating();        
     }
-
 }
+
+void driver(){
+    std::string username, password;
+    //log in
+    std::cout << BOLD << "\t \t Login as Driver\n" << RESET;
+    std::cout << "-----------------------------------\n";
+    std::cout << "Enter username: ";
+    std::cin >> username;
+
+    std::cout << "Enter password: ";
+    std::cin >> password;
+    // switch to login user , if ok then go to options
+    // if (DriverController::loginDriver(username, password) == true){
+    //     std::cout << "Login successfully";
+    //     system("pause");
+    //     driverUtils();
+    // }
+    std::cout << "wrong username or password, please try again";
+    system("pause");
+}
+
+
 // Member options function
 void memberOption() {
     char choice;
     std::cout << BOLD << "Member\n" << RESET;
-    std::cout << YELLOW << "Options:\n1. Passenger\n2. Driver\n3. Admin\n" << RESET;
+    std::cout << YELLOW << "Options:\n1. Passenger\n2. Driver\n" << RESET;
     std::cout << GREEN << "Enter your choice: " << RESET;
     std::cin >> choice;
 
     while (choice != '1' && choice != '2' && choice != '3') {
-        std::cout << RED << "Invalid input, please enter a number from 1 to 3\n" << RESET;
+        std::cout << RED << "Invalid input, please enter a number from 1 to 2\n" << RESET;
         std::cout << GREEN << "Enter your choice: " << RESET;
         std::cin >> choice;
     }
@@ -144,49 +168,50 @@ void memberOption() {
         passenger();
     } else if (choice == '2') {
         driver();
-    } else if (choice == '3') {
-        // Admin();
     }
 }
 
 
 
-void newRegister(){
+void newRegister() {
     std::string username, password, fullName, phoneNumber, email, IDtype, passportNumber;
     inputValidator input;
+
     std::cout << BOLD << "\t \t Register New User \n" << RESET;
     std::cout << "-----------------------------------\n";
-
+    
+    std::cin.ignore();
     std::cout << GREEN << "Enter your username: " << RESET;
-    std::cin >> username;
+    std::getline(std::cin, username);
     input.inputValidator::validateUsername(username);
 
     std::cout << GREEN << "Enter your password: " << RESET;
-    std::cin >> password;
+    std::getline(std::cin, password);
     input.inputValidator::validatePassword(password);
 
     std::cout << GREEN << "Enter your full name: " << RESET;
-    std::cin.ignore(); 
     std::getline(std::cin, fullName);
-    //inputValidator::validateFullName;  chua lam
-
+    input.inputValidator::validateFullName(fullName);
 
     std::cout << GREEN << "Enter your phone number: " << RESET;
-    std::cin >> phoneNumber;
+    std::getline(std::cin, phoneNumber);  // Use getline to handle spaces in phone number if any
     input.inputValidator::validatePhoneNumber(phoneNumber);
 
     std::cout << GREEN << "Enter your email: " << RESET;
-    std::cin >> email;
-    // inputValidator::validatePhoneNumber;  chua lam
+    std::getline(std::cin, email);  // Use getline to handle spaces in email if any
+    input.inputValidator::validateEmail(email);
 
     std::cout << GREEN << "Enter your ID type (e.g., Passport, National ID): " << RESET;
-    std::cin.ignore();
     std::getline(std::cin, IDtype);
+    input.inputValidator::validateIDType(IDtype);
 
     std::cout << GREEN << "Enter your passport number: " << RESET;
-    std::cin >> passportNumber;
+    std::getline(std::cin, passportNumber);
+    input.inputValidator::validatePassportNumber(passportNumber);
 
     //UserController::registerUser(username, password, fullName, phoneNumber, email, IDtype, passportNumber);
+    std::cout << "Register complete\n";
+    //Quit
 }
 // Guest options function
 void guestOption() {
@@ -194,12 +219,12 @@ void guestOption() {
     std::cout << BOLD << "\t \t Guest\n" << RESET;
     std::cout << "-----------------------------------\n";
     std::cout << YELLOW << "Enter an option below:\n";
-    std::cout << "1. Register\t2. View Carpool Listings\t3. View Bookings\n";
+    std::cout << "1. Register\t2. View Carpool Listings\n";
     std::cout << GREEN << "Enter your choice: " << RESET;
     std::cin >> choice;
 
-    while (choice != '1' && choice != '2' && choice != '3') {
-        std::cout << RED << "Invalid input, please enter a number from 1 to 3\n" << RESET;
+    while (choice != '1' && choice != '2') {
+        std::cout << RED << "Invalid input, please enter a number from 1 to 2\n" << RESET;
         std::cout << GREEN << "Enter your choice: " << RESET;
         std::cin >> choice;
     }
@@ -208,8 +233,6 @@ void guestOption() {
         newRegister();
     } else if (choice == '2') { // DONE
         viewCarpoolListings();
-    } else if (choice == '3') { // DONE
-        viewBookings();
     }
 }
 
