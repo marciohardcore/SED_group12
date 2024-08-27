@@ -2,6 +2,7 @@
 #include <fstream>  
 #include <string>
 #include <vector>
+
 const std::string PATH = "../data/";
 const std::string USER = "user.dat";
 const std::string CARPOOL = "carpool.dat";
@@ -15,13 +16,16 @@ class User;
 
 class FileManager{
 public:
+    //save 1 user to the file after sign up
     void saveUser(User &user); // DONE
 
+    //save 1 carpoolListing to the file after sign up
     void saveCarpoolListing(CarpoolListing& carpoolInfo); // DONE
-    void deleteCarpoolListing();//parameter: CLID
+    void deleteCarpoolListing(CarpoolListing &item);//parameter: CLID
 
-    void loadUser(); // DONE
-    std::vector<CarpoolListing> FileManager::loadCarpoolListing();
+    //return array of user after being called
+    std::vector<User> loadUser(); // DONE
+    std::vector<CarpoolListing> loadCarpoolListing();
 
     void saveData();
     void reloadData();    
@@ -79,11 +83,8 @@ void FileManager::saveCarpoolListing(CarpoolListing& carpoolInfo){
     std::cout <<"save successfully";
 }
 
-
-
-
 //load method DONE
-void FileManager::loadUser(){
+std::vector<User> FileManager::loadUser(){
     std::ifstream user_file;
     std::string file_path = getFilePath(USER);
     user_file.open(file_path, std::ios::in);
@@ -95,6 +96,7 @@ void FileManager::loadUser(){
     std::string id, username, password, fullname, phone_number, email;
     int creditpoint;
     float rating_score;
+    std::vector<User> loadUser;
 
 
     while (user_file.peek() != EOF){
@@ -111,13 +113,12 @@ void FileManager::loadUser(){
 
         // User user(id, username, password, phone_number, email, creditpoint, rating_score);
         User user(username, password, fullname, phone_number, email, creditpoint, rating_score);
-        user.viewProfile();
-        cout << "-------------------" << endl;
+        loadUser.push_back(user);
     }
-
     user_file.close();
+    return loadUser;
+
 }
-#include <vector>
 
 std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
     std::ifstream carpool_file;
@@ -167,6 +168,20 @@ std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
 
     carpool_file.close();
     return carpoolListings;
+}
+
+void FileManager::deleteCarpoolListing(CarpoolListing& item){
+    std::ifstream carpool_file;
+    std::string file_path = getFilePath(CARPOOL);
+    carpool_file.open(file_path, std::ios::in | std::ios::app);
+
+    if (!carpool_file.is_open()){
+        std::cerr << "File not found";
+    }
+    check = items.getID();
+    vector <CarpoolListing> list;
+    //list = .loadCarpoolListing();
+    while (std::getline())
 }
 
 

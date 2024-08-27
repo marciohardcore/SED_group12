@@ -70,7 +70,7 @@ void userUtils(){
 
     if (choice == '1') {
         profileManagement();
-        //UserController::manageProfile();
+        // UserController::manageProfile();
     } else if (choice == '2') {
         // User::Member::Booking();
     } else if (choice == '3') {
@@ -100,6 +100,30 @@ void passenger(){
     system("pause");
 }
 
+void driver(){
+    char choice;
+    std::cout << BOLD << "Driver\n" << RESET;
+    std::cout << YELLOW << "Options:\n1. List Carpool\n2. Unlist Carpool\n3. Quit\n" << RESET;
+    std::cout << GREEN << "Enter your choice: " << RESET;
+    std::cin >> choice;
+
+    while (choice != '1' && choice != '2' && choice != '3') {
+        std::cout << RED << "Invalid input, please enter a number from 1 to 3\n" << RESET;
+        std::cout << GREEN << "Enter your choice: " << RESET;
+        std::cin >> choice;
+    }
+
+    system("pause");
+
+    if (choice == '1') {
+        CarpoolController::createCarpool();
+    } else if (choice == '2') {
+        driver();
+    } else if (choice == '3') {
+        // Admin();
+    }
+
+}
 // Member options function
 void memberOption() {
     char choice;
@@ -119,7 +143,7 @@ void memberOption() {
     if (choice == '1') {
         passenger();
     } else if (choice == '2') {
-        // Driver();
+        driver();
     } else if (choice == '3') {
         // Admin();
     }
