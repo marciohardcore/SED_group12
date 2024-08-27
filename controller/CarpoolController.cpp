@@ -205,22 +205,23 @@ public:
 
     vector<CarpoolListing*> searchCarpools(string location, string date, int minRating, int credits) {
         vector<CarpoolListing*> matchingListings;
-        vector<string> listingIds = filemanager.getAllListingIds();  // Get all carpoolListing IDs
+        vector<CarpoolListing*> listings = filemanager.loadCarpoolListing();  // Get all carpool listings
 
-        for (const string& id : listingIds) {
-            CarpoolListing* listing = filemanager.loadCarpoolListing(id);  // Load listing by ID
-            if (!listing) continue;
-
+        for (auto listing : listings) 
+        {
             // Apply filters
-            if (listing->getfullyBooked() == false &&
+            if (!listing->getfullyBooked() &&
                 listing->getDestinationLocation() == location &&
                 listing->getDate() == date &&
                 listing->getContributionPerPassenger() <= credits &&
-                minRating >= listing->getMinimumPassengerRating()) {
-
+                minRating >= listing->getMinimumPassengerRating()) 
+            {
                 matchingListings.push_back(listing);
-            } else {
-                delete listing;  // Clean up if the listing does not match
+            } 
+            else 
+            {
+                // optional - delete this else statement when needed
+                logger.logEvent("Carpool listing rejected: " + listing->getDestinationLocation() + " on date: " + listing->getDate());
             }
         }
 
