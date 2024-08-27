@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <fstream>
 #include <string>
-
+#include <InputValidator.h>
 using namespace std;
 
 // Console text formatting
@@ -57,7 +57,7 @@ void profileManagement() {
 
 void userUtils(){
     char choice;
-    std::cout << BOLD << "\t \t Login as \n" << User::getName() << RESET;
+    std::cout << BOLD << "\t \t Login as \n" << /*User::getName() <<*/ RESET;
     std::cout << "-----------------------------------\n";
     std::cout << YELLOW << "Options:\n1. Profile Management\n2. Booking\n3. Add credit point\n4. Log out" << RESET;
     std::cin >> choice;
@@ -93,9 +93,9 @@ void passenger(){
 
     std::cout << "Enter password: ";
     std::cin >> password;
-    if (UserController::loginUser(username, password) == true){
-        userUtils();
-    }
+    // if (UserController::loginUser(username, password) == true){
+    //     userUtils();
+    // }
     std::cout << "wrong username or password, please try again";
     system("pause");
 }
@@ -116,7 +116,7 @@ void driver(){
     system("pause");
 
     if (choice == '1') {
-        CarpoolController::createCarpool();
+        //CarpoolController::createCarpool();
     } else if (choice == '2') {
         driver();
     } else if (choice == '3') {
