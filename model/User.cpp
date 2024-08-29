@@ -1,46 +1,27 @@
 #include <iostream>
 #include <string>
-#include <cstring>
+#include <vector>
 #include <algorithm>
 
-class User {
+using namespace std;
+
+class User
+{
 protected:
-    std::string userName, password, fullName, phoneNumber, email, idType, idNumber;
+    string uid, userName, password, fullName, phoneNumber, email, idType, idNumber;
     int creditPoint = 10;
+    int ratingScore = -1;
 
 public:
     // Constructor
-    User(string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int credits)
-        : userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum), creditPoint(credits) {}
-
-    //generate them cho no du theo cai format
-    //
-    save
-    // Getters
-    string getUserName() 
-    { 
-        return userName; 
-    }
-    string getPassword() 
-    { 
-        return password; 
-    }
-    string getFullName()
-    {
-        return fullName;
-    }
-    string getPhoneNumber()
-    {
-        return phoneNumber;
-    }
-    string getEmail()
-    {
-        return email;
-    }
+    User(){};
+    User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int credits, int rScore)
+        : uid(uID), userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum), creditPoint(credits), ratingScore(rScore) {}
 
     // Method to update the user profile
-    void updateProfile(string newFullName, string newPhoneNumber, string newEmail) 
-    {   
+    void User::updateProfile(string newFullName, string newPhoneNumber, string newEmail)
+    {
+
         fullName = newFullName;
         phoneNumber = newPhoneNumber;
         email = newEmail;
@@ -48,15 +29,51 @@ public:
     }
 
     // Method to add credit points
-    void addCreditPoints(int points) 
+    void User::addCreditPoints(int points)
     {
         creditPoint += points;
         cout << points << " credit points added.\n";
     }
 
-    // Getter for credit points
-    int getCreditPoints() 
+    // Getters
+    string User::getUID()
+    {
+        return uid;
+    }
+    string User::getUserName()
+    {
+        return userName;
+    }
+    string User::getPassword()
+    {
+        return password;
+    }
+    string User::getFullName()
+    {
+        return fullName;
+    }
+    string User::getPhoneNumber()
+    {
+        return phoneNumber;
+    }
+    string User::getEmail()
+    {
+        return email;
+    }
+    string User::getIDtype()
+    {
+        return idType;
+    }
+    string User::getIDnum()
+    {
+        return idNumber;
+    }
+    int User::getCreditPoints()
     {
         return creditPoint;
+    }
+    int User::getRatingScore()
+    {
+        return ratingScore;
     }
 };
