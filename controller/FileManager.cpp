@@ -25,6 +25,7 @@ public:
 
     //return array of user after being called
     std::vector<User> loadUser(); // DONE
+    User FileManager::loadSingleUser(std::string name, std::string password);
     std::vector<CarpoolListing> loadCarpoolListing();
 
     void saveData();
@@ -119,6 +120,42 @@ std::vector<User> FileManager::loadUser(){
     return loadUser;
 
 }
+
+User FileManager::loadSingleUser(std::string name, std::string password){
+    std::ifstream user_file;
+    std::string file_path = getFilePath(USER);
+    user_file.open(file_path, std::ios::in);
+
+    if (!user_file.is_open()) {
+        std::cerr << "File not found\n";
+    }
+
+    std::string id, username, password, fullname, phone_number, email;
+    int creditpoint;
+    float rating_score;
+
+    while (user_file.peek() != EOF){
+        getline(user_file, id, ',');
+        getline(user_file, username, ',');
+        getline(user_file, password, ',');
+        getline(user_file, fullname, ',');
+        getline(user_file, phone_number, ',');
+        getline(user_file, email, ',');
+        user_file >> creditpoint;
+        user_file.ignore(1, ',');
+        user_file >> rating_score;
+        user_file.ignore(1, '\n');
+
+        // User user(id, username, password, phone_number, email, creditpoint, rating_score);
+        if (name == username){
+            User user(username, password, fullname, phone_number, email, creditpoint, rating_score);
+            return user;
+        }
+    }
+    user_file.close();
+
+}
+
 
 std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
     std::ifstream carpool_file;

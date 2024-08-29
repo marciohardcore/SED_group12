@@ -5,7 +5,7 @@
 
 class User {
 protected:
-    string userName, password, fullName, phoneNumber, email, idType, idNumber;
+    std::string userName, password, fullName, phoneNumber, email, idType, idNumber;
     int creditPoint = 10;
 
 public:
@@ -13,6 +13,9 @@ public:
     User(string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int credits)
         : userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum), creditPoint(credits) {}
 
+    //generate them cho no du theo cai format
+    //
+    save
     // Getters
     string getUserName() 
     { 
