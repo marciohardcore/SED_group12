@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include "..\lib\UserView.h"
+
 
 class UserView : public User {
 public:

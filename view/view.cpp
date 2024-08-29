@@ -4,6 +4,14 @@
 #include <string>
 
 #include "..\lib\InputValidator.h"
+#include "..\lib\UserController.h"
+#include "..\lib\IDgenerator.h"
+
+#include "..\lib\User.h"
+
+
+
+
 using namespace std;
 
 // Console text formatting
@@ -245,7 +253,12 @@ void newRegister() {
     std::getline(std::cin, passportNumber);
     input.inputValidator::validatePassportNumber(passportNumber);
 
-    UserController::registerUser(username, password, fullName, phoneNumber, email, IDtype, passportNumber);
+
+    UserController regis;
+    IDgenerator id_obj;
+    std::string ans = id_obj.generateUserID();
+    //register: save user info into the file
+    regis.UserController::registerUser(ans, username, password, fullName, phoneNumber, email, IDtype, passportNumber);
     std::cout << GREEN <<"\n\nRegister complete!\n";
     //Quit
 }
