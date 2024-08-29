@@ -104,6 +104,7 @@ void profileManagement(std::string username, std::string password) {
 }
 
 
+// CarpoolManagement function
 void CarpoolManagement(std::string username, std::string password) {
     while (true) {
         system("cls"); // Clear the screen
@@ -150,6 +151,8 @@ void CarpoolManagement(std::string username, std::string password) {
     }
 }
 
+
+// memberUtils function
 void memberUtils(std::string username, std::string password) {
     char choice;
     while (true) {
@@ -203,6 +206,7 @@ void memberUtils(std::string username, std::string password) {
 }
 
 
+// member function
 void member(){
     std::string username, password;
     inputValidator input;
@@ -300,6 +304,8 @@ void newRegister() {
     coordinate();
     //Quit
 }
+
+
 // Guest options function
 void guestOption() {
     char choice;
