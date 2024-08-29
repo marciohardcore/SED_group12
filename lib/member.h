@@ -5,7 +5,8 @@
 
 class CarpoolListing;  // Forward declaration
 class Booking;         // Forward declaration
-
+#ifndef HGUARD3
+#define HGUARD3
 class Member {
 private:
     // Attributes
@@ -23,3 +24,4 @@ public:
     void ratePassenger(Booking* booking); // done
     void viewDashboard();  // done
 };
+#endif
