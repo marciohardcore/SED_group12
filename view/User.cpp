@@ -2,14 +2,32 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "..\lib\User.h"
 
-using namespace std;
+
+// Default constructor
+
+// Default constructor
+User::User() : creditPoint(10) {}
+
+// Parameterized constructor
+User::User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum)
+    : uid(uID), userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum), creditPoint(10) {}
+
+// Getter methods implementation
+string User::getUID() const { return uid; }
+string User::getUserName() const { return userName; }
+string User::getPassword() const { return password; }
+string User::getFullName() const { return fullName; }
+string User::getPhoneNumber() const { return phoneNumber; }
+string User::getEmail() const { return email; }
+string User::getIDtype() const { return idType; }
+string User::getIDnum() const { return idNumber; }
+
+// Getter for creditPoint
+int User::getCreditPoint() const { return creditPoint; }
 
 
-// Constructor
-User(){};
-User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum)
-    : uid(uID), userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum) {}
 
 // Method to update the user profile
 // void User::updateProfile(string newFullName, string newPhoneNumber, string newEmail)
@@ -22,47 +40,8 @@ User(string uID, string uName, string pwd, string fName, string pNumber, string 
 // }
 
 // Method to add credit points
-void User::addCreditPoints(int points)
-{
-    creditPoint += points;
-    cout << points << " credit points added.\n";
-}
-
-// Getters
-string User::getUID()
-{
-    return uid;
-}
-string User::getUserName()
-{
-    return userName;
-}
-string User::getPassword()
-{
-    return password;
-}
-string User::getFullName()
-{
-    return fullName;
-}
-string User::getPhoneNumber()
-{
-    return phoneNumber;
-}
-string User::getEmail()
-{
-    return email;
-}
-string User::getIDtype()
-{
-    return idType;
-}
-string User::getIDnum()
-{
-    return idNumber;
-}
-int User::getCreditPoints()
-{
-    return creditPoint;
-}
-
+// void User::addCreditPoints(int points)
+// {
+//     creditPoint += points;
+//     cout << points << " credit points added.\n";
+// }

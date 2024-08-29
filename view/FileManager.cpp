@@ -5,7 +5,7 @@
 
 #include "..\lib\FileManager.h"
 #include "..\lib\User.h"
-
+#define GREEN "\033[0;32m"
 using namespace std;
 class Member;
 class Booking;
@@ -30,11 +30,10 @@ void FileManager::saveUser( User user){
                 << user.getEmail() << ","  
                 << user.getIDtype() << ","  
                 << user.getIDnum() << ","  
-                // << user.getCreditPoint() << "," 
-                // << user.getRatingScore() << "," 
+                << user.getCreditPoint()
                 << std::endl;
     user_file.close();
-    std::cout <<"save successfully\n";
+    std::cout <<GREEN << "Save data to system! \n";
 }
 
 // DONE
