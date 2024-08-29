@@ -6,14 +6,12 @@
 #include "..\lib\UserController.h"
 #include "..\lib\FileManager.h"
 
-//registerUser: save data to .dat + 
-void UserController::registerUser(string uid, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum)
+// Method to register a user
+void UserController::registerUser(string uid, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum) 
 {
-    User user1(uid, uName, pwd, fName, pNumber, mail, idT, idNum, 10, -1);
-
+    User user1(uid, uName, pwd, fName, pNumber, mail, idT, idNum);
     FileManager file_mana;
     file_mana.saveUser(user1);
-    cout << "Registered successfully!\n";
 }
 
 // // Method to login a user

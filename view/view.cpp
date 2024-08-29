@@ -6,9 +6,8 @@
 #include "..\lib\InputValidator.h"
 #include "..\lib\UserController.h"
 #include "..\lib\IDgenerator.h"
-
 #include "..\lib\User.h"
-
+#include "..\lib\FileManager.h"
 
 
 
@@ -36,6 +35,7 @@ void introduction() {
     std::cout << YELLOW << "s3999159" << GREEN << " Tran Tu Tam\n";
     std::cout << "\n" << RESET;
     system("pause");
+    system("cls"); 
 }
 
 // Guest view function
@@ -257,7 +257,6 @@ void newRegister() {
     UserController regis;
     IDgenerator id_obj;
     std::string ans = id_obj.generateUserID();
-    //register: save user info into the file
     regis.UserController::registerUser(ans, username, password, fullName, phoneNumber, email, IDtype, passportNumber);
     std::cout << GREEN <<"\n\nRegister complete!\n";
     //Quit

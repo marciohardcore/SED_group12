@@ -5,36 +5,43 @@
 
 using namespace std;
 
-#ifndef HGUARD400
-#define HGUARD400
-class User
-{
+#ifndef USER_H
+#define USER_H
+
+#include <string>
+using std::string;
+
+class User {
 private:
-    string uid, userName, password, fullName, phoneNumber, email, idType, idNumber;
-    int creditPoint = 10;
-    int ratingScore = -1;
-
+    string uid;
+    string userName;
+    string password;
+    string fullName;
+    string phoneNumber;
+    string email;
+    string idType;
+    string idNumber;
+    int creditPoint;  // New member variable
 public:
-    // Constructor
+    // Default constructor
     User();
-    User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum)
-        : uid(uID), userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum) {}
 
-    // Method to update the user profile
-    void updateProfile(string newFullName, string newPhoneNumber, string newEmail);
-    // Method to add credit points
-    void addCreditPoints(int points);
-    // Getters
-    string getUID();
-    string getUserName();
-    string getPassword();
-    string getFullName();
-    string getPhoneNumber();
-    string getEmail();
-    string getIDtype();
-    string getIDnum();
-    // int getCreditPoints();
-    // int getRatingScore();
-    
+    // Parameterized constructor
+    User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum);
+
+    // Getter methods
+    string getUID() const;
+    string getUserName() const;
+    string getPassword() const;
+    string getFullName() const;
+    string getPhoneNumber() const;
+    string getEmail() const;
+    string getIDtype() const;
+    string getIDnum() const;
+    // Getter for creditPoint
+    int getCreditPoint() const;
+
+
 };
-#endif
+
+#endif // USER_H
