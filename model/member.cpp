@@ -2,30 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include <string>
-
-class CarpoolListing;  // Forward declaration
-class Booking;         // Forward declaration
-
-class Member {
-private:
-    // Attributes
-    bool isVerified;
-    std::vector<CarpoolListing*> carpoolListings;
-    std::vector<Booking*> bookings;
-public:
-    // Methods
-    void createCarpoolListing(CarpoolListing* listing); //done
-    bool unlistCarpoolListing(CarpoolListing* listing); // done
-    //carpool controller void searchAndbookCarpool(CarpoolListing* listing); /*  phải lấy data của tất cả listing trong hệ thống để show ra và search
-                                                            based on departure location,destination location, and date */
-    bool cancelBooking(Booking* booking); // done
-    void rateDriver(CarpoolListing* listing); // done
-    void ratePassenger(Booking* booking); // done
-    void viewDashboard();  // done
-};
-
-// Sample implementations
-
+#include <..\lib\member.h>
 void Member::createCarpoolListing(CarpoolListing* listing) {
     // lưu dô file
     carpoolListings.push_back(listing);
@@ -44,9 +21,9 @@ bool Member::unlistCarpoolListing(CarpoolListing* listing) {
     return false;
 }
 
-void Member::searchAndbookCarpool(Booking* booking) {
+// void Member::searchAndbookCarpool(Booking* booking) {
     
-}
+// }
 
 bool Member::cancelBooking(Booking* booking) {
     for(int i = 0; i < bookings.size(); i++){
