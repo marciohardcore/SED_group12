@@ -245,8 +245,8 @@ void newRegister() {
     std::getline(std::cin, passportNumber);
     input.inputValidator::validatePassportNumber(passportNumber);
 
-    //UserController::registerUser(username, password, fullName, phoneNumber, email, IDtype, passportNumber);
-    std::cout << "Register complete\n";
+    UserController::registerUser(username, password, fullName, phoneNumber, email, IDtype, passportNumber);
+    std::cout << GREEN <<"\n\nRegister complete!\n";
     //Quit
 }
 // Guest options function

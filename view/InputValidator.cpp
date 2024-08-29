@@ -6,6 +6,16 @@
 #include <string>
 #include "..\lib\InputValidator.h"
 
+
+// Console text formatting
+#define BOLD "\033[1m"
+#define RESET "\033[0m"
+
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define YELLOW "\033[0;33m"
+#define BLUE "\033[0;34m"
+
 using namespace std;
 
 bool find(const std::string& usernameVal, const std::string& filePath) {
@@ -36,7 +46,7 @@ bool find(const std::string& usernameVal, const std::string& filePath) {
 
 void inputValidator::validateUsername(std::string& usernameVal) {
     while (find(usernameVal, "../data/user.dat")) {
-        std::cout << "Username already taken, please try again\n";
+        std::cout << RED << "Username already taken, please try again\n" << RESET;
         std::cout << "Enter a username: ";
         std::getline(cin, usernameVal);
     }
@@ -48,23 +58,23 @@ void inputValidator::validateUsername(std::string& usernameVal) {
 
 void inputValidator::validatePassword(std::string& passwordVal) {
     while (passwordVal.size() < 8) {
-        std::cout << "Please input at least 8 characters: ";
+        std::cout << RED << "Please input at least 8 characters: " << RESET;
         std::getline(cin, passwordVal);
     }
 
     std::regex regx("[@_!#$%^&*()<>?/|}{~:]");
     while (!std::regex_search(passwordVal, regx)) {
-        std::cout << "Please add a special character: ";
+        std::cout << RED << "Please add a special character: " << RESET;
         std::getline(cin, passwordVal);
     }
 
     while (!isupper(passwordVal[0])) {
-        std::cout << "Please capitalize the first character: ";
+        std::cout << RED << "Please capitalize the first character: " << RESET;
         std::getline(cin, passwordVal);
     }
 
     while (passwordVal.find(' ') != std::string::npos) {
-        std::cout << "Do not include spaces in the password! Please try again: ";
+        std::cout << RED << "Do not include spaces in the password! Please try again: " << RESET;
         std::getline(cin, passwordVal);
     }
 }
@@ -72,7 +82,7 @@ void inputValidator::validatePassword(std::string& passwordVal) {
 void inputValidator::validateFullName(std::string& fullnameVal) {
     std::regex regx("\\d");
     while (std::regex_search(fullnameVal, regx)) {
-        std::cout << "No digit in the full name, please try again: ";
+        std::cout << RED <<"No digit in the full name, please try again: " << RESET;
         std::getline(cin, fullnameVal);
     }
 }
@@ -80,7 +90,7 @@ void inputValidator::validateFullName(std::string& fullnameVal) {
 void inputValidator::validateEmail(std::string& emailVal) {
     std::regex emailPattern(R"((\w+)(\.?)(\w*)@(\w+)(\.(\w+))+)");
     while (!std::regex_match(emailVal, emailPattern)) {
-        std::cout << "Invalid email, please try again: ";
+        std::cout << RED << "Invalid email, please try again: " << RESET;
         std::getline(cin, emailVal);
     }
 }
@@ -88,7 +98,7 @@ void inputValidator::validateEmail(std::string& emailVal) {
 void inputValidator::validatePhoneNumber(std::string& phoneNumberVal) {
     std::regex regx("^[0-9]+$");
     while (!std::regex_match(phoneNumberVal, regx)) {
-        std::cout << "Enter a valid phone number: ";
+        std::cout << RED <<"Enter a valid phone number: " << RESET;
         std::getline(cin, phoneNumberVal);
         if (std::regex_match(phoneNumberVal, regx)){
             break;
@@ -97,14 +107,14 @@ void inputValidator::validatePhoneNumber(std::string& phoneNumberVal) {
 }
 void inputValidator::validatePassportNumber(std::string& passportNumber){
     while (passportNumber.find(' ') != std::string::npos) {
-        std::cout << "Do not include spaces, please try again: ";
+        std::cout << RED << "Do not include spaces, please try again: " << RESET;
         std::getline(cin, passportNumber);
     }
     
 }
 void inputValidator::validateIDType(std::string& IDType) {
     while (IDType != "Passport" && IDType != "National ID") {
-        std::cout << "Enter a valid IDType: ";
+        std::cout << RED <<"Enter a valid IDType, must be 'Passport' or 'National ID' only: " << RESET;
         std::getline(cin, IDType);
     }
 }
@@ -113,7 +123,7 @@ void inputValidator::validateIDType(std::string& IDType) {
 void inputValidator::validateDate(std::string& dateVal) {
     while (true) {
         if (dateVal.size() != 10 || dateVal[2] != '/' || dateVal[5] != '/') {
-            std::cout << "Invalid date format. Please use dd/mm/yyyy: ";
+            std::cout << RED << "Invalid date format. Please use dd/mm/yyyy: " << RESET;
             std::getline(cin, dateVal);
             continue;
         }
@@ -127,7 +137,7 @@ void inputValidator::validateDate(std::string& dateVal) {
         }
 
         if (!valid) {
-            std::cout << "Invalid date value. Please enter numeric values for day, month, and year: ";
+            std::cout << RED << "Invalid date value. Please enter numeric values for day, month, and year: " << RESET;
             std::getline(cin, dateVal);
             continue;
         }
@@ -138,13 +148,13 @@ void inputValidator::validateDate(std::string& dateVal) {
         ss >> day >> slash >> month >> slash >> year;
 
         if (day < 1 || day > 31) {
-            std::cout << "Invalid day value. Please enter a day from 1 to 31: ";
+            std::cout << RED <<"Invalid day value. Please enter a day from 1 to 31: " << RESET;
             std::getline(cin, dateVal);
             continue;
         }
 
         if (month < 1 || month > 12) {
-            std::cout << "Invalid month value. Please enter a month from 1 to 12: ";
+            std::cout << RED << "Invalid month value. Please enter a month from 1 to 12: " << RESET;
             std::getline(cin, dateVal);
             continue;
         }
@@ -156,14 +166,14 @@ void inputValidator::validateDate(std::string& dateVal) {
 void inputValidator::validateTime(std::string& timeVal) {
     while (true) {
         if (timeVal.size() != 5 || timeVal[2] != ':') {
-            std::cout << "Invalid time format. Please use hh:mm: ";
+            std::cout << RED << "Invalid time format. Please use hh:mm: " << RESET;
             std::getline(cin, timeVal);
             continue;
         }
 
         if (!std::isdigit(timeVal[0]) || !std::isdigit(timeVal[1]) ||
             !std::isdigit(timeVal[3]) || !std::isdigit(timeVal[4])) {
-            std::cout << "Invalid time value. Please enter numeric values for hours and minutes: ";
+            std::cout << RED << "Invalid time value. Please enter numeric values for hours and minutes: " << RESET;
             std::getline(cin, timeVal);
             continue;
         }
@@ -174,13 +184,13 @@ void inputValidator::validateTime(std::string& timeVal) {
         ss >> hour_val >> colon >> minutes_val;
 
         if (hour_val < 0 || hour_val > 23) {
-            std::cout << "Invalid hour value. Please enter an hour from 00 to 23: ";
+            std::cout << RED <<"Invalid hour value. Please enter an hour from 00 to 23: " << RESET;
             std::getline(cin, timeVal);
             continue;
         }
 
         if (minutes_val < 0 || minutes_val > 59) {
-            std::cout << "Invalid minutes value. Please enter minutes from 00 to 59: ";
+            std::cout << RED << "Invalid minutes value. Please enter minutes from 00 to 59: " << RESET;
             std::getline(cin, timeVal);
             continue;
         }
