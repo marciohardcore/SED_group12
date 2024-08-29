@@ -5,7 +5,7 @@
 
 class User {
 protected:
-    string userName, password, fullName, phoneNumber, email, idType, idNumber;
+    std::string userName, password, fullName, phoneNumber, email, idType, idNumber;
     int creditPoint = 10;
 
 public:

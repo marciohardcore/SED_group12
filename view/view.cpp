@@ -34,7 +34,7 @@ void introduction() {
 void viewCarpoolListings(){
     std::cout << BOLD << "Active Carpool Listings:\n" << RESET;
     std::cout << "----------------------------------\n";
-    // GuestView::displayCarpoolDetails(); xong roi ma chua connect file voi nhau
+    // GuestView::displayCarpoolDetails(); // xong roi ma chua connect file voi nhau
 }
 
 // void viewBookings() {
@@ -46,19 +46,43 @@ void viewCarpoolListings(){
 
 // Profile management function
 void profileManagement() {
+    char choice;
+
     std::cout << YELLOW << "Profile Management\n";
     std::cout << "1. View Profile\n";
     std::cout << "2. Update Profile\n";
     std::cout << "3. Update Password\n";
-    std::cout << "4. Add Credit Point\n" << RESET;
+    std::cout << GREEN << "Enter your choice: " << RESET;
+    std::cin >> choice;
+
+    while (choice != '1' && choice != '2' && choice != '3') {
+        std::cout << RED << "Invalid input, please enter a number from 1 to 3\n" << RESET;
+        std::cout << GREEN << "Enter your choice: " << RESET;
+        std::cin >> choice;
+    }
+
+    if (choice == '1') {
+        // viewProfile();
+    } else if (choice == '2') {
+        // updateProfile();
+    } else if (choice == '3') {
+        // updatePassword();
+    }
 }
 
+void passengerUtils(std::string username, std::string password){
+    // // Load single user
+    // User user;
+    // user = loadSingleUser(username, password);
+    // if(){ //load user ok then go
 
-void passengerUtils(){
+    // }
+
     char choice;
     std::cout << BOLD << "\t \t Login as \n" << /*User::getName() <<*/ RESET;
     std::cout << "-----------------------------------\n";
-    std::cout << YELLOW << "Options:\n1. Account Management\n2. Booking\n3. Add credit point\n4. Log out" << RESET;
+    std::cout << YELLOW << "Options:\n1. Account Management\n2. Booking\n3. Add credit point\n4. Log out\n" << RESET;
+    std::cout << GREEN << "Enter your choice: " << RESET;
     std::cin >> choice;
 
     while (choice != '1' && choice != '2' && choice != '3' && choice != '4') {
@@ -73,35 +97,13 @@ void passengerUtils(){
     } else if (choice == '2') {
         // User::Member::Booking();
     } else if (choice == '3') {
-        // Addcreditpoint();
         // UserController::purchaseCredits();
     } else if (choice == '4') {
         // Logout();
-        // UserController::logoutUser();
     }
 }
 
-void passenger(){
-    std::string username, password;
-    //log in
-    std::cout << BOLD << "\t \t Login\n" << RESET;
-    std::cout << "-----------------------------------\n";
-    std::cout << "Enter username: ";
-    std::cin >> username;
-
-    std::cout << "Enter password: ";
-    std::cin >> password;
-    // switch to login user , if ok then go to options
-    // if (UserController::loginUser(username, password) == true){
-    //     std::cout << "Login successfully";
-    //     system("pause");
-    //     passengerUtils();
-    // }
-    std::cout << "wrong username or password, please try again";
-    system("pause");
-}
-
-void driverUtils(){
+void driverUtils(std::string username, std::string password){
     char choice;
     std::cout << BOLD << "Driver\n" << RESET;
     std::cout << YELLOW << "Options:\n1. List Carpool\n2. Unlist Carpool\n3. View Request\n4. View Rating\n" << RESET;
@@ -127,34 +129,68 @@ void driverUtils(){
     }
 }
 
+void passenger(){
+    std::string username, password;
+    inputValidator input;
+
+
+    //log in
+    std::cout << BOLD << "\t \t Login as Passenger\n" << RESET;
+    std::cout << "-----------------------------------\n";
+    std::cout << "Enter username: ";
+    std::cin >> username;
+    input.inputValidator::validateUsername(username);
+
+    std::cout << "Enter password: ";
+    std::cin >> password;
+    input.inputValidator::validatePassword(password);
+    // switch to login user , if ok then go to options
+    // if (UserController::loginUser(username, password) == false){
+    //     std::cout << "wrong username or password, please try again\n";
+    // }
+    std::cout << "Login successfully\n";
+    system("pause");
+    passengerUtils(username, password);
+    
+
+    //Test
+    system("pause");
+}
+
 void driver(){
     std::string username, password;
+    inputValidator input;
     //log in
     std::cout << BOLD << "\t \t Login as Driver\n" << RESET;
     std::cout << "-----------------------------------\n";
     std::cout << "Enter username: ";
     std::cin >> username;
+    input.inputValidator::validateUsername(username);
+
 
     std::cout << "Enter password: ";
     std::cin >> password;
+    input.inputValidator::validatePassword(password);
     // switch to login user , if ok then go to options
-    // if (DriverController::loginDriver(username, password) == true){
-    //     std::cout << "Login successfully";
-    //     system("pause");
-    //     driverUtils();
+    // if (DriverController::loginDriver(username, password) == false){
+    //     std::cout << "wrong username or password, please try again\n";
     // }
-    std::cout << "wrong username or password, please try again";
+    std::cout << "Login successfully\n";
+    driverUtils(username, password);
     system("pause");
+
 }
 
 
 // Member options function
 void memberOption() {
     char choice;
-    std::cout << BOLD << "Member\n" << RESET;
+    std::cout << BOLD << "\t \tMember\n" << RESET;
+    std::cout << "-----------------------------------\n";
     std::cout << YELLOW << "Options:\n1. Passenger\n2. Driver\n" << RESET;
     std::cout << GREEN << "Enter your choice: " << RESET;
     std::cin >> choice;
+
 
     while (choice != '1' && choice != '2' && choice != '3') {
         std::cout << RED << "Invalid input, please enter a number from 1 to 2\n" << RESET;
