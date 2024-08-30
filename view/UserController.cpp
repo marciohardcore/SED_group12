@@ -24,11 +24,10 @@ bool UserController::loginUser(string username, string password)
     {
         if (user.getUserName() == username && user.getPassword() == password)
         {
-            cout << "Login successful.\n";
             return true;
         }
     }
-    cout << "Invalid username or password.\n";
+    cout << RED << "Invalid username or password!.\n";
     return false;
 }
 
