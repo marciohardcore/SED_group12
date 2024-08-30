@@ -73,6 +73,7 @@ void profileManagement(std::string username, std::string password) {
         std::cout << "1. View Profile\n";
         std::cout << "2. Update Profile\n";
         std::cout << "3. Update Password\n";
+        //them purchase credit
         std::cout << "4. Back\n";
         std::cout << "-----------------------------------\n";
         std::cout << GREEN << "Enter your choice: " << RESET;
@@ -89,7 +90,10 @@ void profileManagement(std::string username, std::string password) {
             _getch(); // Wait for user to press any key
         } else if (choice == '2') {
             std::cout << "Updating profile...\n";
-            // updateProfile(username, password);
+            std::cout << "-----------------------------------\n";
+
+            UserController userControl;
+            userControl.updateProfile(username, password);
         } else if (choice == '3') {
             std::cout << "Updating password...\n";
             // updatePassword(username, password);
@@ -117,10 +121,11 @@ void CarpoolManagement(std::string username, std::string password) {
         std::cout << "-----------------------------------\n";
         std::cout << YELLOW << "Enter an option below:\n";
         std::cout << "1. Create Carpool\n";
-        std::cout << "2. Update Carpool\n";
-        std::cout << "3. View Requests\n";
-        std::cout << "4. View Ratings\n";
-        std::cout << "5. Back\n"; // Added option to go back to the previous menu
+        std::cout << "2. Unlist Carpool\n";
+        std::cout << "3. Update Carpool\n";
+        std::cout << "4. View Requests\n";
+        std::cout << "5. View Ratings\n";
+        std::cout << "6. Back\n"; // Added option to go back to the previous menu
         std::cout << "-----------------------------------\n";
         std::cout << GREEN << "Enter your choice: " << RESET;
         
@@ -129,18 +134,21 @@ void CarpoolManagement(std::string username, std::string password) {
 
         // Validate user input and handle the valid choice
         if (choice == '1') {
-            std::cout << "Creating a new carpool...\n";
+            std::cout << "Creating a new carpool\n";
             // UserController::createCarpool();
         } else if (choice == '2') {
-            std::cout << "Updating an existing carpool...\n";
-            // UserController::updateCarpool();
+            std::cout << "Unlist carpool\n";
+            // UserController::unlistCarpool();
         } else if (choice == '3') {
-            std::cout << "Viewing requests...\n";
-            // UserController::viewRequests();
+            std::cout << "Updating an existing carpool\n";
+            // UserController::updateCarpool();
         } else if (choice == '4') {
+            std::cout << "Viewing requests\n";
+            // UserController::viewRequests();
+        } else if (choice == '5') {
             std::cout << "Viewing ratings...\n";
             // UserController::viewRatings();
-        } else if (choice == '5') {
+        } else if (choice == '6') {
             // Return to the previous menu
             return; // Exit the function and return to the calling function
         } else {
@@ -211,8 +219,8 @@ void member(){
     std::string username, password;
     inputValidator input;
     // //log in
-    // // std::cout << BOLD << "\t \t Login as Member\n" << RESET;
-    // // std::cout << "-----------------------------------\n";
+    std::cout << BOLD << "\t \t Login as Member\n" << RESET;
+    std::cout << "-----------------------------------\n";
     std::cout << "Enter username: ";
     getline(cin, username);
     // //input.inputValidator::validateUsername(username);
@@ -222,10 +230,10 @@ void member(){
     //input.inputValidator::validatePassword(password);
 
     // switch to login user , if ok then go to options
-    // login;
-    // while (login.UserController::loginUser(username, password) == false){
-    //     std::cout << "wrong username or password, please try again\n";
-    // }
+    UserController login;
+    while (login.UserController::loginUser(username, password) == false){
+        std::cout << "wrong username or password, please try again\n";
+    }
 
     //Assume that log-in sucess
     std::cout << GREEN << "Login successfully!\n";
@@ -235,8 +243,6 @@ void member(){
     // //Test
     // system("pause");
 }
-
-
 
 
 // Member options function
