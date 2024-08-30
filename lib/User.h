@@ -26,8 +26,11 @@ public:
     // Default constructor
     User();
 
-    // Parameterized constructor
     User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum);
+
+
+    // Parameterized constructor
+    User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int creditPoint);
 
     // Getter methods
     string getUID() const;
