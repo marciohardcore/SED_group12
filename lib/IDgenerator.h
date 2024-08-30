@@ -9,9 +9,7 @@
 class IDgenerator {
 public:
     std::string generateUserID();
-
     std::string generateCarpoolListingID();
-
     std::string generateBookingID();
 };
 

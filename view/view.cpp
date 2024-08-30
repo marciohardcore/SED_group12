@@ -4,10 +4,12 @@
 #include <conio.h>
 
 #include "..\lib\InputValidator.h"
-#include "..\lib\UserController.h"
 #include "..\lib\IDgenerator.h"
-#include "..\lib\User.h"
 #include "..\lib\FileManager.h"
+
+#include "..\lib\User.h"
+#include "..\lib\UserView.h"
+#include "..\lib\UserController.h"
 
 
 
@@ -82,23 +84,25 @@ void profileManagement(std::string username, std::string password) {
         switch (choice) {
             case '1':
                 std::cout << "Viewing profile...\n";
-                // viewProfile(username, password);
+                // chua check
+                UserView userInfo(username, password);
+                userInfo.UserView::displayUserProfile(username, password);
                 break;
-            case '2':
-                std::cout << "Updating profile...\n";
-                // updateProfile(username, password);
-                break;
-            case '3':
-                std::cout << "Updating password...\n";
-                // updatePassword(username, password);
-                break;
-            case '4':
-                return; // Exit profile management and return to the previous menu
-            default:
-                std::cout << RED << "Invalid input, please enter a number from 1 to 4\n" << RESET;
-                std::cout << "Press any key to continue...";
-                _getch(); // Wait for user to press any key
-                break;
+            // case '2':
+            //     std::cout << "Updating profile...\n";
+            //     // updateProfile(username, password);
+            //     break;
+            // case '3':
+            //     std::cout << "Updating password...\n";
+            //     // updatePassword(username, password);
+            //     break;
+            // case '4':
+            //     return; // Exit profile management and return to the previous menu
+            // default:
+            //     std::cout << RED << "Invalid input, please enter a number from 1 to 4\n" << RESET;
+            //     std::cout << "Press any key to continue...";
+            //     _getch(); // Wait for user to press any key
+            //     break;
         }
     }
 }
@@ -210,20 +214,23 @@ void memberUtils(std::string username, std::string password) {
 void member(){
     std::string username, password;
     inputValidator input;
-    //log in
-    // std::cout << BOLD << "\t \t Login as Member\n" << RESET;
-    // std::cout << "-----------------------------------\n";
-    std::cout << "Enter username: ";
-    std::cin >> username;
-    //input.inputValidator::validateUsername(username);
+    // //log in
+    // // std::cout << BOLD << "\t \t Login as Member\n" << RESET;
+    // // std::cout << "-----------------------------------\n";
+    // std::cout << "Enter username: ";
+    // getline(cin, username);
+    // //input.inputValidator::validateUsername(username);
 
-    std::cout << "Enter password: ";
-    std::cin >> password;
+    // std::cout << "Enter password: ";
+    // getline(cin, password);
     //input.inputValidator::validatePassword(password);
+
     // switch to login user , if ok then go to options
-    // if (UserController::loginUser(username, password) == false){
+    // login;
+    // while (login.UserController::loginUser(username, password) == false){
     //     std::cout << "wrong username or password, please try again\n";
     // }
+
     //Assume that log-in sucess
     std::cout << GREEN << "Login successfully!\n";
     system("pause");

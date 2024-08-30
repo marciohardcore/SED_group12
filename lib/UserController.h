@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+
 #include "User.h"
 using namespace std;
 
@@ -12,7 +13,7 @@ class UserController
     public:
         void registerUser(string uid, string uName, string pwd, string fName, 
                           string pNumber, string mail, string idT, string idNum);
-        // User loginUser(string username, string password);
+        bool loginUser(string username, string password);
         // void logoutUser(User *user);
         // void manageProfile(User *user);
         // void purchaseCredits(User *user, int amount);

@@ -4,15 +4,15 @@
 #include <algorithm>
 #include "..\lib\User.h"
 
-
-// Default constructor
-
 // Default constructor
 User::User() : creditPoint(10) {}
 
 // Parameterized constructor
 User::User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum)
     : uid(uID), userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum), creditPoint(10) {}
+
+User::User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int creditPointVal = 10)
+    : uid(uID), userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum), creditPoint(creditPointVal) {}
 
 // Getter methods implementation
 string User::getUID() const { return uid; }
@@ -23,8 +23,6 @@ string User::getPhoneNumber() const { return phoneNumber; }
 string User::getEmail() const { return email; }
 string User::getIDtype() const { return idType; }
 string User::getIDnum() const { return idNumber; }
-
-// Getter for creditPoint
 int User::getCreditPoint() const { return creditPoint; }
 
 
