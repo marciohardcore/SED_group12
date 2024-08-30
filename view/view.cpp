@@ -223,11 +223,11 @@ void member(){
     std::cout << "-----------------------------------\n";
     std::cout << "Enter username: ";
     getline(cin, username);
-    // //input.inputValidator::validateUsername(username);
+
 
     std::cout << "Enter password: ";
     getline(cin, password);
-    //input.inputValidator::validatePassword(password);
+
 
     // switch to login user , if ok then go to options
     UserController login;
