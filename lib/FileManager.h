@@ -20,6 +20,7 @@ class FileManager{
 public:
     //save 1 user to the file after sign up
     void saveUser(User user); // DONE
+    User loadSingleUser(std::string nameVal, std::string pwdVal);
 
     //save 1 carpoolListing to the file after sign up
     
@@ -28,9 +29,8 @@ public:
 
     //return array of user after being called
     
-    std::vector<User> loadUser(); // DONE
+    //std::vector<User> loadUser(); // DONE
     
-    User loadSingleUser(std::string nameVal, std::string pwdVal);
     //std::vector<CarpoolListing> loadCarpoolListing();
 
     // void saveData();
