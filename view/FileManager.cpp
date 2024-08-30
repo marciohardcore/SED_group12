@@ -67,7 +67,9 @@ void FileManager::saveUser( User user){
 // }
 
 void FileManager::saveAllUsers(std::vector<User> users){
-    for (auto user : users){
+    // clearFileData("../data/user.dat");
+    // Save each user to the file
+    for (const auto& user : users) {
         saveUser(user);
     }
 }
@@ -110,7 +112,7 @@ User FileManager::loadSingleUser(const std::string nameVal, const std::string pw
     return User(); // Return an empty or default User object
 }
 
-std::vector<User> loadUser() {
+std::vector<User> FileManager::loadUser() {
     std::ifstream user_file;
     std::vector<User> loadUser;
 
