@@ -13,7 +13,7 @@ public:
     // UserView(string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int credits);
     UserView(string name, string password);
     // Method to view the user profile
-    void displayUserProfile(std::string nameVal, std::string pwdVal);
+    void displayUserProfile( std::string name,  std::string password);
     // void displayCarpoolListings(std::vector <CarpoolListing*> listings);
     // void displayBookingDetails(std::vector <Booking*> bookings);
     // void displayDashboard(Member* member);

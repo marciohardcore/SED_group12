@@ -15,22 +15,22 @@ void UserController::registerUser(string uid, string uName, string pwd, string f
 }
 
 // Method to login a user
-bool UserController::loginUser(string username, string password)
-{
-    FileManager fileMana;
-    vector <User> users;
-    users = fileMana.loadUser();
-    for (User user : users)
-    {
-        if (user.getUserName() == username && user.getPassword() == password)
-        {
-            cout << "Login successful.\n";
-            return true;
-        }
-    }
-    cout << "Invalid username or password.\n";
-    return false;
-}
+// bool UserController::loginUser(string username, string password)
+// {
+//     FileManager fileMana;
+//     vector <User> users;
+//     users = fileMana.loadUser();
+//     for (User user : users)
+//     {
+//         if (user.getUserName() == username && user.getPassword() == password)
+//         {
+//             cout << "Login successful.\n";
+//             return true;
+//         }
+//     }
+//     cout << "Invalid username or password.\n";
+//     return false;
+// }
 
 // // Method to logout a user
 // void UserController::logoutUser(User *user)

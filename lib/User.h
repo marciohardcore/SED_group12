@@ -9,42 +9,32 @@ using namespace std;
 #define USER_H
 
 #include <string>
-using std::string;
 
 class User {
 private:
-    string uid;
-    string userName;
-    string password;
-    string fullName;
-    string phoneNumber;
-    string email;
-    string idType;
-    string idNumber;
-    int creditPoint;  // New member variable
+    std::string uid;
+    std::string userName;
+    std::string password;
+    std::string fullName;
+    std::string phoneNumber;
+    std::string email;
+    std::string idType;
+    std::string idNumber;
+    int creditPoint;
 public:
-    // Default constructor
-    User();
-
-    User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum);
-
-
-    // Parameterized constructor
-    User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int creditPoint);
-
+    User(); // Default constructor
+    User(std::string uID, std::string uName, std::string pwd, std::string fName, std::string pNumber, std::string mail, std::string idT, std::string idNum);
+    User(std::string uID, std::string uName, std::string pwd, std::string fName, std::string pNumber, std::string mail, std::string idT, std::string idNum, int creditPointVal);
+    
     // Getter methods
-    string getUID() const;
-    string getUserName() const;
-    string getPassword() const;
-    string getFullName() const;
-    string getPhoneNumber() const;
-    string getEmail() const;
-    string getIDtype() const;
-    string getIDnum() const;
-    // Getter for creditPoint
+    std::string getUID() const;
+    std::string getUserName() const;
+    std::string getPassword() const;
+    std::string getFullName() const;
+    std::string getPhoneNumber() const;
+    std::string getEmail() const;
+    std::string getIDtype() const;
+    std::string getIDnum() const;
     int getCreditPoint() const;
-
-
 };
-
-#endif // USER_H
+#endif

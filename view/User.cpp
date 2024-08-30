@@ -4,27 +4,29 @@
 #include <algorithm>
 #include "..\lib\User.h"
 
+
+
 // Default constructor
-User::User() : creditPoint(10) {}
+User::User() : uid(""), userName(""), password(""), fullName(""), phoneNumber(""), email(""), idType(""), idNumber(""), creditPoint(10) {}
 
 // Parameterized constructor
-User::User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum)
+User::User(std::string uID, std::string uName, std::string pwd, std::string fName, std::string pNumber, std::string mail, std::string idT, std::string idNum)
     : uid(uID), userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum), creditPoint(10) {}
 
-User::User(string uID, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int creditPointVal = 10)
+// Parameterized constructor with credit point
+User::User(std::string uID, std::string uName, std::string pwd, std::string fName, std::string pNumber, std::string mail, std::string idT, std::string idNum, int creditPointVal)
     : uid(uID), userName(uName), password(pwd), fullName(fName), phoneNumber(pNumber), email(mail), idType(idT), idNumber(idNum), creditPoint(creditPointVal) {}
 
 // Getter methods implementation
-string User::getUID() const { return uid; }
-string User::getUserName() const { return userName; }
-string User::getPassword() const { return password; }
-string User::getFullName() const { return fullName; }
-string User::getPhoneNumber() const { return phoneNumber; }
-string User::getEmail() const { return email; }
-string User::getIDtype() const { return idType; }
-string User::getIDnum() const { return idNumber; }
+std::string User::getUID() const { return uid; }
+std::string User::getUserName() const { return userName; }
+std::string User::getPassword() const { return password; }
+std::string User::getFullName() const { return fullName; }
+std::string User::getPhoneNumber() const { return phoneNumber; }
+std::string User::getEmail() const { return email; }
+std::string User::getIDtype() const { return idType; }
+std::string User::getIDnum() const { return idNumber; }
 int User::getCreditPoint() const { return creditPoint; }
-
 
 
 // Method to update the user profile

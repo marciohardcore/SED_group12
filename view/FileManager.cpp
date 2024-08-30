@@ -68,88 +68,42 @@ void FileManager::saveUser( User user){
 // }
 
 //load method DONE
-std::vector<User> FileManager::loadUser(){
+User FileManager::loadSingleUser(const std::string nameVal, const std::string pwdVal) {
     std::ifstream user_file;
-    std::string file_path = getFilePath(USER);
-    user_file.open(file_path, std::ios::in);
+    std::string file_path = getFilePath(USER); // Ensure this path is correct
+    user_file.open(file_path, std::ios::in); // Open for reading
 
     if (!user_file.is_open()) {
         std::cerr << "File not found\n";
+        return User(); // Return an empty or default User object
     }
 
     std::string id, username, password, fullname, phone_number, email, IDtype, IDnum;
     int creditpoint;
-    float rating_score;
-    std::vector<User> loadUser;
 
+    while (getline(user_file, id, ',') &&
+           getline(user_file, username, ',') &&
+           getline(user_file, password, ',') &&
+           getline(user_file, fullname, ',') &&
+           getline(user_file, phone_number, ',') &&
+           getline(user_file, email, ',') &&
+           getline(user_file, IDtype, ',') &&
+           getline(user_file, IDnum, ',') &&
+           (user_file >> creditpoint)) {
 
-    while (user_file.peek() != EOF){
-        getline(user_file, id, ',');
-        getline(user_file, username, ',');
-        getline(user_file, password, ',');
-        getline(user_file, fullname, ',');
-        getline(user_file, phone_number, ',');
-        getline(user_file, email, ',');
-        getline(user_file, IDtype, ',');
-        getline(user_file, IDnum, ',');
-
-        user_file >> creditpoint;
-        user_file.ignore(1, ',');
-        // user_file >> rating_score;
-        // user_file.ignore(1, '\n');
-
-        // User user(id, username, password, phone_number, email, creditpoint, rating_score);
-        User user(id, username, password, fullname, phone_number, email, IDtype, IDnum, creditpoint);
-        loadUser.push_back(user);
-    }
-    user_file.close();
-    return loadUser;
-}
-
-User FileManager::loadSingleUser(std::string nameVal, std::string pwdVal){
-    std::ifstream user_file;
-    std::string file_path = getFilePath(USER);
-    user_file.open(file_path, std::ios::in);
-
-    if (!user_file.is_open()) {
-        std::cerr << "File not found\n";
-    }
-
-    std::string id, username, password, fullname, phone_number, email, IDtype, IDnum;
-    int creditpoint;
-    float rating_score;
-        
-    int flag = 0;
-    while (user_file.peek() != EOF){
-        getline(user_file, id, ',');
-        getline(user_file, username, ',');
-        getline(user_file, password, ',');
-        getline(user_file, fullname, ',');
-        getline(user_file, phone_number, ',');
-        getline(user_file, email, ',');
-        getline(user_file, IDtype, ',');
-        getline(user_file, IDnum, ',');
-
-        user_file >> creditpoint;
-        user_file.ignore(1, ',');
-        // user_file >> rating_score;
-        // user_file.ignore(1, '\n');
-
-        // User user(id, username, password, phone_number, email, creditpoint, rating_score);
-        if (nameVal == username && pwdVal == password){
-            User user(id, username, password, fullname, phone_number, email, IDtype, IDnum, creditpoint);
-            flag = 1;
-            return user;
+        user_file.ignore(1, ','); // Skip the comma after the integer
+            
+        // Check if the credentials match
+        if (nameVal == username && pwdVal == password) {
+            user_file.close();
+            return User(id, username, password, fullname, phone_number, email, IDtype, IDnum, creditpoint);
         }
     }
-    if (flag == 0){
-        User user("","","","","","","", 0);
-        return user;
-    }
 
+    // If no matching user was found
     user_file.close();
+    return User(); // Return an empty or default User object
 }
-
 
 // std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
 //     std::ifstream carpool_file;

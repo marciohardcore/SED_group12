@@ -79,30 +79,26 @@ void profileManagement(std::string username, std::string password) {
         
         char choice;
         std::cin >> choice;
-
         // Handle the valid choice
-        switch (choice) {
-            case '1':
-                std::cout << "Viewing profile...\n";
-                // chua check
-                UserView userInfo(username, password);
-                userInfo.UserView::displayUserProfile(username, password);
-                break;
-            // case '2':
-            //     std::cout << "Updating profile...\n";
-            //     // updateProfile(username, password);
-            //     break;
-            // case '3':
-            //     std::cout << "Updating password...\n";
-            //     // updatePassword(username, password);
-            //     break;
-            // case '4':
-            //     return; // Exit profile management and return to the previous menu
-            // default:
-            //     std::cout << RED << "Invalid input, please enter a number from 1 to 4\n" << RESET;
-            //     std::cout << "Press any key to continue...";
-            //     _getch(); // Wait for user to press any key
-            //     break;
+        if (choice == '1') {
+            UserView userInfo(username, password);
+            std::cout << "Viewing profile...\n";
+            std::cout << "-----------------------------------\n";
+            userInfo.displayUserProfile(username, password);
+            std::cout << "Press any key to continue...";
+            _getch(); // Wait for user to press any key
+        } else if (choice == '2') {
+            std::cout << "Updating profile...\n";
+            // updateProfile(username, password);
+        } else if (choice == '3') {
+            std::cout << "Updating password...\n";
+            // updatePassword(username, password);
+        } else if (choice == '4') {
+            return; // Exit profile management and return to the previous menu
+        } else {
+            std::cout << RED << "Invalid input, please enter a number from 1 to 4\n" << RESET;
+            std::cout << "Press any key to continue...";
+            _getch(); // Wait for user to press any key
         }
     }
 }
@@ -217,12 +213,12 @@ void member(){
     // //log in
     // // std::cout << BOLD << "\t \t Login as Member\n" << RESET;
     // // std::cout << "-----------------------------------\n";
-    // std::cout << "Enter username: ";
-    // getline(cin, username);
+    std::cout << "Enter username: ";
+    getline(cin, username);
     // //input.inputValidator::validateUsername(username);
 
-    // std::cout << "Enter password: ";
-    // getline(cin, password);
+    std::cout << "Enter password: ";
+    getline(cin, password);
     //input.inputValidator::validatePassword(password);
 
     // switch to login user , if ok then go to options
