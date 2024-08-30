@@ -29,11 +29,12 @@ public:
 
     //return array of user after being called
     
-    //std::vector<User> loadUser(); // DONE
+    std::vector<User> loadUser(); // DONE
     
+    void saveAllUsers(std::vector<User> users);
     //std::vector<CarpoolListing> loadCarpoolListing();
 
     // void saveData();
-    // void reloadData();    
+    // void reloadData(std::string nameVal, std::string pwdVal);    
 };
 std::string getFilePath(const std::string &fileName);

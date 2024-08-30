@@ -15,8 +15,8 @@ class UserController
                           string pNumber, string mail, string idT, string idNum);
         bool loginUser(string username, string password);
         // void logoutUser(User *user);
-        // void manageProfile(User *user);
-        // void purchaseCredits(User *user, int amount);
+        void updateProfile(User *user);
+        void purchaseCredits(User *user, int amount);
         // ~UserController();
 
 };

@@ -20,7 +20,6 @@ std::string getFilePath(const std::string &fileName){
 void FileManager::saveUser( User user){
     std::fstream user_file;
     std::string file_path = getFilePath(USER);
-    // std::string file_path = "../data/user.dat";
 
     user_file.open("../data/user.dat", std::ios::out | std::ios::app);
     if (!user_file.is_open()){
@@ -67,6 +66,12 @@ void FileManager::saveUser( User user){
 //     std::cout <<"save successfully";
 // }
 
+void FileManager::saveAllUsers(std::vector<User> users){
+    for (auto user : users){
+        saveUser(user);
+    }
+}
+
 //load method DONE
 User FileManager::loadSingleUser(const std::string nameVal, const std::string pwdVal) {
     std::ifstream user_file;
@@ -104,6 +109,44 @@ User FileManager::loadSingleUser(const std::string nameVal, const std::string pw
     user_file.close();
     return User(); // Return an empty or default User object
 }
+
+std::vector<User> loadUser() {
+    std::ifstream user_file;
+    std::vector<User> loadUser;
+
+    std::string file_path = getFilePath(USER); // Ensure this path is correct
+    user_file.open(file_path, std::ios::in); // Open for reading
+
+    if (!user_file.is_open()) {
+        std::cerr << "File not found\n";
+        return loadUser; // Return an empty or default User object
+    }
+
+    std::string id, username, password, fullname, phone_number, email, IDtype, IDnum;
+    int creditpoint;
+
+    while (getline(user_file, id, ',') &&
+           getline(user_file, username, ',') &&
+           getline(user_file, password, ',') &&
+           getline(user_file, fullname, ',') &&
+           getline(user_file, phone_number, ',') &&
+           getline(user_file, email, ',') &&
+           getline(user_file, IDtype, ',') &&
+           getline(user_file, IDnum, ',') &&
+           (user_file >> creditpoint)) {
+
+        user_file.ignore(1, ','); // Skip the comma after the integer
+        
+        User user(id, username, password, fullname, phone_number, email, IDtype, IDnum, creditpoint);
+        loadUser.push_back(user);
+    }
+
+    // If no matching user was found
+    user_file.close();
+    return loadUser; // Return an empty or default User object
+}
+
+// void reloadData(std::string nameVal, std::string pwdVal)  
 
 // std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
 //     std::ifstream carpool_file;
