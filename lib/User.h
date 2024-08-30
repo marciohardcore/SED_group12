@@ -36,5 +36,10 @@ public:
     std::string getIDtype() const;
     std::string getIDnum() const;
     int getCreditPoint() const;
+
+    //Setter methods
+    void setFullName (string newFullName);
+    void setPhoneNumber(string newPhoneNumber);
+    void setEmail(string newEmail);
 };
 #endif

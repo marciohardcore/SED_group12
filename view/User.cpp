@@ -28,7 +28,9 @@ std::string User::getIDtype() const { return idType; }
 std::string User::getIDnum() const { return idNumber; }
 int User::getCreditPoint() const { return creditPoint; }
 
-
+void User::setFullName(string newFullName){this->fullName = newFullName; }
+void User::setPhoneNumber(string newPhoneNumber){this->phoneNumber = newPhoneNumber; }
+void User::setEmail(string newEmail){this->email = newEmail; }
 // Method to update the user profile
 // void User::updateProfile(string newFullName, string newPhoneNumber, string newEmail)
 // {

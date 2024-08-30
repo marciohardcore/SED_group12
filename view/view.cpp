@@ -91,9 +91,9 @@ void profileManagement(std::string username, std::string password) {
         } else if (choice == '2') {
             std::cout << "Updating profile...\n";
             std::cout << "-----------------------------------\n";
-
             UserController userControl;
             userControl.updateProfile(username, password);
+            // CAN NOT CLEAR ALL CONTENT IN THE DATA FILE
         } else if (choice == '3') {
             std::cout << "Updating password...\n";
             // updatePassword(username, password);
@@ -233,8 +233,12 @@ void member(){
     UserController login;
     while (login.UserController::loginUser(username, password) == false){
         std::cout << "wrong username or password, please try again\n";
+        std::cout << "Enter username: ";
+        getline(cin, username);
+        std::cout << "Enter password: ";
+        getline(cin, password);
+        // đổ màu và thêm tính năng back về coordinate
     }
-
     //Assume that log-in sucess
     std::cout << GREEN << "Login successfully!\n";
     system("pause");
