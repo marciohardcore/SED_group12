@@ -100,13 +100,10 @@ void profileManagement(std::string username, std::string password) {
             userControl.updatePassword(username, password);
         } else if (choice == '4'){
             int amount = 0;
-
             std::cout << "Purchase Credit...\n";
             std::cout << "-----------------------------------\n";
             std::cout << "Add the amount you want to deposit: \n";
             std::cin >> amount;
-
-
             User newCredit;
             FileManager userCredits;
             newCredit = userCredits.loadSingleUser(username, password);
@@ -218,7 +215,8 @@ void memberUtils(std::string username, std::string password) {
                     break;
                 case '5':
                     std::cout << "Logging out...\n";
-                    return; // Exit the loop and the function
+                    system("cls");
+                    return; // Exit the function to log out
             }
         } else {
             std::cout << RED << "Invalid input, please enter a number from 1 to 5\n" << RESET;
@@ -247,10 +245,10 @@ void member(){
     // switch to login user , if ok then go to options
     UserController login;
     while (login.UserController::loginUser(username, password) == false){
-        std::cout << "wrong username or password, please try again\n";
-        std::cout << "Enter username: ";
+        std::cout << "Wrong username or password, please try again!\n";
+        std::cout << GREEN << "Enter username: ";
         getline(cin, username);
-        std::cout << "Enter password: ";
+        std::cout << GREEN << "Enter password: ";
         getline(cin, password);
         // đổ màu và thêm tính năng back về coordinate
     }
@@ -337,26 +335,43 @@ void newRegister() {
 // Guest options function
 void guestOption() {
     char choice;
-    std::cout << BOLD << "\t \t Guest\n" << RESET;
-    std::cout << "-----------------------------------\n";
-    std::cout << YELLOW << "Enter an option below:\n";
-    std::cout << "1. Register\t2. View Carpool Listings\n";
-    std::cout << GREEN << "Enter your choice: " << RESET;
-    std::cin >> choice;
-
-    while (choice != '1' && choice != '2') {
-        std::cout << RED << "Invalid input, please enter a number from 1 to 2\n" << RESET;
+    while (true) {
+        system("cls"); // Clear the screen
+        std::cout << BOLD << "\t \t Guest\n" << RESET;
+        std::cout << "-----------------------------------\n";
+        std::cout << YELLOW << "Enter an option below:\n";
+        std::cout << "1. Register\n";
+        std::cout << "2. View Carpool Listings\n";
+        std::cout << "3. Return to Previous Menu\n";
         std::cout << GREEN << "Enter your choice: " << RESET;
         std::cin >> choice;
-    }
 
-    if (choice == '1') { 
-        newRegister();
-    } else if (choice == '2') { // DONE
-        GuestView guest;
-        guest.displayCarpoolDetails();
+        // Input validation
+        while (choice != '1' && choice != '2' && choice != '3') {
+            std::cout << RED << "Invalid input, please enter a number from 1 to 3\n" << RESET;
+            std::cout << GREEN << "Enter your choice: " << RESET;
+            std::cin >> choice;
+        }
+
+        // Execute choice
+        if (choice == '1') {
+            newRegister();  // Handle registration
+        } else if (choice == '2') {
+            GuestView guest;
+            guest.displayCarpoolDetails();  // Show carpool listings
+        } else if (choice == '3') {
+            system("cls");
+            coordinate();
+        }
+
+        // Prompt to return to menu or exit
+        if (choice != '3') {
+            std::cout << "\nPress any key to continue...";
+            _getch(); // Wait for user to press any key
+        }
     }
 }
+
 
 // Coordinate function to select user type
 char coordinate() {

@@ -38,7 +38,7 @@ void FileManager::saveUser( User user){
                 << user.getCreditPoint()
                 << std::endl;
     user_file.close();
-    std::cout <<GREEN << "Save data to system! \n";
+    //std::cout <<GREEN << "Save data to system! \n";
 }
 
 // DONE
@@ -67,15 +67,20 @@ void FileManager::saveUser( User user){
 //     std::cout <<"save successfully";
 // }
 
-void FileManager::saveAllUsers(std::vector<User> users){
-    // clearFileData("../data/user.dat");
+void FileManager::saveAllUsers(std::vector<User> users) {
+    // Open the file in truncate mode to clear its contents
+    std::ofstream outFile(PATH + USER, std::ios::trunc);
+    if (!outFile) {
+        std::cerr << "Failed to open the file for saving users.\n";
+        return;
+    }
+    outFile.close();  // Close the file after clearing
 
     // Save each user to the file
     for (const auto& user : users) {
-        saveUser(user);
+        saveUser(user);  // Reuse the saveUser function to append each user
     }
 }
-
 //load method 
 User FileManager::loadSingleUser(const std::string nameVal, const std::string pwdVal) {
     std::ifstream user_file;

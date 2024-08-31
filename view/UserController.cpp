@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
+#include <conio.h> 
 #include "..\lib\User.h"
 #include "..\lib\UserController.h"
 #include "..\lib\FileManager.h"
@@ -45,122 +45,164 @@ bool UserController::loginUser(string username, string password)
 // }
 
 // Method to manage a user's profile
-void UserController::updateProfile(string username, string password)
-{
+void UserController::updateProfile(string username, string password) {
     FileManager fileMana;
     vector<User> users = fileMana.loadUser();
     bool userFound = false;
 
-    for (User& user : users) {
-        if (user.getUserName() == username && user.getPassword() == password) {
-            userFound = true;
-            std::cout << "Updating profile\n";
-            std::cout << "-----------------------------------\n";
-            std::cout << YELLOW << "Where do you want to apply changes: 1. Full name\t2. Phone number\t3. Email\n" << RESET;
-            char choice;
+    while (true) {
+        std::cout << YELLOW << "Choose the option you want to apply changes to:\n";
+        std::cout << "1. Full name\n";
+        std::cout << "2. Phone number\n";
+        std::cout << "3. Email\n";
+        std::cout << "4. Back\n" << RESET;
+        std::cout << GREEN << "Enter your choice: " << RESET;
+        
+        char choice;
+        std::cin >> choice;
+        std::cin.ignore(); // Clear the newline character left in the input buffer
+
+        // Handle invalid input
+        while (choice != '1' && choice != '2' && choice != '3' && choice != '4') {
+            std::cout << RED << "Invalid input, please enter a number from 1 to 4\n" << RESET;
+            std::cout << GREEN << "Enter your choice: " << RESET;
             std::cin >> choice;
-            std::cin.ignore(); // Ignore the newline character left in the input buffer
-
-            while (choice != '1' && choice != '2' && choice != '3') {
-                std::cout << RED << "Invalid input, please enter a number from 1 to 3\n" << RESET;
-                std::cout << GREEN << "Enter your choice: " << RESET;
-                std::cin >> choice;
-                std::cin.ignore(); // Ignore the newline character left in the input buffer
-            }
-
-            string newFullName, newPhoneNumber, newEmail;
-
-            switch (choice) {
-                case '1':
-                    std::cout << "Enter new full name: ";
-                    getline(std::cin, newFullName);
-                    user.setFullName(newFullName);
-                    break;
-                case '2':
-                    std::cout << "Enter new phone number: ";
-                    getline(std::cin, newPhoneNumber);
-                    user.setPhoneNumber(newPhoneNumber);
-                    break;
-                case '3':
-                    std::cout << "Enter new email: ";
-                    getline(std::cin, newEmail);
-                    user.setEmail(newEmail);
-                    break;
-            }
-            break;
+            std::cin.ignore(); // Clear the newline character left in the input buffer
         }
-    }
 
-    if (userFound) {
-        fileMana.saveAllUsers(users);
-        std::cout << "Change information successfully\n";
-    } else {
-        std::cout << RED << "User not found or incorrect password\n" << RESET;
+        if (choice == '4') {
+            return; // Exit the function to go back to the previous menu
+        }
+
+        if (choice == '1' || choice == '2' || choice == '3') {
+            for (User& user : users) {
+                if (user.getUserName() == username && user.getPassword() == password) {
+                    userFound = true;
+                    string newFullName, newPhoneNumber, newEmail;
+
+                    switch (choice) {
+                        case '1':
+                            std::cout << "Enter new full name: ";
+                            getline(std::cin, newFullName);
+                            user.setFullName(newFullName);
+                            break;
+                        case '2':
+                            std::cout << "Enter new phone number: ";
+                            getline(std::cin, newPhoneNumber);
+                            user.setPhoneNumber(newPhoneNumber);
+                            break;
+                        case '3':
+                            std::cout << "Enter new email: ";
+                            getline(std::cin, newEmail);
+                            user.setEmail(newEmail);
+                            break;
+                    }
+
+                    std::cout << GREEN << "Profile updated successfully!\n";
+                    fileMana.saveAllUsers(users); // Save changes once after making updates
+                    std::cout << "Press any key to continue...";
+                    _getch(); // Wait for user to press any key
+                    return; // Exit the function to go back to the previous menu
+                }
+            }
+
+            if (!userFound) {
+                std::cout << RED << "User not found or incorrect password\n" << RESET;
+                std::cout << "Press any key to continue...";
+                _getch(); // Wait for user to press any key
+            }
+        }
     }
 }
 
-void UserController::updatePassword(string username, string password){
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <conio.h>  // Include for _getch()
+
+void UserController::updatePassword(string username, string password) {
     FileManager fileMana;
     vector<User> users = fileMana.loadUser();
     bool userFound = false;
 
     std::string oldPassword;
-    std::cout << "\tUpdate password\n";
+    std::string newPassword;
+
+    std::cout << "\tUpdate Password\n";
     std::cout << "-----------------------------------\n";
+
+    // Ask for the old password
     std::cout << YELLOW << "Enter old password: " << RESET;
- 
+    cin.ignore();
     std::getline(std::cin, oldPassword);
 
     for (User& user : users) {
         if (user.getUserName() == username && user.getPassword() == password) {
             userFound = true;
-            
-            std::string newPassword;
+
+            // Validate the old password
             while (oldPassword != password) {
                 std::cout << RED << "Invalid password, please try again: " << RESET;
                 std::getline(std::cin, oldPassword);
+
+                // Option to go back (e.g., if the user enters "4")
+                if (oldPassword == "4") {
+                    std::cout << "Returning to the previous menu...\n";
+                    return;
+                }
             }
 
-            //if (oldPassword == '4'){ go back}
-            std::cout << GREEN << "Enter new password: \n" << RESET;
+            // Ask for the new password
+            std::cout << GREEN << "Enter new password: " << RESET;
             std::getline(std::cin, newPassword);
 
-            //change password
+            // Update the password
             user.setPassword(newPassword);
-        }
-
-        if (userFound) {
+            std::cout << GREEN << "Password updated successfully!\n";
+            
+            // Save the updated user information
             fileMana.saveAllUsers(users);
-            std::cout << "Change password successfully\n";
             break;
         }
     }
-    if (userFound == false){
-        std::cout << "User not found | UserController::updatePassword";
-    }
 
+    // if (!userFound) {
+    //     std::cout << RED << "User not found or incorrect old password\n" << RESET;
+    // }
+
+    // Prompt to press any key to continue
+    std::cout << "Press any key to continue...";
+    _getch(); // Wait for the user to press any key
 }
+
 // // Method to purchase credits
-void UserController::purchaseCredits(User userAmount, int amount)
-{
-    std::cout<<"Add creditpoint";
+void UserController::purchaseCredits(User userAmount, int amount) {
+    std::cout << "Adding credit points...\n";
 
     FileManager fileMana;
-    vector <User> users;
-    users = fileMana.loadUser();
+    vector<User> users = fileMana.loadUser();
 
     bool userFound = false;
-    for (User& user: users){
-        if (user.getUserName() == userAmount.getUserName()){
+    for (User& user : users) {
+        if (user.getUserName() == userAmount.getUserName()) {
             user.addCreditPoints(amount);
-            cout << "Credit point: " << userAmount.getCreditPoint() << "\n";
+            userFound = true;
             break;
         }
     }
-    fileMana.saveAllUsers(users);
 
+    if (userFound) {
+        std::cout << GREEN << "Credits added successfully!\n" << RESET;
+        fileMana.saveAllUsers(users); // Save updated user data to the file
+    } else {
+        std::cout << RED << "User not found!\n" << RESET;
+    }
+
+    // Prompt to press any key to continue
+    std::cout << "Press any key to continue...";
+    _getch(); // Wait for user to press any key
 }
-
 // Destructor to clean up user objects
 // ~UserController()
 // {
