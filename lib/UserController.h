@@ -22,8 +22,9 @@ class UserController
                           string pNumber, string mail, string idT, string idNum);
         bool loginUser(string username, string password);
         void updateProfile(string username, string password);
+        void updatePassword(string username, string password);
         // void logoutUser(User *user);
-        //void purchaseCredits(User *user, int amount);
+        void purchaseCredits(User userAmount, int amount);
         // ~UserController();
 
 };

@@ -10,6 +10,7 @@
 #include "..\lib\User.h"
 #include "..\lib\UserView.h"
 #include "..\lib\UserController.h"
+#include "..\lib\GuestView.h"
 
 
 
@@ -73,8 +74,8 @@ void profileManagement(std::string username, std::string password) {
         std::cout << "1. View Profile\n";
         std::cout << "2. Update Profile\n";
         std::cout << "3. Update Password\n";
-        //them purchase credit
-        std::cout << "4. Back\n";
+        std::cout << "4. Purchase credit\n";
+        std::cout << "5. Back\n";
         std::cout << "-----------------------------------\n";
         std::cout << GREEN << "Enter your choice: " << RESET;
         
@@ -95,9 +96,23 @@ void profileManagement(std::string username, std::string password) {
             userControl.updateProfile(username, password);
             // CAN NOT CLEAR ALL CONTENT IN THE DATA FILE
         } else if (choice == '3') {
-            std::cout << "Updating password...\n";
-            // updatePassword(username, password);
-        } else if (choice == '4') {
+            UserController userControl;
+            userControl.updatePassword(username, password);
+        } else if (choice == '4'){
+            int amount = 0;
+
+            std::cout << "Purchase Credit...\n";
+            std::cout << "-----------------------------------\n";
+            std::cout << "Add the amount you want to deposit: \n";
+            std::cin >> amount;
+
+
+            User newCredit;
+            FileManager userCredits;
+            newCredit = userCredits.loadSingleUser(username, password);
+            UserController userControl;
+            userControl.purchaseCredits(newCredit, amount);
+        } else if (choice == '5') {
             return; // Exit profile management and return to the previous menu
         } else {
             std::cout << RED << "Invalid input, please enter a number from 1 to 4\n" << RESET;
@@ -135,19 +150,19 @@ void CarpoolManagement(std::string username, std::string password) {
         // Validate user input and handle the valid choice
         if (choice == '1') {
             std::cout << "Creating a new carpool\n";
-            // UserController::createCarpool();
+            // CarpoolController::createCarpool();
         } else if (choice == '2') {
             std::cout << "Unlist carpool\n";
-            // UserController::unlistCarpool();
+            // CarpoolController::unlistCarpool();
         } else if (choice == '3') {
             std::cout << "Updating an existing carpool\n";
-            // UserController::updateCarpool();
+            // CarpoolController::updateCarpool();
         } else if (choice == '4') {
             std::cout << "Viewing requests\n";
-            // UserController::viewRequests();
+            // CarpoolController::viewRequests();
         } else if (choice == '5') {
             std::cout << "Viewing ratings...\n";
-            // UserController::viewRatings();
+            // CarpoolController::viewRatings();
         } else if (choice == '6') {
             // Return to the previous menu
             return; // Exit the function and return to the calling function
@@ -173,8 +188,8 @@ void memberUtils(std::string username, std::string password) {
         std::cout << YELLOW << "Enter an option below:\n";
         std::cout << "1. Account Management\n";
         std::cout << "2. Carpool Management\n";
-        std::cout << "3. Browser\n";
-        std::cout << "4. View My Rating\n";
+        std::cout << "3. Booking\n"; // search and book
+        std::cout << "4. View My Rating\n"; //coi rating, feeback
         std::cout << "5. Logout\n";
         std::cout << "-----------------------------------\n";
 
@@ -257,7 +272,7 @@ void memberOption() {
     std::cout << "-----------------------------------\n";
     
     // Prompt to press Enter to proceed
-    std::cout << "Press Enter to log in as a Member...";
+    std::cout << "Press 'enter' to log in as a Member...";
     std::cin.ignore(); // To ignore any leftover newline characters in the buffer
     std::cin.get(); // Waits for the user to press Enter
 
@@ -338,7 +353,8 @@ void guestOption() {
     if (choice == '1') { 
         newRegister();
     } else if (choice == '2') { // DONE
-        //viewCarpoolListings();
+        GuestView guest;
+        guest.displayCarpoolDetails();
     }
 }
 
@@ -347,7 +363,7 @@ char coordinate() {
     char choice;
     std::cout << BOLD << "\t \t Carpool Listing Application\n" << RESET;
     std::cout << "-----------------------------------\n";
-    std::cout << YELLOW << "Use the app as: 1. Guest\t2. Member\t3. Admin\n";
+    std::cout << YELLOW << "Use the app as: \t1. Guest\t2. Member\t3. Admin\n";
     std::cout << GREEN << "Enter your choice: " << RESET;
     std::cin >> choice;
 
