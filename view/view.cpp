@@ -10,6 +10,7 @@
 #include "..\lib\User.h"
 #include "..\lib\UserView.h"
 #include "..\lib\UserController.h"
+#include "..\lib\GuestView.h"
 
 
 
@@ -352,7 +353,8 @@ void guestOption() {
     if (choice == '1') { 
         newRegister();
     } else if (choice == '2') { // DONE
-        //viewCarpoolListings();
+        GuestView guest;
+        guest.displayCarpoolDetails();
     }
 }
 

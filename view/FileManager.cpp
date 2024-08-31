@@ -4,12 +4,13 @@
 #include <vector>
 
 #include "..\lib\FileManager.h"
+#include "..\lib\CarpoolListing.h"
+
 #include "..\lib\User.h"
 #define GREEN "\033[0;32m"
 using namespace std;
 class Member;
 class Booking;
-class CarpoolListing;
 
 std::string getFilePath(const std::string &fileName){
     return PATH + fileName;
@@ -68,13 +69,14 @@ void FileManager::saveUser( User user){
 
 void FileManager::saveAllUsers(std::vector<User> users){
     // clearFileData("../data/user.dat");
+
     // Save each user to the file
     for (const auto& user : users) {
         saveUser(user);
     }
 }
 
-//load method DONE
+//load method 
 User FileManager::loadSingleUser(const std::string nameVal, const std::string pwdVal) {
     std::ifstream user_file;
     std::string file_path = getFilePath(USER); // Ensure this path is correct
@@ -150,55 +152,56 @@ std::vector<User> FileManager::loadUser() {
 
 // void reloadData(std::string nameVal, std::string pwdVal)  
 
-// std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
-//     std::ifstream carpool_file;
-//     std::string file_path = getFilePath(CARPOOL);
-//     carpool_file.open(file_path, std::ios::in);
+std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
+    std::ifstream carpool_file;
+    std::vector<CarpoolListing> carpoolListings;
 
-//     if (!carpool_file.is_open()) {
-//         std::cerr << "File not found\n";
-//         // Return an empty vector if the file cannot be opened
-//         return std::vector<CarpoolListing>();
-//     }
+    std::string file_path = getFilePath(CARPOOL);
+    carpool_file.open(file_path, std::ios::in);
 
-//     std::vector<CarpoolListing> carpoolListings;
-//     std::string idCP, vehicleModel, vehicleColor, plateNumber, departureLocation, destinationLocation, departureTime, date, estimateDuration;
-//     int availableSeats, contributionPerPassenger;
-//     float minimumPassengerRating;
-//     bool cancelFlag;
+    if (!carpool_file.is_open()) {
+        std::cerr << "File not found\n";
+        return carpoolListings;
+    }
 
-//     while (carpool_file.peek() != EOF) {
-//         // Assuming the file has all these fields separated by commas
-//         getline(carpool_file, idCP, ',');
-//         getline(carpool_file, vehicleModel, ',');
-//         getline(carpool_file, vehicleColor, ',');
-//         getline(carpool_file, plateNumber, ',');
-//         carpool_file >> availableSeats;
-//         carpool_file.ignore(1, ',');
-//         getline(carpool_file, departureLocation, ',');
-//         getline(carpool_file, destinationLocation, ',');
-//         getline(carpool_file, departureTime, ',');
-//         getline(carpool_file, date, ',');
-//         getline(carpool_file, estimateDuration, ',');
-//         carpool_file >> contributionPerPassenger;
-//         carpool_file.ignore(1, ',');
-//         carpool_file >> minimumPassengerRating;
-//         carpool_file.ignore(1, ',');
-//         carpool_file >> cancelFlag;
-//         carpool_file.ignore(1, '\n');
+    //13 element
+    std::string idCP, vehicleModel, vehicleColor, plateNumber, departureLocation, destinationLocation, departureTime, date, estimateDuration;
+    int availableSeats, contributionPerPassenger;
+    float minimumPassengerRating;
+    bool cancelFlag;
 
-//         // Create a CarpoolListing object and add it to the vector
-//         CarpoolListing carpool(idCP, vehicleModel, vehicleColor, plateNumber, availableSeats, 
-//                                departureLocation, destinationLocation, departureTime, 
-//                                date, estimateDuration, contributionPerPassenger, 
-//                                minimumPassengerRating, cancelFlag);
+    while (carpool_file.peek() != EOF) {
+        // Assuming the file has all these fields separated by commas
+        getline(carpool_file, idCP, ',');
+        getline(carpool_file, vehicleModel, ',');
+        getline(carpool_file, vehicleColor, ',');
+        getline(carpool_file, plateNumber, ',');
+        carpool_file >> availableSeats;
+        carpool_file.ignore(1, ',');
+        getline(carpool_file, departureLocation, ',');
+        getline(carpool_file, destinationLocation, ',');
+        getline(carpool_file, departureTime, ',');
+        getline(carpool_file, date, ',');
+        getline(carpool_file, estimateDuration, ',');
+        carpool_file >> contributionPerPassenger;
+        carpool_file.ignore(1, ',');
+        carpool_file >> minimumPassengerRating;
+        carpool_file.ignore(1, ',');
+        carpool_file >> cancelFlag;
+        carpool_file.ignore(1, '\n');
 
-//         carpoolListings.push_back(carpool);
-//     }
+        // Create a CarpoolListing object and add it to the vector // 13
+        CarpoolListing carpool(idCP, vehicleModel, vehicleColor, plateNumber, availableSeats, 
+                               departureLocation, destinationLocation, departureTime, 
+                               date, estimateDuration, contributionPerPassenger, 
+                               minimumPassengerRating, cancelFlag);
 
-//     carpool_file.close();
-//     return carpoolListings;
-// }
+        carpoolListings.push_back(carpool);
+    }
+
+    carpool_file.close();
+    return carpoolListings;
+}
 
 // void FileManager::deleteCarpoolListing(CarpoolListing& item){
 //     std::ifstream carpool_file;
