@@ -41,5 +41,9 @@ public:
     void setFullName (string newFullName);
     void setPhoneNumber(string newPhoneNumber);
     void setEmail(string newEmail);
+    void setPassword(string newPassword);
+
+    //function
+    void addCreditPoints(int points);
 };
 #endif

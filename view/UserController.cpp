@@ -99,28 +99,67 @@ void UserController::updateProfile(string username, string password)
     }
 }
 
+void UserController::updatePassword(string username, string password){
+    FileManager fileMana;
+    vector<User> users = fileMana.loadUser();
+    bool userFound = false;
 
+    std::string oldPassword;
+    std::cout << "\tUpdate password\n";
+    std::cout << "-----------------------------------\n";
+    std::cout << YELLOW << "Enter old password: " << RESET;
+ 
+    std::getline(std::cin, oldPassword);
+
+    for (User& user : users) {
+        if (user.getUserName() == username && user.getPassword() == password) {
+            userFound = true;
+            
+            std::string newPassword;
+            while (oldPassword != password) {
+                std::cout << RED << "Invalid password, please try again: " << RESET;
+                std::getline(std::cin, oldPassword);
+            }
+
+            //if (oldPassword == '4'){ go back}
+            std::cout << GREEN << "Enter new password: \n" << RESET;
+            std::getline(std::cin, newPassword);
+
+            //change password
+            user.setPassword(newPassword);
+        }
+
+        if (userFound) {
+            fileMana.saveAllUsers(users);
+            std::cout << "Change password successfully\n";
+            break;
+        }
+    }
+    if (userFound == false){
+        std::cout << "User not found | UserController::updatePassword";
+    }
+
+}
 // // Method to purchase credits
-// void UserController::purchaseCredits(User *userAmount, int amount)
-// {
-//     std::cout<<"Add creditpoint";
+void UserController::purchaseCredits(User userAmount, int amount)
+{
+    std::cout<<"Add creditpoint";
 
-//     FileManager fileMana;
-//     vector <User> users;
-//     users = fileMana.loadUser();
+    FileManager fileMana;
+    vector <User> users;
+    users = fileMana.loadUser();
 
-//     bool userFound = false;
-//     for (User user: users){
-//         if (user.getUserName() == userAmount->getUserName()){
-//             userAmount->addCreditPoints(amount);
-//             break;
-//         }
-//     }
-//     fileMana.saveAllUsers(users);
+    bool userFound = false;
+    for (User& user: users){
+        if (user.getUserName() == userAmount.getUserName()){
+            user.addCreditPoints(amount);
+            cout << "Credit point: " << userAmount.getCreditPoint() << "\n";
+            break;
+        }
+    }
+    fileMana.saveAllUsers(users);
 
-//     cout << "Credit point: " << user->getCreditPoints() << "\n";
-//     fileMana.saveAllUsers(users);
-// }
+}
 
 // Destructor to clean up user objects
 // ~UserController()

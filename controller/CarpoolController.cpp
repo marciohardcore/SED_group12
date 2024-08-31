@@ -201,7 +201,7 @@ public:
     void createCarpool(Member* driver, CarpoolListing* listing) {
         driver->createCarpoolListing(listing);
         filemanager.saveCarpoolListing(listing);
-        logger.logEvent("Carpool listing created by: " + driver->getUsername());
+        // logger.logEvent("Carpool listing created by: " + driver->getUsername());
     }
 
     vector<CarpoolListing*> searchCarpools(string location, string date, int minRating, int credits) {

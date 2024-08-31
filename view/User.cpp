@@ -31,19 +31,11 @@ int User::getCreditPoint() const { return creditPoint; }
 void User::setFullName(string newFullName){this->fullName = newFullName; }
 void User::setPhoneNumber(string newPhoneNumber){this->phoneNumber = newPhoneNumber; }
 void User::setEmail(string newEmail){this->email = newEmail; }
+void User::setPassword(string newPassword){this->password = newPassword;}
 // Method to update the user profile
-// void User::updateProfile(string newFullName, string newPhoneNumber, string newEmail)
-// {
-
-//     fullName = newFullName;
-//     phoneNumber = newPhoneNumber;
-//     email = newEmail;
-//     cout << "Profile updated successfully.\n";
-// }
-
 // Method to add credit points
-// void User::addCreditPoints(int points)
-// {
-//     creditPoint += points;
-//     cout << points << " credit points added.\n";
-// }
+void User::addCreditPoints(int points)
+{
+    this->creditPoint += points;
+    cout << points << " Credit points added.\n";
+}
