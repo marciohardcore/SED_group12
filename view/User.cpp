@@ -37,5 +37,4 @@ void User::setPassword(string newPassword){this->password = newPassword;}
 void User::addCreditPoints(int points)
 {
     this->creditPoint += points;
-    cout << points << " Credit points added.\n";
 }

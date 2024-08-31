@@ -6,7 +6,6 @@
 #include "..\lib\FileManager.h"
 #include "..\lib\CarpoolListing.h"
 
-
 using std::ifstream;
 
 void GuestView::displayCarpoolDetails(){
@@ -27,4 +26,5 @@ void GuestView::displayCarpoolDetails(){
                         << std::endl;
         }
     }
+    return;
 }

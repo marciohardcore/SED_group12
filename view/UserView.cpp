@@ -27,6 +27,7 @@ void UserView::displayUserProfile( std::string name,  std::string password) {
     std::cout << "Phone Number: " << user.getPhoneNumber() << "\n";
     std::cout << "Email: " << user.getEmail() << "\n";
     std::cout << "Credit Points: " << user.getCreditPoint() << "\n";
+    std::cout << "-----------------------------------\n";
 }
 
 // void UserView::displayCarpoolListings(std::vector <CarpoolListing*> listings){
