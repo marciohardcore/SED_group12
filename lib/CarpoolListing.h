@@ -39,7 +39,7 @@ public:
     //                string departureTimeVal = "", string dateVal = "",
     //                string estimateDurationVal = "", int contributionPerPassengerVal = 0,
     //                float minimumPassengerRatingVal = 0.0f, string idCPVal = "");
-                   
+    CarpoolListing();               
     CarpoolListing(string idCPVal, 
                     string vehicleModelVal, string vehicleColorVal,
                     string plateNumberVal, int availableSeatsVal,
@@ -47,8 +47,13 @@ public:
                     string departureTimeVal , string dateVal ,
                     string estimateDurationVal , int contributionPerPassengerVal ,
                     float minimumPassengerRatingVal , bool cancelFlag );
-
+    
     // Getters
+    string getID() const;
+    string getVehicleModel() const;
+    string getVehicleColor() const;
+    string getPlateNumber() const;
+    string getEstimateDuration() const;
     bool getfullyBooked() const;
     bool getCancelFlag() const;
     int getAvailableSeats() const;
@@ -67,10 +72,10 @@ public:
 
     // Member functions
     // void addRequest(Booking* booking);
-    void rejectAllRequests();
-    // void acceptRequest(Booking* booking);
-    void unlist();
-    void viewRequests() const;
+    // void rejectAllRequests();
+    // // void acceptRequest(Booking* booking);
+    // void unlist();
+    // void viewRequests() const;
 };
 
 #endif // CARPOOLLISTING_H

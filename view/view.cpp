@@ -12,7 +12,8 @@
 #include "..\lib\UserController.h"
 #include "..\lib\GuestView.h"
 
-
+#include "..\lib\CarpoolController.h"
+#include "..\lib\CarpoolListing.h"
 
 using namespace std;
 
@@ -147,7 +148,8 @@ void CarpoolManagement(std::string username, std::string password) {
         // Validate user input and handle the valid choice
         if (choice == '1') {
             std::cout << "Creating a new carpool\n";
-            // CarpoolController::createCarpool();
+            CarpoolController call;
+            call.createCarpool();
         } else if (choice == '2') {
             std::cout << "Unlist carpool\n";
             // CarpoolController::unlistCarpool();
@@ -234,11 +236,11 @@ void member(){
     // //log in
     std::cout << BOLD << "\t \t Login as Member\n" << RESET;
     std::cout << "-----------------------------------\n";
-    std::cout << "Enter username: ";
+    std::cout << YELLOW << "Enter username: " << RESET;
     getline(cin, username);
 
 
-    std::cout << "Enter password: ";
+    std::cout<< YELLOW << "Enter password: " << RESET;
     getline(cin, password);
 
 
@@ -270,7 +272,7 @@ void memberOption() {
     std::cout << "-----------------------------------\n";
     
     // Prompt to press Enter to proceed
-    std::cout << "Press 'enter' to log in as a Member...";
+    std::cout << YELLOW << "Press 'enter' to log in as a Member...";
     std::cin.ignore(); // To ignore any leftover newline characters in the buffer
     std::cin.get(); // Waits for the user to press Enter
 

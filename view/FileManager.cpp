@@ -42,30 +42,30 @@ void FileManager::saveUser( User user){
 }
 
 // DONE
-// void FileManager::saveCarpoolListing(CarpoolListing& carpoolInfo){
-//     std::ofstream carpool_file;
-//     std::string file_path = getFilePath(CARPOOL);
-//     carpool_file.open(file_path, std::ios::out | std::ios::app);
-//     if (!carpool_file.is_open()){
-//         std::cerr << "File not found\n";
-//     }
+void FileManager::saveCarpoolListing(CarpoolListing carpoolInfo){
+    std::ofstream carpool_file;
+    std::string file_path = getFilePath(CARPOOL);
+    carpool_file.open("../data/carpool.dat", std::ios::out | std::ios::app);
+    if (!carpool_file.is_open()){
+        std::cerr << "File not found\n";
+    }
 
-//     carpool_file << carpoolInfo.getID() << ","
-//                  << carpoolInfo.getVehicleModel() << ","
-//                  << carpoolInfo.getVehicleColor() << ","
-//                  << carpoolInfo.getPlateNumber() << ","
-//                  << carpoolInfo.getAvailableSeats() << ","
-//                  << carpoolInfo.getDepartureLocation() << ","
-//                  << carpoolInfo.getDestinationLocation() << ","
-//                  << carpoolInfo.getDepartureTime() << ","
-//                  << carpoolInfo.getDate() << ","
-//                  << carpoolInfo.getEstimateDuration() << ","
-//                  << carpoolInfo.getContributionPerPassenger() << ","
-//                  << carpoolInfo.getMinimumPassengerRating() << ","
-//                  << carpoolInfo.getCancelFlag() << std::endl;
-//     carpool_file.close();
-//     std::cout <<"save successfully";
-// }
+    carpool_file << carpoolInfo.getID() << ","
+                 << carpoolInfo.getVehicleModel() << ","
+                 << carpoolInfo.getVehicleColor() << ","
+                 << carpoolInfo.getPlateNumber() << ","
+                 << carpoolInfo.getAvailableSeats() << ","
+                 << carpoolInfo.getDepartureLocation() << ","
+                 << carpoolInfo.getDestinationLocation() << ","
+                 << carpoolInfo.getDepartureTime() << ","
+                 << carpoolInfo.getDate() << ","
+                 << carpoolInfo.getEstimateDuration() << ","
+                 << carpoolInfo.getContributionPerPassenger() << ","
+                 << carpoolInfo.getMinimumPassengerRating() << ","
+                 << carpoolInfo.getCancelFlag() << std::endl;
+    carpool_file.close();
+    std::cout <<"save successfully";
+}
 
 void FileManager::saveAllUsers(std::vector<User> users) {
     // Open the file in truncate mode to clear its contents

@@ -21,7 +21,11 @@ using namespace std;
 //         contributionPerPassenger(contributionPerPassengerVal),
 //         minimumPassengerRating(minimumPassengerRatingVal),
 //         cancelFlag(false), fullyBooked(false), idCP(idCPVal) {};
-
+CarpoolListing::CarpoolListing()
+    : vehicleModel(""), vehicleColor(""), plateNumber(""), availableSeats(0),
+      departureLocation(""), destinationLocation(""), departureTime(""),
+      date(""), estimateDuration(""), contributionPerPassenger(0),
+      minimumPassengerRating(0.0f), cancelFlag(false), fullyBooked(false), idCP("") {}
 CarpoolListing::CarpoolListing(string idCPVal = "", 
                 string vehicleModelVal = "", string vehicleColorVal = "",
                 string plateNumberVal = "", int availableSeatsVal = 0,
@@ -37,7 +41,12 @@ CarpoolListing::CarpoolListing(string idCPVal = "",
         minimumPassengerRating(minimumPassengerRatingVal),
         cancelFlag(cancelFlagVal), fullyBooked(false), idCP(idCPVal) {}
 
-
+               
+string CarpoolListing::getID() const { return idCP; }          
+string CarpoolListing::getVehicleModel() const { return vehicleModel; }
+string CarpoolListing::getVehicleColor() const { return  vehicleColor; }
+string CarpoolListing::getPlateNumber() const { return plateNumber; }
+string CarpoolListing::getEstimateDuration() const { return estimateDuration; }
 bool CarpoolListing::getfullyBooked() const { return fullyBooked; }
 bool CarpoolListing::getCancelFlag() const { return cancelFlag; }
 int CarpoolListing::getAvailableSeats() const { return availableSeats; }
