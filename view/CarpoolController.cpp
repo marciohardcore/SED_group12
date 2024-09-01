@@ -4,6 +4,7 @@
 #include <string>
 #include "..\lib\CarpoolController.h"
 #include "..\lib\IDgenerator.h"
+#include <conio.h>
 
 using namespace std;
 
@@ -200,6 +201,7 @@ using namespace std;
 //     // Logger logger;
 
 // public:
+
 void CarpoolController::createCarpool()
 {
     // driver->createCarpoolListing(listing);
@@ -241,13 +243,13 @@ void CarpoolController::createCarpool()
     cout << YELLOW << "Enter destination location: " << RESET;
     getline(cin, destinationLocation);
 
-    cout << YELLOW << "Enter departure time: " << RESET;
+    cout << YELLOW << "Enter departure time (hh:mm): " << RESET;
     getline(cin, departureTime);
 
-    cout << YELLOW << "Enter date: " << RESET;
+    cout << YELLOW << "Enter date (dd/mm/yyyy): " << RESET;
     getline(cin, date);
 
-    cout << YELLOW << "Enter estimate duration: " << RESET;
+    cout << YELLOW << "Enter estimate duration (hh:mm): " << RESET;
     getline(cin, estimateDuration);
 
     cout << YELLOW << "Enter contribution per passenger: " << RESET;
@@ -263,8 +265,18 @@ void CarpoolController::createCarpool()
                            availableSeats, departureLocation, destinationLocation,
                            departureTime, date, estimateDuration,
                            contributionPerPassenger, minimumPassengerRating, false);
+    // sau khi listing thi luu ans + plateNumber vao vector cua doi tuong do
+    // insertCarpool(ans, plateNumber)
+    
     filemanager.saveCarpoolListing(listing);
-
+    std::cout << GREEN <<"\n\n Carpool Created! \n";
+    std::cout << "Press any key to continue...";
+    _getch(); // Wait for user to press any key
+    system("cls"); // Clear the screen
+    
+    // Return to coordinate screen
+    
+    //Quit
     // logger.logEvent("Carpool listing created by: " + driver->getUsername());
 }
 

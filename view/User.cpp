@@ -38,3 +38,21 @@ void User::addCreditPoints(int points)
 {
     this->creditPoint += points;
 }
+
+// Function implementations
+void User::addCarpoolInfo(const std::string& carpoolID, const std::string& plateNumber) {
+    carpoolInfo[carpoolID] = plateNumber;
+}
+
+string User::getCarpoolInfo(const std::string& carpoolID) const {
+    auto it = carpoolInfo.find(carpoolID);
+    if (it != carpoolInfo.end()) {
+        return it->second;
+    } else {
+        return "Carpool not found";
+    }
+}
+
+void User::removeCarpoolInfo(const std::string& carpoolID) {
+    carpoolInfo.erase(carpoolID);
+}
