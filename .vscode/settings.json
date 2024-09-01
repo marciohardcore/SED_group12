@@ -68,7 +68,8 @@
     "memory_resource": "cpp",
     "numeric": "cpp",
     "string_view": "cpp",
-    "numbers": "cpp"
+    "numbers": "cpp",
+    "map": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "C_Cpp_Runner.cCompilerPath": "gcc",
