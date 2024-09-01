@@ -28,7 +28,7 @@ private:
     std::string idNumber;
     int creditPoint;
     // map< string, string> mpCarpools;
-    std::map<std::string, std::string> carpoolInfo; // Map to store carpool ID and associated info (e.g., plate number)
+    std::map<std::string, std::string> carpoolInfo; // Map to store carpool ID and , plate number)
 
 
 public:
@@ -56,10 +56,10 @@ public:
     //function
     void addCreditPoints(int points);
     // Function to add carpool info
-    void addCarpoolInfo(const std::string& carpoolID, const std::string& plateNumber);
+    void addCarpoolInfo( std::string& carpoolID,  std::string& plateNumber);
 
     // Function to get carpool info
-    string getCarpoolInfo(const std::string& carpoolID) const;
+std::string getCarpoolInfo(const std::string& carpoolID) const;
 
     // Function to remove carpool info
     void removeCarpoolInfo(const std::string& carpoolID);

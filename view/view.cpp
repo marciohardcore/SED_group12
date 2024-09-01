@@ -155,15 +155,14 @@ void CarpoolManagement(std::string username, std::string password) {
             call.createCarpool(&newCarpool);
         } else if (choice == '2') {
             std::cout << "Unlist carpool\n";
-            // CarpoolController::unlistCarpool();
+            //CarpoolController::unlistCarpool();
         } else if (choice == '3') {
             std::cout << "View carpool\n";
-            User newCarpool;
-            FileManager userCarpool;
-            newCarpool = userCarpool.loadSingleUser(username, password);
-            CarpoolController call;
-            // call.viewCarpool();
-            // CarpoolController::updateCarpool();
+            FileManager fileManager; 
+            CarpoolController carpoolController;
+            User user = fileManager.loadSingleUser(username, password);
+            // Call the method to view carpool listings
+            carpoolController.viewCarpool(user); // Pass the user or necessary parameters
         } else if (choice == '4') {
             std::cout << "Viewing requests\n";
             // CarpoolController::viewRequests();
@@ -381,82 +380,82 @@ void guestOption() {
         }
     }
 }
-// void admin(){
-//     char choice;
-//     FileManager fileManager;
+void admin(){
+    char choice;
+    FileManager fileManager;
 
-//     while (true) {
-//         system("cls"); // Clear the screen
-//         std::cout << "Admin Dashboard\n";
-//         std::cout << "-----------------------------------\n";
-//         std::cout << YELLOW<< "1. View All Users\n";
-//         std::cout << YELLOW << "2. View All Carpools\n";
-//         std::cout << YELLOW << "3. Return to Main Menu\n";
-//         std::cout << "-----------------------------------\n";
-//         std::cout << "Enter your choice: ";
-//         std::cin >> choice;
+    while (true) {
+        system("cls"); // Clear the screen
+        std::cout << "Admin Dashboard\n";
+        std::cout << "-----------------------------------\n";
+        std::cout << YELLOW<< "1. View All Users\n";
+        std::cout << YELLOW << "2. View All Carpools\n";
+        std::cout << YELLOW << "3. Return to Main Menu\n";
+        std::cout << "-----------------------------------\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
 
-//         // Validate input using a while loop
-//         while (choice != '1' && choice != '2' && choice != '3') {
-//             std::cout << RED << "Invalid input!, please enter a number from 1 to 3\n";
-//             std::cout << GREEN << "Enter your choice: ";
-//             std::cin >> choice;
-//         }
+        // Validate input using a while loop
+        while (choice != '1' && choice != '2' && choice != '3') {
+            std::cout << RED << "Invalid input!, please enter a number from 1 to 3\n";
+            std::cout << GREEN << "Enter your choice: ";
+            std::cin >> choice;
+        }
 
-//         if (choice == '1') {
-//             std::vector<User> users = fileManager.loadUser();
-//             std::cout << "Information of all Users:\n";
-//             std::cout << "-----------------------------------\n";
-//             int userIndex = 1;
-//             for (const auto& user : users) {
-//                 std::cout << "INFORMATION OF USER " << userIndex++ << "\n";
-//                 std::cout << "User ID: " << user.getUID() << "\n"
-//                     << "Username: " << user.getUserName() << "\n"
-//                     << "Password: " << user.getPassword() << "\n"
-//                     << "Full Name: " << user.getFullName() << "\n"
-//                     << "Phone Number: " << user.getPhoneNumber() << "\n"
-//                     << "Email: " << user.getEmail() << "\n"
-//                     << "ID type: " << user.getIDtype() << "\n"
-//                     << "ID num: " << user.getIDnum() << "\n"
-//                     << "Credit Points: " << user.getCreditPoint() << "\n"
-//                     << "-----------------------------------\n";
-//             }
-//             std::cout << GREEN << "\nPress any key to continue..." << RESET;
-//             _getch(); // Wait for user to press any key before returning to the menu
-//         }
-//         else if (choice == '2') {
-//             // Load all carpool listings from the file
-//             std::vector<CarpoolListing> carpools = fileManager.loadCarpoolListing();
-//         // Iterate through each carpool and display its details
-//             std::cout << "Information of all Carpools: \n";
-//             std::cout << "-----------------------------------\n";
-//             for (size_t i = 0; i < carpools.size(); ++i) {
-//                 const auto& carpool = carpools[i];
-//                 std::cout << "INFORMATION OF CARPOOL " << (i + 1) << "\n"
-//                         << "Available Seats: " << carpool.getAvailableSeats() << "\n"
-//                         << "Departure Time: " << carpool.getDepartureTime() << "\n"
-//                         << "Departure Location: " << carpool.getDepartureLocation() << "\n"
-//                         << "Destination Location: " << carpool.getDestinationLocation() << "\n"
-//                         << "Vehicle Color: " << carpool.getVehicleColor() << "\n"
-//                         << "Vehicle Model: " << carpool.getVehicleModel() << "\n"
-//                         << "Vehicle PlateNumber: " << carpool.getPlateNumber() << "\n" 
-//                         << "Date: " << carpool.getDate() << "\n"
-//                         << "Minimum Passenger Rating: " << carpool.getMinimumPassengerRating() << "\n"
-//                         << "Contribution Per Passenger: " << carpool.getContributionPerPassenger() << "\n"
-//                         << "-----------------------------------\n";
-//             }
-//             std::cout << "\nPress any key to continue...";
-//             _getch(); // Wait for user input before returning to the menu
-//         }
-//         else if (choice == '3') {
-//             std::cout << GREEN << "\nPress any key to continue...";
-//             _getch();
-//             system("cls");
-//             coordinate();
-//             return; // Return to main menu or previous function
-//         }
-//     }
-// }
+        if (choice == '1') {
+            std::vector<User> users = fileManager.loadUser();
+            std::cout << "Information of all Users:\n";
+            std::cout << "-----------------------------------\n";
+            int userIndex = 1;
+            for (const auto& user : users) {
+                std::cout << "INFORMATION OF USER " << userIndex++ << "\n";
+                std::cout << "User ID: " << user.getUID() << "\n"
+                    << "Username: " << user.getUserName() << "\n"
+                    << "Password: " << user.getPassword() << "\n"
+                    << "Full Name: " << user.getFullName() << "\n"
+                    << "Phone Number: " << user.getPhoneNumber() << "\n"
+                    << "Email: " << user.getEmail() << "\n"
+                    << "ID type: " << user.getIDtype() << "\n"
+                    << "ID num: " << user.getIDnum() << "\n"
+                    << "Credit Points: " << user.getCreditPoint() << "\n"
+                    << "-----------------------------------\n";
+            }
+            std::cout << GREEN << "\nPress any key to continue..." << RESET;
+            _getch(); // Wait for user to press any key before returning to the menu
+        }
+        else if (choice == '2') {
+            // Load all carpool listings from the file
+            std::vector<CarpoolListing> carpools = fileManager.loadCarpoolListing();
+        // Iterate through each carpool and display its details
+            std::cout << "Information of all Carpools: \n";
+            std::cout << "-----------------------------------\n";
+            for (size_t i = 0; i < carpools.size(); ++i) {
+                const auto& carpool = carpools[i];
+                std::cout << "INFORMATION OF CARPOOL " << (i + 1) << "\n"
+                        << "Available Seats: " << carpool.getAvailableSeats() << "\n"
+                        << "Departure Time: " << carpool.getDepartureTime() << "\n"
+                        << "Departure Location: " << carpool.getDepartureLocation() << "\n"
+                        << "Destination Location: " << carpool.getDestinationLocation() << "\n"
+                        << "Vehicle Color: " << carpool.getVehicleColor() << "\n"
+                        << "Vehicle Model: " << carpool.getVehicleModel() << "\n"
+                        << "Vehicle PlateNumber: " << carpool.getPlateNumber() << "\n" 
+                        << "Date: " << carpool.getDate() << "\n"
+                        << "Minimum Passenger Rating: " << carpool.getMinimumPassengerRating() << "\n"
+                        << "Contribution Per Passenger: " << carpool.getContributionPerPassenger() << "\n"
+                        << "-----------------------------------\n";
+            }
+            std::cout << "\nPress any key to continue...";
+            _getch(); // Wait for user input before returning to the menu
+        }
+        else if (choice == '3') {
+            std::cout << GREEN << "\nPress any key to continue...";
+            _getch();
+            system("cls");
+            coordinate();
+            return; // Return to main menu or previous function
+        }
+    }
+}
 
 
 // Coordinate function to select user type
@@ -481,7 +480,7 @@ char coordinate() {
     } else if (choice == '2') {
         memberOption();
     } else if (choice == '3') {
-        // admin();
+        admin();
     }
 
     return choice;
