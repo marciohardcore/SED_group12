@@ -40,6 +40,9 @@ CarpoolListing::CarpoolListing(string idCPVal = "",
 
 bool CarpoolListing::getfullyBooked() const { return fullyBooked; }
 bool CarpoolListing::getCancelFlag() const { return cancelFlag; }
+string CarpoolListing::getVehicleModel() const {return vehicleModel;}
+string CarpoolListing::getVehicleColor() const {return vehicleColor;} 
+string CarpoolListing::getPlateNumber() const {return plateNumber;}  
 int CarpoolListing::getAvailableSeats() const { return availableSeats; }
 string CarpoolListing::getDepartureTime() const { return departureTime; }
 string CarpoolListing::getDepartureLocation() const { return departureLocation; }
