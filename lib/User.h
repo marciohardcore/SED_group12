@@ -59,10 +59,10 @@ public:
     void addCarpoolInfo( std::string& carpoolID,  std::string& plateNumber);
 
     // Function to get carpool info
-std::string getCarpoolInfo(const std::string& carpoolID) const;
+    std::string getCarpoolInfo(const std::string& carpoolID) const;
 
     // Function to remove carpool info
     void removeCarpoolInfo(const std::string& carpoolID);
-    
+    std::map<std::string, std::string> getCarpoolInfoMap() const;
 };
 #endif

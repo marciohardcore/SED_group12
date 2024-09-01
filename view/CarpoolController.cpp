@@ -288,6 +288,9 @@ void CarpoolController::createCarpool(User *user)
 }
 void CarpoolController::viewCarpool(const User& user)
 {
+    // Retrieve the user's carpool info map (carpoolID -> plateNumber)
+
+
     FileManager fileManager;
     std::vector<CarpoolListing> carpoolListings = fileManager.loadCarpoolListing();
 
@@ -297,22 +300,19 @@ void CarpoolController::viewCarpool(const User& user)
         _getch(); // Wait for user to press any key
         return;
     }
+    std::map<std::string, std::string> map1 = user.getCarpoolInfoMap();
     std::cout << "Your Carpool Listings:\n";
     bool hasCarpools = false;
 
     for (const auto& carpool : carpoolListings) {
-        std::string carpoolID = carpool.getID();
-        std::string plateNumber = user.getCarpoolInfo(carpoolID);
-
-        // Debug output
-        std::cout << "Debug: Checking carpool ID " << carpoolID << " with plate number " << plateNumber << "\n";
-
-        if (!plateNumber.empty()) {
+        // Check if this carpool belongs to the user by checking the map
+        auto it = map1.find(carpool.getID());
+        if (it != map1.end() && carpool.getPlateNumber() == it->second) {
             hasCarpools = true;
             std::cout << "Carpool ID: " << carpool.getID() << "\n"
                       << "Vehicle Model: " << carpool.getVehicleModel() << "\n"
                       << "Vehicle Color: " << carpool.getVehicleColor() << "\n"
-                      << "Plate Number: " << plateNumber << "\n"
+                      << "Plate Number: " << carpool.getPlateNumber() << "\n"
                       << "Available Seats: " << carpool.getAvailableSeats() << "\n"
                       << "Departure Location: " << carpool.getDepartureLocation() << "\n"
                       << "Destination Location: " << carpool.getDestinationLocation() << "\n"
@@ -321,8 +321,6 @@ void CarpoolController::viewCarpool(const User& user)
                       << "Estimated Duration: " << carpool.getEstimateDuration() << "\n"
                       << "Contribution per Passenger: " << carpool.getContributionPerPassenger() << "\n"
                       << "Minimum Passenger Rating: " << carpool.getMinimumPassengerRating() << "\n"
-                    //   << "Cancel Flag: " << (carpool.getCancelFlag() ? "Yes" : "No") << "\n"
-                    //   << "Fully Booked: " << (carpool.getfullyBooked() ? "Yes" : "No") << "\n"
                       << "-----------------------------------\n";
         }
     }
@@ -335,6 +333,7 @@ void CarpoolController::viewCarpool(const User& user)
     _getch(); // Wait for user to press any key
     system("cls"); // Clear the screen
 }
+
 
 
 // vector<CarpoolListing*> searchCarpools(string location, string date, int minRating, int credits) {
