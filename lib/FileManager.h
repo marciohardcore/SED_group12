@@ -27,9 +27,10 @@ public:
     std::vector<User> loadUser(); // DONE
 
     std::vector<CarpoolListing> loadCarpoolListing();
-    //void saveCarpoolListing(CarpoolListing& carpoolInfo); // DONE
-    //void deleteCarpoolListing(CarpoolListing &item);//parameter: CLID    
-    
+    void saveCarpoolListing(CarpoolListing carpoolInfo); // DONE
+    // void deleteCarpoolListing(CarpoolListing &item);//parameter: CLID    
+    CarpoolListing loadSingleCarpool(string CarpoolID);
+    // vector<CarpoolListing> loadCarpool();
 
     // void saveData();
     // void reloadData(std::string nameVal, std::string pwdVal);    

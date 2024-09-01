@@ -2,12 +2,14 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-#include "CarpoolController.h"
+#include "..\lib\CarpoolController.h"
+#include "..\lib\IDgenerator.h"
+#include <conio.h>
 
 using namespace std;
 
 // // Forward declaration of CarpoolListing
-// class CarpoolListing;  
+// class CarpoolListing;
 
 // class Booking {
 // private:
@@ -192,102 +194,177 @@ using namespace std;
 //     Member* getDriver() const { return driver; }  // Added getDriver method
 // };
 
-class CarpoolController {
-private:
+// class CarpoolController
+// {
+// private:
+//     FileManager filemanager;
+//     // Logger logger;
+
+// public:
+
+void CarpoolController::createCarpool(User *user)
+{
+    // driver->createCarpoolListing(listing);
+    // Member* driver;
+
+    string vehicleModel;
+    string vehicleColor;
+    string plateNumber;
+    int availableSeats;
+    string departureLocation;
+    string destinationLocation;
+    string departureTime;
+    string date;
+    string estimateDuration;
+    int contributionPerPassenger;
+    float minimumPassengerRating;
+    // vector<Booking*> passengerRequests;
+    // vector<Booking*> approvedPassengers;
+    bool cancelFlag;
+    bool fullyBooked;
+    string idCP;
+
+    cin.ignore();
+    cout << YELLOW << "Enter vehicle model: " << RESET;
+    getline(cin, vehicleModel);
+
+    cout << YELLOW << "Enter vehicle color: " << RESET;
+    getline(cin, vehicleColor);
+
+    cout << YELLOW << "Enter plate number: " << RESET;
+    getline(cin, plateNumber);
+
+    cout << YELLOW << "Enter available seat(s): " << RESET;
+    cin >> availableSeats;
+
+    cin.ignore();
+    cout << YELLOW << "Enter departure location: " << RESET;
+    getline(cin, departureLocation);
+
+    cout << YELLOW << "Enter destination location: " << RESET;
+    getline(cin, destinationLocation);
+
+    cout << YELLOW << "Enter departure time (hh:mm): " << RESET;
+    getline(cin, departureTime);
+
+    cout << YELLOW << "Enter date (dd/mm/yyyy): " << RESET;
+    getline(cin, date);
+
+    cout << YELLOW << "Enter estimate duration (hh:mm): " << RESET;
+    getline(cin, estimateDuration);
+
+    cout << YELLOW << "Enter contribution per passenger: " << RESET;
+    cin >> contributionPerPassenger;
+
+    cout << YELLOW << "Enter minimum passenger rating: " << RESET;
+    cin >> minimumPassengerRating;
+
+    IDgenerator id_obj;
     FileManager filemanager;
-    Logger logger;
+    // User addCPinfo;
+    
+    std::string ans = id_obj.generateCarpoolListingID(); // Call the method with parentheses
+    CarpoolListing listing(ans, vehicleModel, vehicleColor, plateNumber,
+                           availableSeats, departureLocation, destinationLocation,
+                           departureTime, date, estimateDuration,
+                           contributionPerPassenger, minimumPassengerRating, false);
+    // sau khi listing thi luu ans + plateNumber vao vector cua doi tuong do
+    // insertCarpool(ans, plateNumber)
+    
+    filemanager.saveCarpoolListing(listing);
+    user->addCarpoolInfo(ans, plateNumber);
+    std::cout << GREEN <<"\n\n Carpool Created! \n";
+    std::cout << "Press any key to continue...";
+    _getch(); // Wait for user to press any key
+    system("cls"); // Clear the screen
+   
+    // logger.logEvent("Carpool listing created by: " + driver->getUsername());
+}
 
-public:
-    void createCarpool(Member* driver, CarpoolListing* listing) {
-        driver->createCarpoolListing(listing);
-        filemanager.saveCarpoolListing(listing);
-        // logger.logEvent("Carpool listing created by: " + driver->getUsername());
-    }
+// vector<CarpoolListing*> searchCarpools(string location, string date, int minRating, int credits) {
+//     vector<CarpoolListing*> matchingListings;
+//     vector<CarpoolListing*> listings = filemanager.loadCarpoolListing();  // Get all carpool listings
 
-    vector<CarpoolListing*> searchCarpools(string location, string date, int minRating, int credits) {
-        vector<CarpoolListing*> matchingListings;
-        vector<CarpoolListing*> listings = filemanager.loadCarpoolListing();  // Get all carpool listings
+//     for (auto listing : listings)
+//     {
+//         // Apply filters
+//         if (!listing->getfullyBooked() &&
+//             listing->getDestinationLocation() == location &&
+//             listing->getDate() == date &&
+//             listing->getContributionPerPassenger() <= credits &&
+//             minRating >= listing->getMinimumPassengerRating())
+//         {
+//             matchingListings.push_back(listing);
+//         }
+//         else
+//         {
+//             // optional - delete this else statement when needed
+//             logger.logEvent("Carpool listing rejected: " + listing->getDestinationLocation() + " on date: " + listing->getDate());
+//         }
+//     }
 
-        for (auto listing : listings) 
-        {
-            // Apply filters
-            if (!listing->getfullyBooked() &&
-                listing->getDestinationLocation() == location &&
-                listing->getDate() == date &&
-                listing->getContributionPerPassenger() <= credits &&
-                minRating >= listing->getMinimumPassengerRating()) 
-            {
-                matchingListings.push_back(listing);
-            } 
-            else 
-            {
-                // optional - delete this else statement when needed
-                logger.logEvent("Carpool listing rejected: " + listing->getDestinationLocation() + " on date: " + listing->getDate());
-            }
-        }
+//     logger.logEvent("Carpools searched for location: " + location + " on date: " + date);
+//     return matchingListings;
+// }
 
-        logger.logEvent("Carpools searched for location: " + location + " on date: " + date);
-        return matchingListings;
-    }
+// Booking* bookCarpool(Member* passenger, CarpoolListing* listing) {
+//     // Check if the listing is active
+//     if (listing->getfullyBooked() || listing->getCancelFlag()) {
+//         cerr << "Listing is no longer available." << endl;
+//         return nullptr;
+//     }
 
-    Booking* bookCarpool(Member* passenger, CarpoolListing* listing) {
-        // Check if the listing is active
-        if (listing->getfullyBooked() || listing->getCancelFlag()) {
-            cerr << "Listing is no longer available." << endl;
-            return nullptr;
-        }
+//     // Check if the member has enough credits
+//     int requiredCredits = listing->getContributionPerPassenger();
+//     if (passenger->getCreditPoints() < requiredCredits) {
+//         cerr << "Not enough credits to book this carpool." << endl;
+//         return nullptr;
+//     }
 
-        // Check if the member has enough credits
-        int requiredCredits = listing->getContributionPerPassenger();
-        if (passenger->getCreditPoints() < requiredCredits) {
-            cerr << "Not enough credits to book this carpool." << endl;
-            return nullptr;
-        }
+//     // Perform the booking action via the Member class
+//     passenger->bookCarpool(listing);
 
-        // Perform the booking action via the Member class
-        passenger->bookCarpool(listing);
+//     Booking* booking = new Booking(passenger, listing);
+//     logger.logEvent("Carpool booked by: " + passenger->getUsername());
+//     return booking;
+// }
 
-        Booking* booking = new Booking(passenger, listing);
-        logger.logEvent("Carpool booked by: " + passenger->getUsername());
-        return booking;
-    }
+// void manageCarpoolRequests(CarpoolListing* listing) {
+//     vector<Booking*> allRequests = listing->getPassengerRequests();
+//     vector<int> acceptedRequests;
+//     // view all requests
+//     listing->viewRequests();
+//     cout << "NOTICE: Enter '0' when done accepting request to exit !\n";
+//     // user -> select request(s) to accept
+//     while (true) {
+//         int number;
+//         cout << "Enter request to accept: ";
+//         cin >> number;
+//         if (number == 0) break;
+//         if (find(acceptedRequests.begin(), acceptedRequests.end(), number) == acceptedRequests.end()) {
+//             acceptedRequests.push_back(number);
+//         } else {
+//             cout << "!!! Already selected !!!\n";
+//         }
+//     }
+//     // accept requests and reject the rest
+//     for (int i : acceptedRequests) {
+//         listing->acceptRequest(allRequests[i - 1]);
+//     }
+//     listing->rejectAllRequests();
 
-    void manageCarpoolRequests(CarpoolListing* listing) {
-        vector<Booking*> allRequests = listing->getPassengerRequests();
-        vector<int> acceptedRequests;
-        // view all requests
-        listing->viewRequests();
-        cout << "NOTICE: Enter '0' when done accepting request to exit !\n";
-        // user -> select request(s) to accept
-        while (true) {
-            int number;
-            cout << "Enter request to accept: ";
-            cin >> number;
-            if (number == 0) break;
-            if (find(acceptedRequests.begin(), acceptedRequests.end(), number) == acceptedRequests.end()) {
-                acceptedRequests.push_back(number);
-            } else {
-                cout << "!!! Already selected !!!\n";
-            }
-        }
-        // accept requests and reject the rest
-        for (int i : acceptedRequests) {
-            listing->acceptRequest(allRequests[i - 1]);
-        }
-        listing->rejectAllRequests();
+//     logger.logEvent("Viewed requests for carpool: " + listing->getDriver()->getUsername());
+// }
 
-        logger.logEvent("Viewed requests for carpool: " + listing->getDriver()->getUsername());
-    }
-
-    void cancelBooking(Booking* booking) {
-        booking->cancel();
-        logger.logEvent("Booking canceled by: " + booking->getPassenger()->getUsername());
-    }
-};
+// void cancelBooking(Booking* booking) {
+//     booking->cancel();
+//     logger.logEvent("Booking canceled by: " + booking->getPassenger()->getUsername());
+// }
+// };
 
 // int main() {
 //     // Create members
-    // Member* driver = new Member("John Doe", "password", "John Doe", "123-4567", "john@example.com", "ID", "123456789", 100, 4.8);
+// Member* driver = new Member("John Doe", "password", "John Doe", "123-4567", "john@example.com", "ID", "123456789", 100, 4.8);
 //     Member* passenger = new Member("Jane Smith", "password", "Jane Smith", "987-6543", "jane@example.com", "ID", "987654321", 50, 4.5);
 
 //     // Create a carpool listing
