@@ -39,20 +39,47 @@ void User::addCreditPoints(int points)
     this->creditPoint += points;
 }
 
-// Function implementations
-void User::addCarpoolInfo(const std::string& carpoolID, const std::string& plateNumber) {
-    carpoolInfo[carpoolID] = plateNumber;
-}
-
-string User::getCarpoolInfo(const std::string& carpoolID) const {
+// Function to add carpool info
+void User::addCarpoolInfo(const string& carpoolID, const string& plateNumber)
+{
     auto it = carpoolInfo.find(carpoolID);
-    if (it != carpoolInfo.end()) {
-        return it->second;
-    } else {
-        return "Carpool not found";
+    if (it != carpoolInfo.end())
+    {
+        std::cout << "!!! Failed. Carpool info already in the system !!!\n";
+        return;
+    }
+    else
+    {
+        carpoolInfo[carpoolID] = plateNumber;
     }
 }
 
-void User::removeCarpoolInfo(const std::string& carpoolID) {
-    carpoolInfo.erase(carpoolID);
+// Function to get carpool info
+string User::getCarpoolInfo(const string& carpoolID) const
+{
+    auto it = carpoolInfo.find(carpoolID);
+    if (it != carpoolInfo.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        std::cout << "!!! Failed. Carpool info not found in the system !!!\n";
+        return "";
+    }
+}
+
+// Function to remove carpool info
+void User::removeCarpoolInfo(const string& carpoolID)
+{
+    auto it = carpoolInfo.find(carpoolID);
+    if (it != carpoolInfo.end())
+    {
+        carpoolInfo.erase(it);
+    }
+    else
+    {
+        std::cout << "!!! Failed. Carpool info not found in the system !!!\n";
+        return; 
+    }
 }
