@@ -56,9 +56,7 @@ public:
     string getEstimateDuration() const;
     bool getfullyBooked() const;
     bool getCancelFlag() const;
-    string getVehicleModel() const;
-    string getVehicleColor() const;
-    string getPlateNumber () const;
+    
     int getAvailableSeats() const;
     string getDepartureTime() const;
     string getDepartureLocation() const;
