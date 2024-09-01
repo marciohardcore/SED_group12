@@ -51,6 +51,8 @@ void User::addCarpoolInfo(const string& carpoolID, const string& plateNumber)
     else
     {
         carpoolInfo[carpoolID] = plateNumber;
+        // cout << "ID: " << carpoolID << "Num: " << plateNumber;
+        cout << "Carpool Info(carpool ID): " << carpoolInfo[carpoolID];
     }
 }
 

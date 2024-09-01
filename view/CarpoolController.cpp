@@ -202,10 +202,11 @@ using namespace std;
 
 // public:
 
-void CarpoolController::createCarpool()
+void CarpoolController::createCarpool(User *user)
 {
     // driver->createCarpoolListing(listing);
     // Member* driver;
+
     string vehicleModel;
     string vehicleColor;
     string plateNumber;
@@ -260,7 +261,8 @@ void CarpoolController::createCarpool()
 
     IDgenerator id_obj;
     FileManager filemanager;
-    User addCPinfo;
+    // User addCPinfo;
+    
     std::string ans = id_obj.generateCarpoolListingID(); // Call the method with parentheses
     CarpoolListing listing(ans, vehicleModel, vehicleColor, plateNumber,
                            availableSeats, departureLocation, destinationLocation,
@@ -270,7 +272,7 @@ void CarpoolController::createCarpool()
     // insertCarpool(ans, plateNumber)
     
     filemanager.saveCarpoolListing(listing);
-    addCPinfo.addCarpoolInfo(ans, plateNumber);
+    user->addCarpoolInfo(ans, plateNumber);
     std::cout << GREEN <<"\n\n Carpool Created! \n";
     std::cout << "Press any key to continue...";
     _getch(); // Wait for user to press any key

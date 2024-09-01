@@ -135,7 +135,7 @@ void CarpoolManagement(std::string username, std::string password) {
         std::cout << YELLOW << "Enter an option below:\n";
         std::cout << "1. Create Carpool\n";
         std::cout << "2. Unlist Carpool\n";
-        std::cout << "3. Update Carpool\n";
+        std::cout << "3. View Carpool\n";
         std::cout << "4. View Requests\n";
         std::cout << "5. View Ratings\n";
         std::cout << "6. Back\n"; // Added option to go back to the previous menu
@@ -148,13 +148,21 @@ void CarpoolManagement(std::string username, std::string password) {
         // Validate user input and handle the valid choice
         if (choice == '1') {
             std::cout << "Creating a new carpool\n";
+            User newCarpool;
+            FileManager userCarpool;
+            newCarpool = userCarpool.loadSingleUser(username, password);
             CarpoolController call;
-            call.createCarpool();
+            call.createCarpool(&newCarpool);
         } else if (choice == '2') {
             std::cout << "Unlist carpool\n";
             // CarpoolController::unlistCarpool();
         } else if (choice == '3') {
-            std::cout << "Updating an existing carpool\n";
+            std::cout << "View carpool\n";
+            User newCarpool;
+            FileManager userCarpool;
+            newCarpool = userCarpool.loadSingleUser(username, password);
+            CarpoolController call;
+            // call.viewCarpool();
             // CarpoolController::updateCarpool();
         } else if (choice == '4') {
             std::cout << "Viewing requests\n";
