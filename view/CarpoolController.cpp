@@ -230,7 +230,7 @@ void CarpoolController::createCarpool()
     cout << YELLOW << "Enter vehicle color: " << RESET;
     getline(cin, vehicleColor);
 
-    cout << YELLOW << "Enterplate number: " << RESET;
+    cout << YELLOW << "Enter plate number: " << RESET;
     getline(cin, plateNumber);
 
     cout << YELLOW << "Enter available seat(s): " << RESET;
@@ -260,6 +260,7 @@ void CarpoolController::createCarpool()
 
     IDgenerator id_obj;
     FileManager filemanager;
+    User addCPinfo;
     std::string ans = id_obj.generateCarpoolListingID(); // Call the method with parentheses
     CarpoolListing listing(ans, vehicleModel, vehicleColor, plateNumber,
                            availableSeats, departureLocation, destinationLocation,
@@ -269,14 +270,12 @@ void CarpoolController::createCarpool()
     // insertCarpool(ans, plateNumber)
     
     filemanager.saveCarpoolListing(listing);
+    addCPinfo.addCarpoolInfo(ans, plateNumber);
     std::cout << GREEN <<"\n\n Carpool Created! \n";
     std::cout << "Press any key to continue...";
     _getch(); // Wait for user to press any key
     system("cls"); // Clear the screen
-    
-    // Return to coordinate screen
-    
-    //Quit
+   
     // logger.logEvent("Carpool listing created by: " + driver->getUsername());
 }
 

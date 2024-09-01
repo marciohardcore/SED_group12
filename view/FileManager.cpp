@@ -64,7 +64,7 @@ void FileManager::saveCarpoolListing(CarpoolListing carpoolInfo){
                  << carpoolInfo.getMinimumPassengerRating() << ","
                  << carpoolInfo.getCancelFlag() << std::endl;
     carpool_file.close();
-    std::cout <<"save successfully";
+    // std::cout <<"save successfully";
 }
 
 void FileManager::saveAllUsers(std::vector<User> users) {
