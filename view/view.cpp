@@ -96,6 +96,8 @@ void profileManagement(std::string username, std::string password) {
             UserController userControl;
             userControl.updateProfile(username, password);
             // CAN NOT CLEAR ALL CONTENT IN THE DATA FILE
+            // CAN NOT CLEAR ALL CONTENT IN THE DATA FILE
+            // CAN NOT CLEAR ALL CONTENT IN THE DATA FILE
         } else if (choice == '3') {
             UserController userControl;
             userControl.updatePassword(username, password);
