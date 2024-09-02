@@ -292,15 +292,15 @@ void CarpoolController::viewCarpool(const User& user)
 
 
     FileManager fileManager;
-    std::vector<CarpoolListing> carpoolListings = fileManager.loadCarpoolListing();
 
+    std::vector<CarpoolListing> carpoolListings = fileManager.loadCarpoolListing();
+    std::map<std::string, std::string> map1 = user.getCarpoolInfoMap();
     if (carpoolListings.empty()) {
         std::cout << "No carpool listings available.\n";
         std::cout << "Press any key to return to the menu...";
         _getch(); // Wait for user to press any key
         return;
     }
-    std::map<std::string, std::string> map1 = user.getCarpoolInfoMap();
     std::cout << "Your Carpool Listings:\n";
     bool hasCarpools = false;
 
