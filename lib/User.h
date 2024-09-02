@@ -15,7 +15,7 @@ using namespace std;
 #define USER_H
 
 #include <string>
-
+using namespace std;
 class User {
 private:
     std::string uid;
@@ -28,8 +28,8 @@ private:
     std::string idNumber;
     int creditPoint;
     // map< string, string> mpCarpools;
-    std::map<std::string, std::string> carpoolInfo; // Map to store carpool ID and , plate number)
-
+    //std::map<std::string, std::string> carpoolInfo; // Map to store carpool ID and , plate number)
+    std::vector<std::string> CarIDStores;
 
 public:
     User(); // Default constructor
@@ -55,14 +55,15 @@ public:
 
     //function
     void addCreditPoints(int points);
-    // Function to add carpool info
-    void addCarpoolInfo( std::string& carpoolID,  std::string& plateNumber);
-
     // Function to get carpool info
-    std::string getCarpoolInfo(const std::string& carpoolID) const;
+    std::vector<std::string> getcarIDstores() const;
+    void setCarIDToStore(std::string& carID) ;
+    // Function to add carpool info
+   // void addCarpoolInfo( std::string& carpoolID,  std::string& plateNumber);
+
 
     // Function to remove carpool info
-    void removeCarpoolInfo(const std::string& carpoolID);
-    std::map<std::string, std::string> getCarpoolInfoMap() const;
+    //void removeCarpoolInfo(const std::string& carpoolID);
+    //std::map<std::string, std::string> getCarpoolInfoMap() const;
 };
 #endif

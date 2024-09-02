@@ -61,7 +61,7 @@ void introduction() {
 
 
 // Profile management function
-void profileManagement(std::string username, std::string password) {
+void profileManagement(const std::string& username, const std::string& password) {
     while (true) {
         system("cls"); // Clear the screen
         printHeader("Carpool Listing Application");
@@ -122,7 +122,7 @@ void profileManagement(std::string username, std::string password) {
 
 
 // CarpoolManagement function
-void CarpoolManagement(std::string username, std::string password) {
+void CarpoolManagement(const std::string& username, const std::string& password) {
     while (true) {
         system("cls"); // Clear the screen
         printHeader("Carpool Listing Application");
@@ -152,7 +152,7 @@ void CarpoolManagement(std::string username, std::string password) {
             FileManager userCarpool;
             newCarpool = userCarpool.loadSingleUser(username, password);
             CarpoolController call;
-            call.createCarpool(&newCarpool);
+            call.createCarpool(newCarpool);
         } else if (choice == '2') {
             std::cout << "Unlist carpool\n";
             //CarpoolController::unlistCarpool();
@@ -179,8 +179,123 @@ void CarpoolManagement(std::string username, std::string password) {
         }
     }
 }
+void showAllCarpoolListings(){
+    // Load all carpool listings from the file
+     FileManager fileManager;
+        std::vector<CarpoolListing> carpools = fileManager.loadCarpoolListing();
+    // Iterate through each carpool and display its details
+        std::cout << "Information of all Carpools: \n";
+        std::cout << "-----------------------------------\n";
+        for (size_t i = 0; i < carpools.size(); ++i) {
+            const auto& carpool = carpools[i];
+            std::cout << GREEN << "INFORMATION OF CARPOOL " << (i + 1) << "\n"
+                    << "Available Seats: " << carpool.getAvailableSeats() << "\n"
+                    << "Departure Time: " << carpool.getDepartureTime() << "\n"
+                    << "Departure Location: " << carpool.getDepartureLocation() << "\n"
+                    << "Destination Location: " << carpool.getDestinationLocation() << "\n"
+                    << "Vehicle Color: " << carpool.getVehicleColor() << "\n"
+                    << "Vehicle Model: " << carpool.getVehicleModel() << "\n"
+                    << "Vehicle PlateNumber: " << carpool.getPlateNumber() << "\n" 
+                    << "Date: " << carpool.getDate() << "\n"
+                    << "Minimum Passenger Rating: " << carpool.getMinimumPassengerRating() << "\n"
+                    << "Contribution Per Passenger: " << carpool.getContributionPerPassenger() << "\n"
+                    << "-----------------------------------\n";
+        }
+}
+void browseCarpoolListingsByCriteria() {
+    // Input search criteria
+    std::string departureLocation, destinationLocation, date;
 
+    std::cout << "Enter Departure Location: ";
+    std::cin.ignore(); // Ignore any leftover newline characters in the input buffer
+    std::getline(std::cin, departureLocation);
 
+    std::cout << "Enter Destination Location: ";
+    std::getline(std::cin, destinationLocation);
+
+    std::cout << "Enter Date (YYYY-MM-DD): ";
+    std::getline(std::cin, date);
+    std::cout << "-----------------------------------\n";
+
+    // Load all carpool listings
+    FileManager fileManager;
+    std::vector<CarpoolListing> carpoolListings = fileManager.loadCarpoolListing();
+
+    // Filter and display carpool listings based on user criteria
+    bool found = false;
+    std::cout << "Filtered Carpool Listings:\n";
+    for (const auto& carpool : carpoolListings) {
+        bool matches = true;
+
+        if (!departureLocation.empty() && carpool.getDepartureLocation() != departureLocation) {
+            matches = false;
+        }
+        if (!destinationLocation.empty() && carpool.getDestinationLocation() != destinationLocation) {
+            matches = false;
+        }
+        if (!date.empty() && carpool.getDate() != date) {
+            matches = false;
+        }
+
+        if (matches) {
+            cout << "The carpool that meet the criteria: ";
+            std::cout << "Carpool ID: " << carpool.getID() << "\n"
+                      << "Vehicle Model: " << carpool.getVehicleModel() << "\n"
+                      << "Vehicle Color: " << carpool.getVehicleColor() << "\n"
+                      << "Plate Number: " << carpool.getPlateNumber() << "\n"
+                      << "Available Seats: " << carpool.getAvailableSeats() << "\n"
+                      << "Departure Location: " << carpool.getDepartureLocation() << "\n"
+                      << "Destination Location: " << carpool.getDestinationLocation() << "\n"
+                      << "Departure Time: " << carpool.getDepartureTime() << "\n"
+                      << "Date: " << carpool.getDate() << "\n"
+                      << "Estimated Duration: " << carpool.getEstimateDuration() << "\n"
+                      << "Contribution per Passenger: " << carpool.getContributionPerPassenger() << "\n"
+                      << "Minimum Passenger Rating: " << carpool.getMinimumPassengerRating() << "\n"
+                      << "-----------------------------------\n";
+            found = true;
+        }
+    }
+    if (!found) {
+        std::cout << "No carpool listings found matching the criteria.\n";
+    }
+}
+// Main function for booking management
+void BookingManagement(const std::string& username, const std::string& password) {
+    while (true) {
+        system("cls"); // Clear the screen
+        printHeader("Carpool Listing Application");
+        std::cout << "-----------------------------------\n";
+        std::cout << BOLD << "Log in as " << username << "\n" << RESET;
+        std::cout << "-----------------------------------\n";
+        
+        std::cout << YELLOW << "Booking Management\n";
+        std::cout << "-----------------------------------\n";
+        std::cout << YELLOW << "Enter an option below:\n";
+        std::cout << "1. View all carpool listings\n";
+        std::cout << "2. Browse carpool listings by departure location, destination location, and date\n";
+        std::cout << "3. Back\n"; // Option to go back to the previous menu
+        std::cout << "-----------------------------------\n";
+        std::cout << GREEN << "Enter your choice: " << RESET;
+        
+        char choice;
+        std::cin >> choice;
+
+        // Validate user input and handle the valid choice
+        if (choice == '1') {
+            showAllCarpoolListings();
+        } else if (choice == '2') {
+            browseCarpoolListingsByCriteria(); // Assuming this function doesn't need username and password
+        } else if (choice == '3') {
+            std::cout << "Returning to previous menu...\n";
+            return; // Exit the function and return to the calling function
+        } else {
+            std::cout << RED << "Invalid input, please enter a number from 1 to 3\n" << RESET;
+        }
+
+        std::cout << "\nPress any key to continue...";
+        _getch(); // Wait for user to press any key
+    }
+}
 // memberUtils function
 void memberUtils(std::string username, std::string password) {
     char choice;
@@ -216,7 +331,7 @@ void memberUtils(std::string username, std::string password) {
                     break;
                 case '3':
                     std::cout << "Opening browser...\n";
-                    // Example: browseListings();
+                    BookingManagement(username, password);
                     break;
                 case '4':
                     std::cout << "Viewing rating...\n";
@@ -225,6 +340,7 @@ void memberUtils(std::string username, std::string password) {
                 case '5':
                     std::cout << "Logging out...\n";
                     system("cls");
+                    coordinate();
                     return; // Exit the function to log out
             }
         } else {
