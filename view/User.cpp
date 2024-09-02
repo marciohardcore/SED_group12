@@ -38,13 +38,13 @@ void User::addCreditPoints(int points)
 {
     this->creditPoint += points;
 }
-vector<std::string> User::getcarIDstores() const{
-    return CarIDStores;
-}
-
+std::vector<std::string> User::getcarIDstores() const {
+        return CarIDStores;
+    }
 // Setter method to add a carpool ID to CarIDStores
-void User::setCarIDToStore(const std::string& carID) {
+void User::setCarIDToStore(std::string& carID) {
     CarIDStores.push_back(carID);
+    
 }
 
 // Function to add carpool info

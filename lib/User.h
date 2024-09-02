@@ -28,8 +28,8 @@ private:
     std::string idNumber;
     int creditPoint;
     // map< string, string> mpCarpools;
-    std::map<std::string, std::string> carpoolInfo; // Map to store carpool ID and , plate number)
-    vector<std::string> CarIDStores;
+    //std::map<std::string, std::string> carpoolInfo; // Map to store carpool ID and , plate number)
+    std::vector<std::string> CarIDStores;
 
 public:
     User(); // Default constructor
@@ -56,8 +56,8 @@ public:
     //function
     void addCreditPoints(int points);
     // Function to get carpool info
-    vector<std::string> getcarIDstores() const;
-    void setCarIDToStore(const std::string& carID);
+    std::vector<std::string> getcarIDstores() const;
+    void setCarIDToStore(std::string& carID) ;
     // Function to add carpool info
    // void addCarpoolInfo( std::string& carpoolID,  std::string& plateNumber);
 
