@@ -38,41 +38,49 @@ void User::addCreditPoints(int points)
 {
     this->creditPoint += points;
 }
+vector<std::string> User::getcarIDstores() const{
+    return CarIDStores;
+}
+
+// Setter method to add a carpool ID to CarIDStores
+void User::setCarIDToStore(const std::string& carID) {
+    CarIDStores.push_back(carID);
+}
 
 // Function to add carpool info
-void User::addCarpoolInfo( std::string& carpoolID,  std::string& plateNumber)
-{
-        // Add new carpool info
-    carpoolInfo[carpoolID] = plateNumber;
-    std::cout << "Carpool info added successfully.\n"; // Optional: provide feedback on success
-}
-// Function to get carpool info
-std::string User::getCarpoolInfo(const std::string& id) const
-{
-    auto it = carpoolInfo.find(id);
-    if (it != carpoolInfo.end())
-    {
-        return it->second; // Return the plate number if found
-    }
-    else
-    {
-        return ""; // Return an empty string if not found
-    }
-}
-std::map<std::string, std::string> User::getCarpoolInfoMap() const {
-    return carpoolInfo;
-}
+// void User::addCarpoolInfo( std::string& carpoolID,  std::string& plateNumber)
+// {
+//         // Add new carpool info
+//     carpoolInfo[carpoolID] = plateNumber;
+//     std::cout << "Carpool info added successfully.\n"; // Optional: provide feedback on success
+// }
+// // Function to get carpool info
+// std::string User::getCarpoolInfo(const std::string& id) const
+// {
+//     auto it = carpoolInfo.find(id);
+//     if (it != carpoolInfo.end())
+//     {
+//         return it->second; // Return the plate number if found
+//     }
+//     else
+//     {
+//         return ""; // Return an empty string if not found
+//     }
+// }
+// std::map<std::string, std::string> User::getCarpoolInfoMap() const {
+//     return carpoolInfo;
+// }
 // Function to remove carpool info
-void User::removeCarpoolInfo(const string& carpoolID)
-{
-    auto it = carpoolInfo.find(carpoolID);
-    if (it != carpoolInfo.end())
-    {
-        carpoolInfo.erase(it);
-    }
-    else
-    {
-        std::cout << "!!! Failed. Carpool info not found in the system !!!\n";
-        return; 
-    }
-}
+// void User::removeCarpoolInfo(const string& carpoolID)
+// {
+//     auto it = carpoolInfo.find(carpoolID);
+//     if (it != carpoolInfo.end())
+//     {
+//         carpoolInfo.erase(it);
+//     }
+//     else
+//     {
+//         std::cout << "!!! Failed. Carpool info not found in the system !!!\n";
+//         return; 
+//     }
+// }
