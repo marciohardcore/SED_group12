@@ -340,6 +340,7 @@ void memberUtils(std::string username, std::string password) {
                 case '5':
                     std::cout << "Logging out...\n";
                     system("cls");
+                    coordinate();
                     return; // Exit the function to log out
             }
         } else {
