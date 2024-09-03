@@ -29,7 +29,7 @@ private:
 
 public:
     // Creates a new carpool listing and saves it
-    void createCarpool(User user);
+    void createCarpool(User& user);
     void viewCarpool(User& user);
     // Searches for carpools based on the provided criteria
     // vector<CarpoolListing*> searchCarpools(string location, string date, int minRating, int credits);

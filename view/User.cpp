@@ -44,7 +44,6 @@ std::vector<std::string> User::getcarIDstores() const {
 // Setter method to add a carpool ID to CarIDStores
 void User::setCarIDToStore(std::string& carID) {
     CarIDStores.push_back(carID);
-    
 }
 
 // Function to add carpool info
