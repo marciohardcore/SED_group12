@@ -309,7 +309,6 @@ void CarpoolController::viewCarpool(User &user)
     // std::vector<std::string> carIDstores = user.getcarIDstores();
 
     string IDowner = user.getUID();
-    cout << IDowner;
     bool hasCarpools = false;
 
     for (int i = 0; i < carpoolListings.size(); ++i)
@@ -363,7 +362,6 @@ void CarpoolController::unlistCarpool(User &user)
     // std::vector<std::string> carIDstores = user.getcarIDstores();
 
     string IDowner = user.getUID();
-    cout << IDowner;
     std::cout << "Your Carpool Listings:\n";
     bool hasCarpools = false;
 
@@ -397,6 +395,7 @@ void CarpoolController::unlistCarpool(User &user)
     }
 
     int option;
+    cout << GREEN << "Please select the exactly car number you want to unlist.\n";
     cout << "Enter the carpool listing you want to unlist( must be an integer): ";
     cin >> option;
     int index = option - 1;
@@ -409,31 +408,9 @@ void CarpoolController::unlistCarpool(User &user)
         }
     }
 
-    cout << "\n Your car has been deleted!\n";
-    for (int i = 0; i < unlistCarpool.size(); ++i)
-    {
-        if (unlistCarpool[i].getIDowner() == IDowner)
-        {
-            hasCarpools = true;
-
-            std::cout << GREEN << "\n     Car #" << i + 1 << "\n" << RESET; // Display car number
-
-            std::cout << YELLOW << "Carpool ID: " << unlistCarpool[i].getID() << "\n"
-                      << "Vehicle Model: " << unlistCarpool[i].getVehicleModel() << "\n"
-                      << "Vehicle Color: " << unlistCarpool[i].getVehicleColor() << "\n"
-                      << "Plate Number: " << unlistCarpool[i].getPlateNumber() << "\n"
-                      << "Available Seats: " << unlistCarpool[i].getAvailableSeats() << "\n"
-                      << "Departure Location: " << unlistCarpool[i].getDepartureLocation() << "\n"
-                      << "Destination Location: " << unlistCarpool[i].getDestinationLocation() << "\n"
-                      << "Departure Time: " << unlistCarpool[i].getDepartureTime() << "\n"
-                      << "Date: " << unlistCarpool[i].getDate() << "\n"
-                      << "Estimated Duration: " << unlistCarpool[i].getEstimateDuration() << "\n"
-                      << "Contribution per Passenger: " << unlistCarpool[i].getContributionPerPassenger() << "\n"
-                      << "Minimum Passenger Rating: " << unlistCarpool[i].getMinimumPassengerRating() << "\n"
-                      << "-----------------------------------\n" << RESET;
-        }
-    }
-
+    cout << GREEN << "Your carpool has been deleted!\n";
+    std::cout << "\nPress any key to return to the admin menu...";
+    _getch(); // Wait for user to press any key
     fileManager.saveAllCarpoolListing(unlistCarpool);
 }
 
