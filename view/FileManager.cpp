@@ -1,5 +1,5 @@
 #include <iostream>
-#include <fstream>  
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -12,84 +12,65 @@ using namespace std;
 class Member;
 class Booking;
 
-std::string getFilePath(const std::string &fileName){
+std::string getFilePath(const std::string &fileName)
+{
     return PATH + fileName;
 }
 
-
-//DONE
-void FileManager::saveUser( User user){
+// DONE
+void FileManager::saveUser(User user)
+{
     std::fstream user_file;
     std::string file_path = getFilePath(USER);
 
     user_file.open("../data/user.dat", std::ios::out | std::ios::app);
-    if (!user_file.is_open()){
+    if (!user_file.is_open())
+    {
         std::cerr << "File not found\n";
         return;
     }
-    user_file   << user.getUID() << ","
-                << user.getUserName() << "," 
-                << user.getPassword() << "," 
-                << user.getFullName() << "," 
-                << user.getPhoneNumber() << "," 
-                << user.getEmail() << ","  
-                << user.getIDtype() << ","  
-                << user.getIDnum() << ","  
-                << user.getCreditPoint()
-                << std::endl;
+    user_file << user.getUID() << ","
+              << user.getUserName() << ","
+              << user.getPassword() << ","
+              << user.getFullName() << ","
+              << user.getPhoneNumber() << ","
+              << user.getEmail() << ","
+              << user.getIDtype() << ","
+              << user.getIDnum() << ","
+              << user.getCreditPoint()
+              << std::endl;
     user_file.close();
-    //std::cout <<GREEN << "Save data to system! \n";
+    // std::cout <<GREEN << "Save data to system! \n";
 }
 
 // DONE
-void FileManager::saveCarpoolListing(CarpoolListing carpoolInfo){
-    std::ofstream carpool_file;
-    std::string file_path = getFilePath(CARPOOL);
-    carpool_file.open("../data/carpool.dat", std::ios::out | std::ios::app);
-    if (!carpool_file.is_open()){
-        std::cerr << "File not found\n";
-    }
 
-    carpool_file << carpoolInfo.getID() << ","
-                 << carpoolInfo.getVehicleModel() << ","
-                 << carpoolInfo.getVehicleColor() << ","
-                 << carpoolInfo.getPlateNumber() << ","
-                 << carpoolInfo.getAvailableSeats() << ","
-                 << carpoolInfo.getDepartureLocation() << ","
-                 << carpoolInfo.getDestinationLocation() << ","
-                 << carpoolInfo.getDepartureTime() << ","
-                 << carpoolInfo.getDate() << ","
-                 << carpoolInfo.getEstimateDuration() << ","
-                 << carpoolInfo.getContributionPerPassenger() << ","
-                 << carpoolInfo.getMinimumPassengerRating() << ","
-                 << carpoolInfo.getCancelFlag() <<","
-                 << carpoolInfo.getIDowner()
-                << std::endl;
-    carpool_file.close();
-    // std::cout <<"save successfully";
-}
-
-void FileManager::saveAllUsers(std::vector<User> users) {
+void FileManager::saveAllUsers(std::vector<User> users)
+{
     // Open the file in truncate mode to clear its contents
     std::ofstream outFile(PATH + USER, std::ios::trunc);
-    if (!outFile) {
+    if (!outFile)
+    {
         std::cerr << "Failed to open the file for saving users.\n";
         return;
     }
-    outFile.close();  // Close the file after clearing
+    outFile.close(); // Close the file after clearing
 
     // Save each user to the file
-    for (const auto& user : users) {
-        saveUser(user);  // Reuse the saveUser function to append each user
+    for (const auto &user : users)
+    {
+        saveUser(user); // Reuse the saveUser function to append each user
     }
 }
-//load method 
-User FileManager::loadSingleUser(const std::string nameVal, const std::string pwdVal) {
+// load method
+User FileManager::loadSingleUser(const std::string nameVal, const std::string pwdVal)
+{
     std::ifstream user_file;
     std::string file_path = getFilePath(USER); // Ensure this path is correct
-    user_file.open(file_path, std::ios::in); // Open for reading
+    user_file.open(file_path, std::ios::in);   // Open for reading
 
-    if (!user_file.is_open()) {
+    if (!user_file.is_open())
+    {
         std::cerr << "File not found\n";
         return User(); // Return an empty or default User object
     }
@@ -105,12 +86,14 @@ User FileManager::loadSingleUser(const std::string nameVal, const std::string pw
            getline(user_file, email, ',') &&
            getline(user_file, IDtype, ',') &&
            getline(user_file, IDnum, ',') &&
-           (user_file >> creditpoint)) {
+           (user_file >> creditpoint))
+    {
 
         user_file.ignore(1, ','); // Skip the comma after the integer
-            
+
         // Check if the credentials match
-        if (nameVal == username && pwdVal == password) {
+        if (nameVal == username && pwdVal == password)
+        {
             user_file.close();
             return User(id, username, password, fullname, phone_number, email, IDtype, IDnum, creditpoint);
         }
@@ -121,14 +104,16 @@ User FileManager::loadSingleUser(const std::string nameVal, const std::string pw
     return User(); // Return an empty or default User object
 }
 
-std::vector<User> FileManager::loadUser() {
+std::vector<User> FileManager::loadUser()
+{
     std::ifstream user_file;
     std::vector<User> loadUser;
 
     std::string file_path = getFilePath(USER); // Ensure this path is correct
-    user_file.open(file_path, std::ios::in); // Open for reading
+    user_file.open(file_path, std::ios::in);   // Open for reading
 
-    if (!user_file.is_open()) {
+    if (!user_file.is_open())
+    {
         std::cerr << "File not found\n";
         return loadUser; // Return an empty or default User object
     }
@@ -144,10 +129,11 @@ std::vector<User> FileManager::loadUser() {
            getline(user_file, email, ',') &&
            getline(user_file, IDtype, ',') &&
            getline(user_file, IDnum, ',') &&
-           (user_file >> creditpoint)) {
+           (user_file >> creditpoint))
+    {
 
         user_file.ignore(1, ','); // Skip the comma after the integer
-        
+
         User user(id, username, password, fullname, phone_number, email, IDtype, IDnum, creditpoint);
         loadUser.push_back(user);
     }
@@ -157,27 +143,30 @@ std::vector<User> FileManager::loadUser() {
     return loadUser; // Return an empty or default User object
 }
 
-// void reloadData(std::string nameVal, std::string pwdVal)  
+// void reloadData(std::string nameVal, std::string pwdVal)
 
-std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
+std::vector<CarpoolListing> FileManager::loadCarpoolListing()
+{
     std::ifstream carpool_file;
     std::vector<CarpoolListing> carpoolListings;
 
     std::string file_path = getFilePath(CARPOOL);
     carpool_file.open(file_path, std::ios::in);
 
-    if (!carpool_file.is_open()) {
+    if (!carpool_file.is_open())
+    {
         std::cerr << "File not found\n";
         return carpoolListings;
     }
 
-    //13 element
+    // 13 element
     std::string idCP, vehicleModel, vehicleColor, plateNumber, departureLocation, destinationLocation, departureTime, date, estimateDuration, IDowner;
     int availableSeats, contributionPerPassenger;
     float minimumPassengerRating;
     bool cancelFlag;
 
-    while (carpool_file.peek() != EOF) {
+    while (carpool_file.peek() != EOF)
+    {
         // Assuming the file has all these fields separated by commas
         getline(carpool_file, idCP, ',');
         getline(carpool_file, vehicleModel, ',');
@@ -199,10 +188,10 @@ std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
         carpool_file >> IDowner;
         carpool_file.ignore(1, '\n');
         // Create a CarpoolListing object and add it to the vector // 13
-        CarpoolListing carpool(idCP, vehicleModel, vehicleColor, plateNumber, availableSeats, 
-                               departureLocation, destinationLocation, departureTime, 
-                               date, estimateDuration, contributionPerPassenger, 
-                               minimumPassengerRating, cancelFlag,IDowner);
+        CarpoolListing carpool(idCP, vehicleModel, vehicleColor, plateNumber, availableSeats,
+                               departureLocation, destinationLocation, departureTime,
+                               date, estimateDuration, contributionPerPassenger,
+                               minimumPassengerRating, cancelFlag, IDowner);
 
         carpoolListings.push_back(carpool);
     }
@@ -211,6 +200,54 @@ std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
     return carpoolListings;
 }
 
+void FileManager::saveCarpoolListing(CarpoolListing carpoolInfo)
+{
+    std::ofstream carpool_file;
+    std::string file_path = getFilePath(CARPOOL);
+    carpool_file.open("../data/carpool.dat", std::ios::out | std::ios::app);
+    if (!carpool_file.is_open())
+    {
+        std::cerr << "File not found\n";
+    }
+
+    carpool_file << carpoolInfo.getID() << ","
+                 << carpoolInfo.getVehicleModel() << ","
+                 << carpoolInfo.getVehicleColor() << ","
+                 << carpoolInfo.getPlateNumber() << ","
+                 << carpoolInfo.getAvailableSeats() << ","
+                 << carpoolInfo.getDepartureLocation() << ","
+                 << carpoolInfo.getDestinationLocation() << ","
+                 << carpoolInfo.getDepartureTime() << ","
+                 << carpoolInfo.getDate() << ","
+                 << carpoolInfo.getEstimateDuration() << ","
+                 << carpoolInfo.getContributionPerPassenger() << ","
+                 << carpoolInfo.getMinimumPassengerRating() << ","
+                 << carpoolInfo.getCancelFlag() << ","
+                 << carpoolInfo.getIDowner()
+                 << std::endl;
+    carpool_file.close();
+    // std::cout <<"save successfully";
+}
+
+void FileManager::saveAllCarpoolListing(const std::vector<CarpoolListing> &carpoolList)
+{
+    // Open the file in truncate mode to clear its contents
+    std::ofstream outFile(PATH + CARPOOL, std::ios::trunc);
+    if (!outFile)
+    {
+        std::cerr << "Failed to open the file for saving users.\n";
+        return;
+    }
+    outFile.close(); // Close the file after clearing
+
+    // Write each CarpoolListing to the file
+    for (const auto &listing : carpoolList)
+    {
+        saveCarpoolListing(listing);
+    }
+
+    outFile.close(); // Close the file
+}
 // void FileManager::deleteCarpoolListing(CarpoolListing& item){
 //     std::ifstream carpool_file;
 //     std::string file_path = getFilePath(CARPOOL);
@@ -229,6 +266,3 @@ std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
 // {
 
 // }
-
-
-
