@@ -32,14 +32,14 @@ CarpoolListing::CarpoolListing(string idCPVal = "",
                 string departureLocationVal = "", string destinationLocationVal = "",
                 string departureTimeVal = "", string dateVal = "",
                 string estimateDurationVal = "", int contributionPerPassengerVal = 0,
-                float minimumPassengerRatingVal = 0.0f, bool cancelFlagVal = false)
+                float minimumPassengerRatingVal = 0.0f, bool cancelFlagVal = false, string IDowner = "")
     : vehicleModel(vehicleModelVal), vehicleColor(vehicleColorVal),
         plateNumber(plateNumberVal), availableSeats(availableSeatsVal),
         departureLocation(departureLocationVal), destinationLocation(destinationLocationVal),
         departureTime(departureTimeVal), date(dateVal), estimateDuration(estimateDurationVal),
         contributionPerPassenger(contributionPerPassengerVal),
         minimumPassengerRating(minimumPassengerRatingVal),
-        cancelFlag(cancelFlagVal), fullyBooked(false), idCP(idCPVal) {}
+        cancelFlag(cancelFlagVal), fullyBooked(false), idCP(idCPVal), IDowner(IDowner) {}
 
                
 string CarpoolListing::getID() const { return idCP; }          
@@ -57,6 +57,7 @@ string CarpoolListing::getDestinationLocation() const { return destinationLocati
 string CarpoolListing::getDate() const { return date; }
 float CarpoolListing::getMinimumPassengerRating() const { return minimumPassengerRating; }
 int CarpoolListing::getContributionPerPassenger() const { return contributionPerPassenger; }
+string CarpoolListing::getIDowner() const {return IDowner;}
 // vector<Booking*> CarpoolListing::getPassengerRequests() const { return passengerRequests; }
 
 // void CarpoolListing::addRequest(Booking* booking) {

@@ -62,7 +62,9 @@ void FileManager::saveCarpoolListing(CarpoolListing carpoolInfo){
                  << carpoolInfo.getEstimateDuration() << ","
                  << carpoolInfo.getContributionPerPassenger() << ","
                  << carpoolInfo.getMinimumPassengerRating() << ","
-                 << carpoolInfo.getCancelFlag() << std::endl;
+                 << carpoolInfo.getCancelFlag() <<","
+                 << carpoolInfo.getIDowner()
+                << std::endl;
     carpool_file.close();
     // std::cout <<"save successfully";
 }
@@ -170,7 +172,7 @@ std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
     }
 
     //13 element
-    std::string idCP, vehicleModel, vehicleColor, plateNumber, departureLocation, destinationLocation, departureTime, date, estimateDuration;
+    std::string idCP, vehicleModel, vehicleColor, plateNumber, departureLocation, destinationLocation, departureTime, date, estimateDuration, IDowner;
     int availableSeats, contributionPerPassenger;
     float minimumPassengerRating;
     bool cancelFlag;
@@ -193,13 +195,14 @@ std::vector<CarpoolListing> FileManager::loadCarpoolListing() {
         carpool_file >> minimumPassengerRating;
         carpool_file.ignore(1, ',');
         carpool_file >> cancelFlag;
+        carpool_file.ignore(1, ',');
+        carpool_file >> IDowner;
         carpool_file.ignore(1, '\n');
-
         // Create a CarpoolListing object and add it to the vector // 13
         CarpoolListing carpool(idCP, vehicleModel, vehicleColor, plateNumber, availableSeats, 
                                departureLocation, destinationLocation, departureTime, 
                                date, estimateDuration, contributionPerPassenger, 
-                               minimumPassengerRating, cancelFlag);
+                               minimumPassengerRating, cancelFlag,IDowner);
 
         carpoolListings.push_back(carpool);
     }
