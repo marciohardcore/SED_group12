@@ -160,9 +160,6 @@ void CarpoolManagement(const std::string& username, const std::string& password)
             std::cout << "Unlist carpool\n";
             //CarpoolController::unlistCarpool();
             call.unlistCarpool(user);
-            std::cout << "\nPress any key to return to the admin menu...";
-            _getch(); // Wait for user to press any key
-            system("cls"); // Clear the screen
         } else if (choice == '4') {
             std::cout << "Viewing requests\n";
             // CarpoolController::viewRequests();
