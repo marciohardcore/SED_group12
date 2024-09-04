@@ -1,11 +1,5 @@
-CLID1a2b3c4d5e6f,Toyota Inova,silver,0987f567,4,Ha Noi,Sai Gon,09:53,20/07/2005,09:53,5,5,0
-CLID2b3c4d5e6f7g,Honda Civic,red,abcd1234,3,Sai Gon,Ha Noi,14:15,21/07/2005,14:45,4,4,0
-CLID3c4d5e6f7g8h,Nissan Sentra,blue,efgh5678,2,Ha Noi,Sai Gon,16:00,22/07/2005,16:30,3,5,0
-CLID4d5e6f7g8h9i,Ford Fiesta,green,ijkl9101,5,Sai Gon,Ha Noi,11:30,23/07/2005,12:00,4,4,0
-CLID5e6f7g8h9i0j,Kia Sportage,white,mnop1122,4,Ha Noi,Sai Gon,08:45,24/07/2005,09:15,4,4,0
-CLID6f7g8h9i0j1k,Mazda 3,black,qrst3344,3,Sai Gon,Ha Noi,13:20,25/07/2005,13:50,3,5,0
-CLID7g8h9i0j1k2l,Subaru Impreza,grey,uvwx5566,2,Ha Noi,Sai Gon,15:30,26/07/2005,16:00,2,3,0
-CLID8h9i0j1k2l3m,Chevrolet Cruze,red,yzab7788,5,Sai Gon,Ha Noi,10:00,27/07/2005,10:30,5,5,0
-CLID9i0j1k2l3m4n,Hyundai Elantra,orange,cdef9900,3,Ha Noi,Sai Gon,17:15,28/07/2005,17:45,4,4,0
-CLID0j1k2l3m4n5o,Volkswagen Passat,blue,ghij2233,4,Sai Gon,Ha Noi,12:30,29/07/2005,13:00,4,5,0
-
+CLID2d3548090bbf,Porsche Panamera,Black,234j543,5,Saigon,Saigon,12:12,12/12/2022,12:12,3,5,0,UID29e0ea73dff63c30
+CLIDe79d114f30e9,Honda Civic,Red,234y6,5,3,saigon,12:21,12/12/2022,12:12,5,4,0,UID29e0ea73dff63c30
+CLIDbb43dff7321b,Toyota,black,1234f654,4,Hanoi,Saigon,12:12,12/12/2022,12:12,5,3,0,UID29e0ea73dff63c30
+CLID95c231ffae42,BMW,Blue,2345g65,4,Hanoi,Hanoi,12:12,12/12/2034,12:12,4,3,0,UID783eb2a745962b9e
+CLID7968d475fbe8,Porsche,Black,123f65,5,Hanoi,Saigon,12:12,12/12/2024,12:12,5,5,0,UID783eb2a745962b9e

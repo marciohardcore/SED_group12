@@ -123,6 +123,9 @@ void profileManagement(const std::string& username, const std::string& password)
 
 // CarpoolManagement function
 void CarpoolManagement(const std::string& username, const std::string& password) {
+    FileManager filemanager;
+    User user = filemanager.loadSingleUser(username, password);
+    CarpoolController call;
     while (true) {
         system("cls"); // Clear the screen
         printHeader("Carpool Listing Application");
@@ -148,21 +151,14 @@ void CarpoolManagement(const std::string& username, const std::string& password)
         // Validate user input and handle the valid choice
         if (choice == '1') {
             std::cout << "Creating a new carpool\n";
-            User newCarpool;
-            FileManager userCarpool;
-            newCarpool = userCarpool.loadSingleUser(username, password);
-            CarpoolController call;
-            call.createCarpool(newCarpool);
+            call.createCarpool(user);
         } else if (choice == '2') {
             std::cout << "Unlist carpool\n";
             //CarpoolController::unlistCarpool();
         } else if (choice == '3') {
             std::cout << "View carpool\n";
-            FileManager fileManager; 
-            CarpoolController carpoolController;
-            User user = fileManager.loadSingleUser(username, password);
             // Call the method to view carpool listings
-            carpoolController.viewCarpool(user); // Pass the user or necessary parameters
+            call.viewCarpool(user); // Pass the user or necessary parameters
         } else if (choice == '4') {
             std::cout << "Viewing requests\n";
             // CarpoolController::viewRequests();
@@ -381,6 +377,7 @@ void member(){
     std::cout << GREEN << "Login successfully!\n";
     system("pause");
     system("cls");
+    FileManager filemanagement;
     memberUtils(username, password);
     // //Test
     // system("pause");
