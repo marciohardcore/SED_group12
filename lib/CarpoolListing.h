@@ -29,7 +29,7 @@ private:
     bool cancelFlag;
     bool fullyBooked;
     string idCP;
-
+    string IDowner;
 public:
     // Constructor
     // CarpoolListing(Member* driverVal = nullptr,
@@ -46,7 +46,7 @@ public:
                     string departureLocationVal, string destinationLocationVal ,
                     string departureTimeVal , string dateVal ,
                     string estimateDurationVal , int contributionPerPassengerVal ,
-                    float minimumPassengerRatingVal , bool cancelFlag );
+                    float minimumPassengerRatingVal , bool cancelFlag,string IDowner );
     
     // Getters
     string getID() const;
@@ -64,6 +64,7 @@ public:
     string getDate() const;
     float getMinimumPassengerRating() const;
     int getContributionPerPassenger() const;
+    string getIDowner() const;
     // vector<Booking*> getPassengerRequests() const;
     // Member* getDriver() const;
 
