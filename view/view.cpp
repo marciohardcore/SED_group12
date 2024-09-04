@@ -377,6 +377,7 @@ void member(){
     std::cout << GREEN << "Login successfully!\n";
     system("pause");
     system("cls");
+    FileManager filemanagement;
     memberUtils(username, password);
     // //Test
     // system("pause");
