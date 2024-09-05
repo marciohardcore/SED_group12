@@ -25,17 +25,20 @@ bool Member::unlistCarpoolListing(CarpoolListing* listing) {
     
 // }
 
-bool Member::cancelBooking(Booking* booking) {
-    for(int i = 0; i < bookings.size(); i++){
-        if(bookings[i] == booking){
-            bookings.erase(bookings.begin() + i);
-            std::cout << "Booking canceled.\n";
-            return true;
-        }
+void Member::cancelBooking(Booking* booking) {
+    // Cancel the booking (set status to "cancelled")
+    booking->cancel();
+
+    // Remove the booking from the Member's bookings vector
+    auto it = find(bookings.begin(), bookings.end(), booking);
+    if (it != bookings.end()) {
+        bookings.erase(it);
+        cout << "Booking removed from Member's list.\n";
+    } else {
+        cout << "Booking not found in Member's list.\n";
     }
-    std::cout << "Booking not found.\n";
-    return false;
 }
+
 
 void Member::rateDriver(CarpoolListing* listing) {
     float score;

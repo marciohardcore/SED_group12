@@ -80,6 +80,17 @@ string CarpoolListing::getIDowner() const {return IDowner;}
 //     }
 // }
 
+void CarpoolListing::rejectRequest(Booking* booking) {
+    auto it = find(passengerRequests.begin(), passengerRequests.end(), booking);
+    if (it != passengerRequests.end()) {
+        passengerRequests.erase(it);  // Correctly erase the booking from the vector
+        cout << "Booking rejected and removed from CarpoolListing.\n";
+    } else { 
+        cout << "!!! Booking not found in system !!!\n";
+    }
+}
+
+
 // void CarpoolListing::unlist() {
 //     if (approvedPassengers.empty()) {
 //         cancelFlag = true;

@@ -489,11 +489,15 @@ void CarpoolController::unlistCarpool(User &user)
 //     logger.logEvent("Viewed requests for carpool: " + listing->getDriver()->getUsername());
 // }
 
-// void cancelBooking(Booking* booking) {
-//     booking->cancel();
-//     logger.logEvent("Booking canceled by: " + booking->getPassenger()->getUsername());
+// void CarpoolController::cancelBooking(Booking* booking) {
+//     // Cancel the booking and remove it from the passenger's bookings list
+//     booking->getPassenger()->cancelBooking(booking);
+
+//     // Remove the booking from the carpool's passengerRequests list
+//     booking->getCarpoolListing()->rejectRequest(booking);
+
+//     //logger.logEvent("Booking canceled by: " + booking->getPassenger()->getUsername());
 // }
-// };
 
 // int main() {
 //     // Create members
