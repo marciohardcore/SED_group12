@@ -64,8 +64,8 @@ void Member::rateDriver(CarpoolListing* listing) {
     std::cout << "Enter the rating comment of carpoolListing: ";
     std::getline(std::cin, comment);
 
-    listing->scores.push_back(score);    
-    listing->comments.push_back(comment); 
+    // listing->scores.push_back(score);    
+    // listing->comments.push_back(comment); 
 
     // Output to confirm the rating and comment have been added
     std::cout << "Rated driver with score: " << score << " and comment: " << comment << "\n";
@@ -91,8 +91,8 @@ void Member::ratePassenger(Booking* booking) {
     std::cout << "Enter the rating comment of booking: ";
     std::getline(std::cin, comment);
 
-    booking.scores.push_back(score);   
-    booking.comments.push_back(comment); 
+    // booking.scores.push_back(score);   
+    // booking.comments.push_back(comment); 
 
     // Output to confirm the rating and comment have been added
     std::cout << "Rated booking with score: " << score << " and comment: " << comment << "\n";
@@ -129,13 +129,13 @@ void Member::viewDashboard() {
 
         for (int i = 0; i < bookings.size(); ++i) {
             std::cout << "Booking " << (i + 1) << ": "
-                      << "<" << bookings[i]->date << "> "
-                      << "<" << bookings[i]->time << "> "
-                      << "<" << bookings[i]->departure << "> "
-                      << "<" << bookings[i]->destination << "> "
-                      << "<" << bookings[i]->estimatedDuration << "> "
-                      << "<" << bookings[i]->driverName << "> "
-                      << "<" << bookings[i]->status << ">\n";
+                      << "<" << bookings[i]->getBookingDate() << "> "
+                      << "<" << bookings[i]->getBookingTime() << "> "
+                      << "<" << bookings[i]->getDeparture() << "> "
+                      << "<" << bookings[i]->getDestination() << "> "
+                      << "<" << bookings[i]->getEstimatedDuration() << "> "
+                      << "<" << bookings[i]->getDriverName() << "> "
+                      << "<" << bookings[i]->getStatus() << ">\n";
         }
     }
 }

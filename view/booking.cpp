@@ -1,6 +1,7 @@
 #include <iostream>
 #include "..\lib\booking.h"
 #include "..\lib\member.h"
+#include "..\lib\User.h"
 
 using std::string;
 using std::cout;
@@ -51,3 +52,29 @@ void Booking::viewStatus() const {
 
 string Booking::getStatus() const { return status; }
 
+std::string Booking::getBookingDate() const{return date; };
+std::string Booking::getBookingTime() const{return time; };
+//duy test
+std::string Booking::getDriverName() const{
+    //truy từ ID xe ra ID driver
+    return "";
+    // return user.getFullName(); 
+};
+
+std::string Booking::getDeparture() const{
+    //lấy data từ file .dat
+    return "";
+    // return user.getFullName(); 
+};
+
+std::string Booking::getDestination() const{
+    //lấy data từ file .dat
+    return "";
+    // return user.getFullName(); 
+};
+
+std::string Booking::getEstimatedDuration() const{
+    //lấy data từ file .dat
+    return "";
+    // return user.getFullName(); 
+};
