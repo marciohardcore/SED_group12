@@ -15,6 +15,8 @@
 #include "..\lib\CarpoolController.h"
 #include "..\lib\CarpoolListing.h"
 
+#include "..\lib\member.h"
+
 using namespace std;
 
 // Console text formatting

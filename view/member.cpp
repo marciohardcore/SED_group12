@@ -2,7 +2,9 @@
 #include <algorithm>
 #include <vector>
 #include <string>
-#include <..\lib\member.h>
+#include "..\lib\member.h"
+#include "..\lib\CarpoolListing.h"
+#include "..\lib\booking.h"
 void Member::createCarpoolListing(CarpoolListing* listing) {
     // lưu dô file
     carpoolListings.push_back(listing);
@@ -27,8 +29,9 @@ bool Member::unlistCarpoolListing(CarpoolListing* listing) {
 
 void Member::cancelBooking(Booking* booking) {
     // Cancel the booking (set status to "cancelled")
+    // booking->Booking::cancel();
+    // booking.cancel();
     booking->cancel();
-
     // Remove the booking from the Member's bookings vector
     auto it = find(bookings.begin(), bookings.end(), booking);
     if (it != bookings.end()) {
@@ -61,8 +64,8 @@ void Member::rateDriver(CarpoolListing* listing) {
     std::cout << "Enter the rating comment of carpoolListing: ";
     std::getline(std::cin, comment);
 
-    listing.scores.push_back(score);    
-    listing.comments.push_back(comment); 
+    listing->scores.push_back(score);    
+    listing->comments.push_back(comment); 
 
     // Output to confirm the rating and comment have been added
     std::cout << "Rated driver with score: " << score << " and comment: " << comment << "\n";
@@ -98,7 +101,7 @@ void Member::ratePassenger(Booking* booking) {
 
 void Member::viewDashboard() {
 
-    if (carpoolListings.empty() && Bookings.empty()) {
+    if (carpoolListings.empty() && bookings.empty()) {
         std::cout << "No active carpool listings or bookings available.\n";
         return;
     }
@@ -109,17 +112,18 @@ void Member::viewDashboard() {
 
         for (int i = 0; i < carpoolListings.size(); ++i) {
             std::cout << "Listing " << (i + 1) << ": "
-                      << "<" << carpoolListings[i]->date << "> "
-                      << "<" << carpoolListings[i]->time << "> "
-                      << "<" << carpoolListings[i]->departure << "> "
-                      << "<" << carpoolListings[i]->destination << "> "
-                      << "<" << carpoolListings[i]->seatsAvailable << ">\n";
+                      << "<" << carpoolListings[i]->getDate() << "> "
+                      << "<" << carpoolListings[i]->getDepartureTime() << "> "
+                      << "<" << carpoolListings[i]->getDepartureLocation() << "> "
+                      << "<" << carpoolListings[i]->getDestinationLocation() << "> "
+                      << "<" << carpoolListings[i]->getAvailableSeats() << ">\n";
         }
         
         std::cout << "\n";  // Add a newline for separation
     }
 
-    if (!Bookings.empty()) {
+    // if (!Bookings.empty()) {
+    if (!bookings.empty()) {
         std::cout << "Active bookings\n";
         std::cout << "---------------\n";
 
@@ -135,5 +139,6 @@ void Member::viewDashboard() {
         }
     }
 }
+
 
 

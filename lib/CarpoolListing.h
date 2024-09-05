@@ -1,14 +1,16 @@
 #ifndef CARPOOLLISTING_H
 #define CARPOOLLISTING_H
-
+#pragma once
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <string>
 using namespace std;
 
+#include "..\lib\member.h"
+
 class Member; // Forward declaration
-// class Booking; // Forward declaration
+class Booking; // Forward declaration
 
 class CarpoolListing {
 private:
@@ -24,8 +26,8 @@ private:
     string estimateDuration;
     int contributionPerPassenger;
     float minimumPassengerRating;
-    // vector<Booking*> passengerRequests;
-    // vector<Booking*> approvedPassengers;
+    vector<Booking*> passengerRequests;
+    vector<Booking*> approvedPassengers;
     bool cancelFlag;
     bool fullyBooked;
     string idCP;
@@ -71,6 +73,8 @@ public:
     // Setters
     void setCancelFlag();
     void setFullyBooked();
+
+    void rejectRequest(Booking* booking);
 
     // Member functions
     // void addRequest(Booking* booking);
