@@ -248,6 +248,25 @@ void FileManager::saveAllCarpoolListing(const std::vector<CarpoolListing> &carpo
 
     outFile.close(); // Close the file
 }
+void FileManager::pullRequestCarpool(CarpoolListing carpool, User user){
+    std::ofstream request_file;
+    std::string file_path = getFilePath(REQUEST);
+    request_file.open(file_path, std::ios::out | std::ios::app);
+    if (!request_file.is_open())
+    {
+        std::cerr << "File not found\n";
+    }
+
+    request_file << carpool.getID() << ","
+                 << carpool.getIDowner() << ","
+                 << user.getUID()
+                 // << user id
+                 // << user rating
+                 << std::endl;
+    request_file.close();
+
+}
+
 // void FileManager::deleteCarpoolListing(CarpoolListing& item){
 //     std::ifstream carpool_file;
 //     std::string file_path = getFilePath(CARPOOL);

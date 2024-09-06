@@ -201,7 +201,7 @@ void showAllCarpoolListings(){
                     << "-----------------------------------\n";
         }
 }
-void browseCarpoolListingsByCriteria() {
+void browseAndBookCarpoolListingsByCriteria(User user) {
     // Input search criteria
     std::string departureLocation, destinationLocation, date;
 
@@ -212,8 +212,9 @@ void browseCarpoolListingsByCriteria() {
     std::cout << "Enter Destination Location: ";
     std::getline(std::cin, destinationLocation);
 
-    std::cout << "Enter Date (YYYY-MM-DD): ";
+    std::cout << "Enter Date (dd/mm/yyyy): ";
     std::getline(std::cin, date);
+    //validateDate()
     std::cout << "-----------------------------------\n";
 
     // Load all carpool listings
@@ -223,6 +224,8 @@ void browseCarpoolListingsByCriteria() {
     // Filter and display carpool listings based on user criteria
     bool found = false;
     std::cout << "Filtered Carpool Listings:\n";
+    int index = 0;
+    std::map <int, CarpoolListing> mp;
     for (const auto& carpool : carpoolListings) {
         bool matches = true;
 
@@ -237,8 +240,11 @@ void browseCarpoolListingsByCriteria() {
         }
 
         if (matches) {
-            cout << "The carpool that meet the criteria: ";
-            std::cout << "Carpool ID: " << carpool.getID() << "\n"
+            cout << "The carpool that meet the criteria: \n";
+            ++index;
+            mp[index] = carpool;
+            std::cout << "Index: " << index << "\n"
+                      << "Carpool ID: " << carpool.getID() << "\n"
                       << "Vehicle Model: " << carpool.getVehicleModel() << "\n"
                       << "Vehicle Color: " << carpool.getVehicleColor() << "\n"
                       << "Plate Number: " << carpool.getPlateNumber() << "\n"
@@ -254,7 +260,39 @@ void browseCarpoolListingsByCriteria() {
             found = true;
         }
     }
-    if (!found) {
+
+    //booking
+    if (found){
+        int choice;
+        std::cout << "Choose a carpool you want to book: " << std::endl;
+        cin >> choice;
+        //map find choice
+        if (mp.find(choice) != mp.end()) {
+            CarpoolListing selectedCarpool = mp[choice];
+            std::cout << "You have requested carpool with ID: " << selectedCarpool.getID() << "\n";
+            // Proceed with booking logic
+            if (selectedCarpool.getID() == user.getUID()){
+                std::cout<< "You cannot book your own car";
+            }
+            else{
+                fileManager.pullRequestCarpool(selectedCarpool, user);
+                //get booking date
+                //get booking time
+                //get cancel
+                //get drivername
+                //get view status
+                //CarpoolListing::rejectRequest
+                // void CarpoolListing::setCancelFlag() { cancelFlag = true; } //-1 available slot}
+                // void CarpoolListing::setFullyBooked() { fullyBooked = true; }
+
+            }
+
+            // if confirmed: - credit point, - 
+        } else {
+            std::cout << "Invalid selection. Please try again.\n";
+        }
+    }
+    else if (!found) {
         std::cout << "No carpool listings found matching the criteria.\n";
     }
 }
@@ -271,19 +309,22 @@ void BookingManagement(const std::string& username, const std::string& password)
         std::cout << "-----------------------------------\n";
         std::cout << YELLOW << "Enter an option below:\n";
         std::cout << "1. View all carpool listings\n";
-        std::cout << "2. Browse carpool listings by departure location, destination location, and date\n";
+        std::cout << "2. Browse and book carpool listings by departure location, destination location, and date\n";
         std::cout << "3. Back\n"; // Option to go back to the previous menu
         std::cout << "-----------------------------------\n";
         std::cout << GREEN << "Enter your choice: " << RESET;
         
         char choice;
         std::cin >> choice;
-
         // Validate user input and handle the valid choice
         if (choice == '1') {
             showAllCarpoolListings();
         } else if (choice == '2') {
-            browseCarpoolListingsByCriteria(); // Assuming this function doesn't need username and password
+            FileManager file;
+            User user;
+            user = file.loadSingleUser(username, password);
+
+            browseAndBookCarpoolListingsByCriteria(user); // Assuming this function doesn't need username and password
         } else if (choice == '3') {
             std::cout << "Returning to previous menu...\n";
             return; // Exit the function and return to the calling function

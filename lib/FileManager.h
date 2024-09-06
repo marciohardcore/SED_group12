@@ -12,6 +12,8 @@ const std::string PATH = "../data/";
 const std::string USER = "user.dat";
 const std::string CARPOOL = "carpool.dat";
 const std::string CARINFO = "carinfo.dat";
+const std::string REQUEST = "request.dat";
+
 
 using namespace std;
 class Member;
@@ -35,5 +37,6 @@ public:
 
     // void saveData();
     // void reloadData(std::string nameVal, std::string pwdVal);    
+    void pullRequestCarpool(CarpoolListing carpool, User user);
 };
 std::string getFilePath(const std::string &fileName);
