@@ -6,6 +6,7 @@
 using std::string;
 using std::cout;
 
+Booking::Booking(){}
 
 // class Booking: public Member{
 // private:
@@ -37,6 +38,7 @@ using std::cout;
 //     string getStatus() const { return status; }
 // };
 
+//Booking::Booking():{};
 void Booking::cancel() {
     if (status == "pending") {
         status = "cancelled";
@@ -77,4 +79,18 @@ std::string Booking::getEstimatedDuration() const{
     //lấy data từ file .dat
     return "";
     // return user.getFullName(); 
+};
+
+std::string Booking::getBookingID() const{
+    return BookingID;
+};
+std::string Booking::getCPID() const{
+    return this->carpoolListing->getID();
+};
+// std::string Booking::getPassengerID() const{
+//     return this->passenger->getUID();
+// };
+
+std::string Booking::getOwnerID() const{
+    return this->user.getUID();
 };

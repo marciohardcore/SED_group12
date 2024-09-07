@@ -164,6 +164,7 @@ void CarpoolManagement(const std::string& username, const std::string& password)
             call.unlistCarpool(user);
         } else if (choice == '4') {
             std::cout << "Viewing requests\n";
+            call.viewRequest(user);
             // CarpoolController::viewRequests();
         } else if (choice == '5') {
             std::cout << "Viewing ratings...\n";
@@ -272,10 +273,11 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
             std::cout << "You have requested carpool with ID: " << selectedCarpool.getID() << "\n";
             // Proceed with booking logic
             if (selectedCarpool.getID() == user.getUID()){
-                std::cout<< "You cannot book your own car";
+                std::cout<< "You cannot book your own car" << std::endl;
             }
             else{
                 fileManager.pullRequestCarpool(selectedCarpool, user);
+                std::cout<< GREEN <<"Book successfully, waiting for approval" << std::endl << RESET;                
                 //get booking date
                 //get booking time
                 //get cancel
@@ -284,7 +286,6 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
                 //CarpoolListing::rejectRequest
                 // void CarpoolListing::setCancelFlag() { cancelFlag = true; } //-1 available slot}
                 // void CarpoolListing::setFullyBooked() { fullyBooked = true; }
-
             }
 
             // if confirmed: - credit point, - 

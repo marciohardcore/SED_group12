@@ -20,7 +20,7 @@ private:
 public:
     //cancel booking -> user bi anh huong
     //pull the user trigger
-
+    Booking();
     // void Booking::cancel() {
     void cancel();
 
@@ -34,5 +34,10 @@ public:
     std::string getDeparture() const;
     std::string getDestination() const;
     std::string getEstimatedDuration() const;
+    
+    std::string getBookingID() const;
+    std::string getOwnerID() const;
+    std::string getCPID() const;
+    // std::string getPassengerID() const;
 };
 

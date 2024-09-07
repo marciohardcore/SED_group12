@@ -4,6 +4,7 @@
 #include <vector>
 #include "..\lib\User.h"
 #include "..\lib\CarpoolListing.h"
+#include "..\lib\booking.h"
 
 #pragma once
 
@@ -38,5 +39,6 @@ public:
     // void saveData();
     // void reloadData(std::string nameVal, std::string pwdVal);    
     void pullRequestCarpool(CarpoolListing carpool, User user);
+    std::vector<Booking> loadRequest();
 };
 std::string getFilePath(const std::string &fileName);
