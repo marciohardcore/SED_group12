@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+#include "..\lib\CarpoolListing.h"
+
 class CarpoolListing;  // Forward declaration
 class Booking;         // Forward declaration
 #ifndef HGUARD3
@@ -19,7 +21,7 @@ public:
     bool unlistCarpoolListing(CarpoolListing* listing); // done
     //carpool controller void searchAndbookCarpool(CarpoolListing* listing); /*  phải lấy data của tất cả listing trong hệ thống để show ra và search
                                                             //based on departure location,destination location, and date */
-    bool cancelBooking(Booking* booking); // done
+    void cancelBooking(Booking* booking); // done
     void rateDriver(CarpoolListing* listing); // done
     void ratePassenger(Booking* booking); // done
     void viewDashboard();  // done

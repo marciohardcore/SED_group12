@@ -43,6 +43,8 @@ public:
 
     // // Cancels a booking
     // void cancelBooking(Booking* booking);
+    void viewRequest(User &user);
+
 };
 
 #endif // CARPOOLCONTROLLER_H

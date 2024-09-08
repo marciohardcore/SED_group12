@@ -2,9 +2,11 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <conio.h>
 
 #include "..\lib\FileManager.h"
 #include "..\lib\CarpoolListing.h"
+#include "..\lib\booking.h"
 
 #include "..\lib\User.h"
 #define GREEN "\033[0;32m"
@@ -248,6 +250,64 @@ void FileManager::saveAllCarpoolListing(const std::vector<CarpoolListing> &carpo
 
     outFile.close(); // Close the file
 }
+void FileManager::pullRequestCarpool(CarpoolListing carpool, User user){
+    std::ofstream request_file;
+    std::string file_path = getFilePath(REQUEST);
+    request_file.open(file_path, std::ios::out | std::ios::app);
+    if (!request_file.is_open())
+    {
+        std::cerr << "File not found\n";
+    }
+
+    request_file << carpool.getID() << ","
+                 << carpool.getIDowner() << ","
+                 << user.getUID()
+                 // << user id
+                 // << user rating
+                 << std::endl;
+    request_file.close();
+
+}
+
+std::vector<Booking> FileManager::loadRequest(){
+    std::ifstream request_file;
+    std::string file_path = getFilePath(REQUEST);
+    request_file.open(file_path, std::ios::in);
+    if (!request_file.is_open())
+    {
+        std::cerr << "File not found\n";
+    }
+
+    std::cout << "Load reach line 280 in FileManager.cpp\n";
+
+    std::vector <Booking> loadRequest;
+    std::string cpid, ownerid, uid;
+    int user_rating;
+    while (getline(request_file, cpid, ',') &&
+           getline(request_file, ownerid, ',') &&
+           getline(request_file, uid, '\n'))
+        //    getline(user_file, something, ',') &&
+        //    (request_file >> user_rating))
+
+    {
+        // std::cout << cpid << " " << ownerid << " " << uid << std::endl;
+
+        // request_file.ignore(1, ','); // Skip the comma after the integer
+
+        Booking request(cpid, ownerid, uid);
+        // Booking request(cpid, ownerid,uid);
+
+        loadRequest.push_back(request);
+    }
+
+    // If no matching user was found
+    request_file.close();
+
+    return loadRequest; // Return an empty or default User object
+}
+
+
+
 // void FileManager::deleteCarpoolListing(CarpoolListing& item){
 //     std::ifstream carpool_file;
 //     std::string file_path = getFilePath(CARPOOL);

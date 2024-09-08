@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "../lib/CarpoolListing.h"
+#include "..\lib\CarpoolListing.h"
 
 using namespace std;
 
@@ -107,6 +107,6 @@ void CarpoolListing::rejectRequest(Booking* booking) {
 //     }
 // }
 
-void CarpoolListing::setCancelFlag() { cancelFlag = true; }
+void CarpoolListing::setCancelFlag() { cancelFlag = true; } //-1 available slot}
 void CarpoolListing::setFullyBooked() { fullyBooked = true; }
 // Member* CarpoolListing::getDriver() const { return driver; }  // Added getDriver method
