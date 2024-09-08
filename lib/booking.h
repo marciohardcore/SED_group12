@@ -17,10 +17,15 @@ private:
     string time;
     string BookingID;
     User user;
+
+    //consider fix
+    std::string cpid;
+    std::string ownerid;
+    std::string uid;
 public:
     //cancel booking -> user bi anh huong
     //pull the user trigger
-    Booking();
+    Booking(std::string cpidVal, std::string owneridVal, std::string uidVal);
     // void Booking::cancel() {
     void cancel();
 
@@ -38,6 +43,6 @@ public:
     std::string getBookingID() const;
     std::string getOwnerID() const;
     std::string getCPID() const;
-    // std::string getPassengerID() const;
+    std::string getPassengerID() const;
 };
 

@@ -6,8 +6,7 @@
 using std::string;
 using std::cout;
 
-Booking::Booking(){}
-
+Booking::Booking(std::string cpidVal, std::string owneridVal, std::string uidVal): cpid(cpid), ownerid(owneridVal), uid(uidVal){}
 // class Booking: public Member{
 // private:
 //     Member *passenger;
@@ -81,16 +80,11 @@ std::string Booking::getEstimatedDuration() const{
     // return user.getFullName(); 
 };
 
-std::string Booking::getBookingID() const{
-    return BookingID;
-};
-std::string Booking::getCPID() const{
-    return this->carpoolListing->getID();
-};
-// std::string Booking::getPassengerID() const{
-//     return this->passenger->getUID();
-// };
+std::string Booking::getBookingID() const{return BookingID;};
+std::string Booking::getCPID() const{return cpid;};
+std::string Booking::getPassengerID() const{return uid;};
 
-std::string Booking::getOwnerID() const{
-    return this->user.getUID();
-};
+std::string Booking::getOwnerID() const{return ownerid;};
+// return this->carpoolListing->getID();
+// return this->passenger->getUID();
+//return this->user.getUID();

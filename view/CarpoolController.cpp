@@ -303,18 +303,25 @@ void CarpoolController::viewRequest(User &user){
         return;
     }
 
-    string IDowner = user.getUID();
+    std::string IDOwner = user.getUID();
     bool hasCarpools = false;
 
     for (int i = 0; i < requests.size(); ++i)
     {
-        if (requests[i].getOwnerID() == IDowner)
+        if (requests[i].getOwnerID() == IDOwner)
         {
-            hasCarpools = true;
-            std::cout << YELLOW << "Carpool ID: " << requests[i].getCPID() << "\n";
-            std::cout << YELLOW << "Car Owner ID: " << requests[i].getOwnerID() << "\n";
-            // std::cout << YELLOW << "User ID: " << requests[i].getPassengerID() << "\n";
+            std::string tempGetOwnerID = requests[i].getOwnerID();
+            std::string tempGetPassengerID = requests[i].getPassengerID();
 
+            if (tempGetOwnerID == tempGetPassengerID){           
+                std::cout << RED << "YOU CANNOT BOOK YOUR OWN CARPOOL!"<< "\n";    
+            }
+            else{
+                hasCarpools = true;
+                std::cout << YELLOW << "Carpool ID: " << requests[i].getCPID() << "\n";
+                std::cout << YELLOW << "Car Owner ID: " << requests[i].getOwnerID() << "\n";
+                std::cout << YELLOW << "Passenger ID: " << requests[i].getPassengerID() << "\n";
+            }
             // std::cout << GREEN << "\n     Car #" << i + 1 << "\n" << RESET; // Display car number
 
             // std::cout << YELLOW << "Carpool ID: " << carpoolListings[i].getID() << "\n"
@@ -332,6 +339,8 @@ void CarpoolController::viewRequest(User &user){
             //           << "-----------------------------------\n" << RESET;
         }
     }
+    std::cout << "Press any key to continue...";
+    _getch(); // Wait for user to press any key
 
 }
 

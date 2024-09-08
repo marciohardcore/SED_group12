@@ -285,16 +285,16 @@ std::vector<Booking> FileManager::loadRequest(){
     int user_rating;
     while (getline(request_file, cpid, ',') &&
            getline(request_file, ownerid, ',') &&
-           getline(request_file, uid, ','))
+           getline(request_file, uid, '\n'))
         //    getline(user_file, something, ',') &&
         //    (request_file >> user_rating))
 
     {
-        std::cout << cpid << " " << ownerid << " " << uid << std::endl;
+        // std::cout << cpid << " " << ownerid << " " << uid << std::endl;
 
-        request_file.ignore(1, ','); // Skip the comma after the integer
+        // request_file.ignore(1, ','); // Skip the comma after the integer
 
-        Booking request;
+        Booking request(cpid, ownerid, uid);
         // Booking request(cpid, ownerid,uid);
 
         loadRequest.push_back(request);
@@ -302,9 +302,6 @@ std::vector<Booking> FileManager::loadRequest(){
 
     // If no matching user was found
     request_file.close();
-
-    std::cout << "Press any key to continue...";
-    _getch(); // Wait for user to press any key
 
     return loadRequest; // Return an empty or default User object
 }
