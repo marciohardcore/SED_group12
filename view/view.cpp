@@ -48,20 +48,6 @@ void introduction() {
     system("cls"); 
 }
 
-// Guest view function
-// void viewCarpoolListings(){
-//     std::cout << BOLD << "Active Carpool Listings:\n" << RESET;
-//     std::cout << "----------------------------------\n";
-//     // GuestView::displayCarpoolDetails(); // xong roi ma chua connect file voi nhau
-// }
-
-// void viewBookings() {
-//     std::cout << BOLD << "Active Bookings:\n" << RESET;
-//     std::cout << "----------------------------------\n";
-//     // GuestView::displayBookingDetails(); chua lam
-// }
-
-
 // Profile management function
 void profileManagement(const std::string& username, const std::string& password) {
     while (true) {

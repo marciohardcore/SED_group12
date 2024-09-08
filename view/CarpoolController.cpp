@@ -5,6 +5,7 @@
 #include "..\lib\CarpoolController.h"
 #include "..\lib\IDgenerator.h"
 #include <conio.h>
+#include "..\lib\InputValidator.h"
 
 using namespace std;
 
@@ -218,20 +219,26 @@ void CarpoolController::createCarpool(User &user)
     bool cancelFlag = false; // Initialize boolean variables
     bool fullyBooked = false;
     std::string idCP;
+    inputValidator input;
 
     std::cin.ignore();
     std::cout << YELLOW << "Enter vehicle model: " << RESET;
     std::getline(std::cin, vehicleModel);
+    // nay nhap gi cung dc
 
     std::cout << YELLOW << "Enter vehicle color: " << RESET;
     std::getline(std::cin, vehicleColor);
+    input.inputValidator::validateVehicleColor(vehicleColor);
+    //no number
 
     std::cout << YELLOW << "Enter plate number: " << RESET;
     std::getline(std::cin, plateNumber);
+    input.inputValidator::validatePlateNumber(plateNumber);
+    //no space
 
     std::cout << YELLOW << "Enter available seat(s): " << RESET;
     std::cin >> availableSeats;
-    if (availableSeats <= 0)
+    while (availableSeats <= 0)
     {
         std::cout << RED << "Error: Available seats must be positive.\n"
                   << RESET;
@@ -247,16 +254,19 @@ void CarpoolController::createCarpool(User &user)
 
     std::cout << YELLOW << "Enter departure time (hh:mm): " << RESET;
     std::getline(std::cin, departureTime);
+    input.inputValidator::validateTime(departureTime);
 
     std::cout << YELLOW << "Enter date (dd/mm/yyyy): " << RESET;
     std::getline(std::cin, date);
+    input.inputValidator::validateDate(date);
 
     std::cout << YELLOW << "Enter estimated duration (hh:mm): " << RESET;
     std::getline(std::cin, estimateDuration);
+    input.inputValidator::validateTime(estimateDuration);
 
     std::cout << YELLOW << "Enter contribution per passenger: " << RESET;
     std::cin >> contributionPerPassenger;
-    if (contributionPerPassenger < 0)
+    while (contributionPerPassenger < 0)
     {
         std::cout << RED << "Error: Contribution per passenger cannot be negative.\n"
                   << RESET;
@@ -265,7 +275,7 @@ void CarpoolController::createCarpool(User &user)
 
     std::cout << YELLOW << "Enter minimum passenger rating: " << RESET;
     std::cin >> minimumPassengerRating;
-    if (minimumPassengerRating < 0)
+    while (minimumPassengerRating < 0)
     {
         std::cout << RED << "Error: Minimum passenger rating cannot be negative.\n"
                   << RESET;

@@ -21,6 +21,9 @@ public:
     void validateIDType(std::string& IDType);
     void validatePassportNumber(std::string& passportNumber);
     void validateTime(std::string& TimeVal);
+    void validateVehicleColor(std::string& vehicleColor);
+    void validatePlateNumber(std::string& plateNumber);
+
 };
 
 bool find(const std::string& usernameVal, const std::string& filePath);
