@@ -6,7 +6,8 @@
 using std::string;
 using std::cout;
 
-Booking::Booking(std::string cpidVal, std::string owneridVal, std::string uidVal): cpid(cpid), ownerid(owneridVal), uid(uidVal){}
+Booking::Booking(std::string cpidVal, std::string owneridVal, std::string uidVal)
+    : cpid(cpidVal), ownerid(owneridVal), uid(uidVal){}
 // class Booking: public Member{
 // private:
 //     Member *passenger;

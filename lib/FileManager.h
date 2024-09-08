@@ -32,7 +32,7 @@ public:
     std::vector<CarpoolListing> loadCarpoolListing();
     void saveCarpoolListing(CarpoolListing carpoolInfo); // DONE
     // void deleteCarpoolListing(CarpoolListing &item);//parameter: CLID    
-    CarpoolListing loadSingleCarpool(string CarpoolID);
+    //CarpoolListing loadSingleCarpool(string CarpoolID);
     void saveAllCarpoolListing(const std::vector<CarpoolListing>& carpoolList);
     // vector<CarpoolListing> loadCarpool();
 
