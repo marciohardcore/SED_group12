@@ -162,6 +162,19 @@ void inputValidator::validateDate(std::string& dateVal) {
         break;
     }
 }
+void inputValidator::validateVehicleColor(std::string& vehicleColor){
+    std::regex regx("\\d");
+    while (std::regex_search(vehicleColor, regx)) {
+        std::cout << RED <<"No digit in the color, please try again: " << RESET;
+        std::getline(cin, vehicleColor);
+    }
+}
+void inputValidator::validatePlateNumber(std::string& plateNumber){
+    while (plateNumber.find(' ') != std::string::npos) {
+        std::cout << RED << "Do not include spaces, please try again: " << RESET;
+        std::getline(cin, plateNumber);
+    }
+}
 
 void inputValidator::validateTime(std::string& timeVal) {
     while (true) {
