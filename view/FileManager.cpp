@@ -268,44 +268,31 @@ void FileManager::pullRequestCarpool(CarpoolListing carpool, User user){
     request_file.close();
 
 }
-
-std::vector<Booking> FileManager::loadRequest(){
+std::vector<Booking> FileManager::loadRequest() {
     std::ifstream request_file;
     std::string file_path = getFilePath(REQUEST);
     request_file.open(file_path, std::ios::in);
-    if (!request_file.is_open())
-    {
-        std::cerr << "File not found\n";
+
+    if (!request_file.is_open()) {
+        std::cerr << "File not found: " << file_path << '\n';
+        return {}; // Return an empty vector if the file couldn't be opened
     }
 
-    std::cout << "Load reach line 280 in FileManager.cpp\n";
-
-    std::vector <Booking> loadRequest;
+    std::vector<Booking> loadRequest;
     std::string cpid, ownerid, uid;
-    int user_rating;
+
     while (getline(request_file, cpid, ',') &&
            getline(request_file, ownerid, ',') &&
-           getline(request_file, uid, '\n'))
-        //    getline(user_file, something, ',') &&
-        //    (request_file >> user_rating))
+           getline(request_file, uid, '\n')) {
 
-    {
-        // std::cout << cpid << " " << ownerid << " " << uid << std::endl;
-
-        // request_file.ignore(1, ','); // Skip the comma after the integer
-
+        // Create a Booking object and add it to the vector
         Booking request(cpid, ownerid, uid);
-        // Booking request(cpid, ownerid,uid);
-
         loadRequest.push_back(request);
     }
 
-    // If no matching user was found
     request_file.close();
-
-    return loadRequest; // Return an empty or default User object
+    return loadRequest;
 }
-
 
 
 // void FileManager::deleteCarpoolListing(CarpoolListing& item){
