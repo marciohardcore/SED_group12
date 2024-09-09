@@ -242,15 +242,17 @@ void CarpoolController::createCarpool(User &user)
     {
         std::cout << RED << "Error: Available seats must be positive.\n"
                   << RESET;
-        return;
+        std::cin >> availableSeats;
     }
 
     std::cin.ignore();
     std::cout << YELLOW << "Enter departure location: " << RESET;
-    std::getline(std::cin, departureLocation);
+    std::getline(std::cin, departureLocation);  
+    input.validateLocation(departureLocation);
 
     std::cout << YELLOW << "Enter destination location: " << RESET;
     std::getline(std::cin, destinationLocation);
+    input.validateLocation(destinationLocation);
 
     std::cout << YELLOW << "Enter departure time (hh:mm): " << RESET;
     std::getline(std::cin, departureTime);
@@ -328,7 +330,7 @@ void CarpoolController::viewRequest(User &user) {
             std::string passengerID = request.getPassengerID();
 
             if (ownerID == passengerID) {
-                std::cout << RED << "YOU CANNOT BOOK YOUR OWN CARPOOL!\n" << RESET;
+                std::cout << RED << "You cannot book your own carpool!\n" << RESET;
             } else if(ownerID != passengerID && request.getStatusInfo() == -1){
                 hasCarpools = true;
                 std::cout << YELLOW << "Passenger ID: " << passengerID << " has booked your carpool ID: " << request.getCPID() << RESET "\n";
@@ -337,10 +339,10 @@ void CarpoolController::viewRequest(User &user) {
             }
             
             if (request.getStatusInfo() == 0){
-                std::cout << RED << "ALREADY REJECTED!\n" << RESET;
+                std::cout << RED << "Already rejected!\n" << RESET;
             }
             else if (request.getStatusInfo() == 1){
-                std::cout << GREEN << "ALREADY ACCEPTED!\n" << RESET;
+                std::cout << GREEN << "Already accepted!\n" << RESET;
             }
             displayIndex++; // Increment display index for next request
         }
