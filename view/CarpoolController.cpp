@@ -305,7 +305,7 @@ void CarpoolController::createCarpool(User &user)
 void CarpoolController::viewRequest(User &user) {
     FileManager fileManager;
     std::vector<Booking> requests = fileManager.loadRequest();
-    
+
     if (requests.empty()) {
         std::cout << "No request available.\n";
         std::cout << YELLOW << "Press any key to return to the menu..." << RESET;
@@ -315,34 +315,92 @@ void CarpoolController::viewRequest(User &user) {
 
     std::string ownerID = user.getUID();
     bool hasCarpools = false;
+    std::vector<int> validOptions; // To store valid options
+    std::map<int, int> requestMap; // Map to relate display numbers to actual indices
 
-    int i = 1; // Initialize index for request numbering
+    int i = 0; // Initialize index for request numbering
+    int displayIndex = 1; // Display index for user interface
 
+    // Display requests associated with the current user
     for (const auto& request : requests) {
         if (request.getOwnerID() == ownerID) {
-            std::cout << GREEN << "REQUEST " << i << "\n";
+            std::cout << "REQUEST " << displayIndex << "\n";
             std::string passengerID = request.getPassengerID();
 
-            if (ownerID == passengerID) {           
-                std::cout << RED << "YOU CANNOT BOOK YOUR OWN CARPOOL!\n";    
-            } else {
+            if (ownerID == passengerID) {
+                std::cout << RED << "YOU CANNOT BOOK YOUR OWN CARPOOL!\n" << RESET;
+            } else if(ownerID != passengerID && request.getStatusInfo() == -1){
                 hasCarpools = true;
-                std::cout << YELLOW << "Carpool ID: " << request.getCPID() << "\n";
-                std::cout << YELLOW << "Car Owner ID: " << request.getOwnerID() << "\n";
-                std::cout << YELLOW << "Passenger ID: " << passengerID << "\n";
+                std::cout << YELLOW << "Passenger ID: " << passengerID << " has booked your carpool ID: " << request.getCPID() << RESET "\n";
+                validOptions.push_back(displayIndex); // Store valid display numbers
+                requestMap[displayIndex] = i; // Map display number to request index
             }
-            i++; // Increment index for next request
+            
+            if (request.getStatusInfo() == 0){
+                std::cout << RED << "ALREADY REJECTED!\n" << RESET;
+            }
+            else if (request.getStatusInfo() == 1){
+                std::cout << GREEN << "ALREADY ACCEPTED!\n" << RESET;
+            }
+            displayIndex++; // Increment display index for next request
         }
+        i++; // Increment index for next request
     }
 
     if (!hasCarpools) {
         std::cout << "No carpools associated with your ID.\n";
+        std::cout << "Press any key to continue...";
+        _getch(); // Wait for user to press any key
+        return;
     }
 
-    std::cout << "Press any key to continue...";
+    // Let the user choose a valid request option
+    int option;
+    std::cout << GREEN << "Enter request option you want (1 to " << displayIndex-1 << "): " << RESET << std::endl;
+
+    // Ensure the user inputs a valid request number
+    while (true) {
+        std::cin >> option;
+        if (std::find(validOptions.begin(), validOptions.end(), option) != validOptions.end()) {
+            break; // Valid option selected
+        } else {
+            std::cout << RED << "Invalid option. Please enter a valid request number: " << RESET;
+        }
+    }
+
+    // Map the selected option to the actual request index
+    int index = requestMap[option]; // Get the actual request index from the map
+    Booking& selectedRequest = requests[index]; // Get a reference to allow modification
+
+    // Ask the user to accept or reject the request
+    int choice;
+    std::cout << YELLOW << "1. Accept request\n" << "2. Reject request\n" << "Enter your choice: " << RESET;
+
+    // Input validation for accepting or rejecting the request
+    while (true) {
+        std::cin >> choice;
+        if (choice == 1 || choice == 2) {
+            break; // Valid choice
+        } else {
+            std::cout << RED << "Invalid input, please enter 1 or 2: " << RESET;
+        }
+    }
+
+    // Handle accept/reject logic
+    if (choice == 1) {
+        std::cout << GREEN << "You accepted the request from Passenger ID: " << selectedRequest.getPassengerID() << RESET << std::endl;
+        selectedRequest.setStatusInfor(1); // Update status to accepted
+    } else if (choice == 2) {
+        std::cout << RED << "You rejected the request from Passenger ID: " << selectedRequest.getPassengerID() << RESET << std::endl;
+        selectedRequest.setStatusInfor(0); // Update status to rejected
+    }
+
+    // Save updated requests to the file
+    fileManager.saveAllRequest(requests);
+
+    std::cout << YELLOW << "Press any key to continue..." << RESET;
     _getch(); // Wait for user to press any key
 }
-
 
 void CarpoolController::viewCarpool(User &user)
 {

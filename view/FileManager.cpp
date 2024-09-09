@@ -247,9 +247,8 @@ void FileManager::saveAllCarpoolListing(const std::vector<CarpoolListing> &carpo
     {
         saveCarpoolListing(listing);
     }
-
-    outFile.close(); // Close the file
 }
+
 void FileManager::pullRequestCarpool(CarpoolListing carpool, User user){
     std::ofstream request_file;
     std::string file_path = getFilePath(REQUEST);
@@ -259,14 +258,53 @@ void FileManager::pullRequestCarpool(CarpoolListing carpool, User user){
         std::cerr << "File not found\n";
     }
 
+    int a = -1;
     request_file << carpool.getID() << ","
                  << carpool.getIDowner() << ","
-                 << user.getUID()
-                 // << user id
+                 << user.getUID() << ","
+                 << a 
                  // << user rating
                  << std::endl;
     request_file.close();
 
+}
+
+void FileManager::saveRequest(const Booking& request) {
+    std::ofstream outFile;
+    std::string file_path = getFilePath(REQUEST);
+    outFile.open(file_path, std::ios::out | std::ios::app);
+    if (!outFile) {
+        std::cerr << "Error opening file for writing.\n";
+        return;
+    }
+
+    // Write the Booking object to the file
+    outFile << request.getCPID() << ','
+            << request.getOwnerID() << ','
+            << request.getPassengerID() << ','
+            << request.getStatusInfo();
+            // Add other attributes here
+
+    // Close the file
+    outFile.close();
+
+    // Optional: Notify that the request was saved successfully
+    //std::cout << "Request saved successfully.\n";
+}
+void FileManager::saveAllRequest(vector<Booking> &requestList){
+      std::ofstream outFile(PATH + REQUEST, std::ios::trunc);
+    if (!outFile)
+    {
+        std::cerr << "Failed to open the file for saving users.\n";
+        return;
+    }
+    outFile.close(); // Close the file after clearing
+
+    // Write each CarpoolListing to the file
+    for (const auto &request : requestList)
+    {
+        saveRequest(request);
+    }
 }
 std::vector<Booking> FileManager::loadRequest() {
     std::ifstream request_file;
@@ -280,13 +318,19 @@ std::vector<Booking> FileManager::loadRequest() {
 
     std::vector<Booking> loadRequest;
     std::string cpid, ownerid, uid;
+    int stat;
 
+    // Read data line by line
     while (getline(request_file, cpid, ',') &&
            getline(request_file, ownerid, ',') &&
-           getline(request_file, uid, '\n')) {
-
+           getline(request_file, uid, ',') &&
+           (request_file >> stat)) {
+        
+        // Ignore the rest of the line after reading stat
+        // request_file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        
         // Create a Booking object and add it to the vector
-        Booking request(cpid, ownerid, uid);
+        Booking request(cpid, ownerid, uid, stat);
         loadRequest.push_back(request);
     }
 
