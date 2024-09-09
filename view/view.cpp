@@ -283,6 +283,56 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
         std::cout << "No carpool listings found matching the criteria.\n";
     }
 }
+
+void requestState(User &user)
+{
+    FileManager fileManager;
+    std::vector<Booking> requests = fileManager.loadRequest();
+
+    if (requests.empty()) {
+        std::cout << "No request available.\n";
+        std::cout << YELLOW << "Press any key to return to the menu..." << RESET;
+        _getch(); // Wait for user to press any key
+        return;
+    }
+
+    std::string ownerID = user.getUID();
+    bool hasCarpools = false;
+    std::vector<int> validOptions; // To store valid options
+    std::map<int, int> requestMap; // Map to relate display numbers to actual indices
+
+    int i = 0; // Initialize index for request numbering
+    int displayIndex = 1; // Display index for user interface
+
+    // Display requests associated with the current user
+    for (const auto& request : requests) {
+        if (request.getPassengerID() == ownerID) {
+            std::cout << "REQUEST " << displayIndex << "\n";
+            std::string passengerID = request.getPassengerID();
+            hasCarpools = true;
+            if (request.getStatusInfo() == 0){
+                std::cout << RED << "ALREADY REJECTED!\n" << RESET;
+            }
+            else if (request.getStatusInfo() == 1){
+                std::cout << GREEN << "ALREADY ACCEPTED!\n" << RESET;
+            }
+            else if (request.getStatusInfo() == -1){
+                std::cout << "REQUEST APPROVED!\n";
+            }
+            displayIndex++; // Increment display index for next request
+        }
+        i++; // Increment index for next request
+    }
+
+    if (!hasCarpools) {
+        std::cout << "No carpools associated with your ID.\n";
+        std::cout << "Press any key to continue...";
+        _getch(); // Wait for user to press any key
+        return;
+    }
+
+
+}
 // Main function for booking management
 void BookingManagement(const std::string& username, const std::string& password) {
     while (true) {
@@ -297,7 +347,8 @@ void BookingManagement(const std::string& username, const std::string& password)
         std::cout << YELLOW << "Enter an option below:\n";
         std::cout << "1. View all carpool listings\n";
         std::cout << "2. Browse and book carpool listings by departure location, destination location, and date\n";
-        std::cout << "3. Back\n"; // Option to go back to the previous menu
+        std::cout << "3. View all request sent\n";
+        std::cout << "4. Back\n"; // Option to go back to the previous menu
         std::cout << "-----------------------------------\n";
         std::cout << GREEN << "Enter your choice: " << RESET;
         
@@ -313,6 +364,11 @@ void BookingManagement(const std::string& username, const std::string& password)
 
             browseAndBookCarpoolListingsByCriteria(user); // Assuming this function doesn't need username and password
         } else if (choice == '3') {
+            FileManager file;
+            User user;
+            user = file.loadSingleUser(username, password);
+            requestState(user);
+        } else if (choice == '4') {
             std::cout << "Returning to previous menu...\n";
             return; // Exit the function and return to the calling function
         } else {

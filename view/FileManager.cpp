@@ -339,21 +339,4 @@ std::vector<Booking> FileManager::loadRequest() {
 }
 
 
-// void FileManager::deleteCarpoolListing(CarpoolListing& item){
-//     std::ifstream carpool_file;
-//     std::string file_path = getFilePath(CARPOOL);
-//     carpool_file.open(file_path, std::ios::in | std::ios::app);
 
-//     if (!carpool_file.is_open()){
-//         std::cerr << "File not found";
-//     }
-//     check = items.getID();
-//     vector <CarpoolListing> list;
-//     //list = .loadCarpoolListing();
-//     while (std::getline())
-// }
-
-// CarpoolListing loadSingleCarpool(string CarpoolID)
-// {
-
-// }

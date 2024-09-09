@@ -30,13 +30,4 @@ void UserView::displayUserProfile( std::string name,  std::string password) {
     std::cout << "-----------------------------------\n";
 }
 
-// void UserView::displayCarpoolListings(std::vector <CarpoolListing*> listings){
-
-// }
-// void UserView::displayBookingDetails(std::vector <Booking*> bookings){
-
-// }
-// void UserView::displayDashboard(Member* member){
-
-// }
 
