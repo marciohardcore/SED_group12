@@ -247,7 +247,7 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
             found = true;
         }
     }
-
+    
     //booking
     if (found){
         int choice;
@@ -263,7 +263,7 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
             }
             else{
                 fileManager.pullRequestCarpool(selectedCarpool, user);
-                std::cout<< GREEN <<"Book successfully, waiting for approval" << std::endl << RESET;                
+                std::cout<< GREEN <<"Book successfully, waiting for approval!" << std::endl << RESET;                
                 //get booking date
                 //get booking time
                 //get cancel
@@ -601,18 +601,22 @@ void admin(){
     }
 }
 
+void exitProgram() {
+    std::cout << "\n\nExiting the program. Goodbye!" << std::endl;
+    exit(0); // Terminates the program
+}
 
 // Coordinate function to select user type
 char coordinate() {
     char choice;
     std::cout << BOLD << "\t \t Carpool Listing Application\n" << RESET;
     std::cout << "-----------------------------------\n";
-    std::cout << YELLOW << "Use the app as: \t1. Guest\t2. Member\t3. Admin\n";
+    std::cout << YELLOW << "Use the app as: \t1. Guest\t2. Member\t3. Admin\t0. Exit Program\n";
     std::cout << GREEN << "Enter your choice: " << RESET;
     std::cin >> choice;
 
-    while (choice != '1' && choice != '2' && choice != '3') {
-        std::cout << RED << "Invalid input, please enter a number from 1 to 3\n" << RESET;
+    while (choice != '1' && choice != '2' && choice != '3' && choice != '0') {
+        std::cout << RED << "Invalid input, please enter a number from 0 to 3\n" << RESET;
         std::cout << GREEN << "Enter your choice: " << RESET;
         std::cin >> choice;
     }
@@ -625,6 +629,8 @@ char coordinate() {
         memberOption();
     } else if (choice == '3') {
         admin();
+    } else if (choice == '0') {
+        exitProgram();
     }
 
     return choice;

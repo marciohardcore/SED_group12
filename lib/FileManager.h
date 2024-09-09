@@ -40,5 +40,7 @@ public:
     // void reloadData(std::string nameVal, std::string pwdVal);    
     void pullRequestCarpool(CarpoolListing carpool, User user);
     std::vector<Booking> loadRequest();
+    void saveRequest(const Booking& request);
+    void saveAllRequest(vector<Booking> &requestList);
 };
 std::string getFilePath(const std::string &fileName);
