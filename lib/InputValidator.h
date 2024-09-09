@@ -23,6 +23,7 @@ public:
     void validateTime(std::string& TimeVal);
     void validateVehicleColor(std::string& vehicleColor);
     void validatePlateNumber(std::string& plateNumber);
+    void validateLocation(std::string& location);
 
 };
 

@@ -211,3 +211,10 @@ void inputValidator::validateTime(std::string& timeVal) {
         break;
     }
 }
+void inputValidator::validateLocation(std::string& location) {
+    while (location != "Saigon" && location != "Hanoi") {
+        std::cout << "\033[31mError: Location must be 'Saigon' or 'Hanoi'.\n\033[0m";  // Red color for error
+        std::cout << "\033[33mEnter location again: \033[0m";  // Yellow color for prompt
+        std::getline(std::cin, location);
+    }
+}
