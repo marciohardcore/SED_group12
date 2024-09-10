@@ -73,9 +73,10 @@ public:
     // Setters
     void setCancelFlag();
     void setFullyBooked();
-
+    void setAvailableSeat(int seats);
     void rejectRequest(Booking* booking);
 
+    
     // Member functions
     // void addRequest(Booking* booking);
     // void rejectAllRequests();
