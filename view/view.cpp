@@ -360,7 +360,6 @@ void BookingManagement(const std::string& username, const std::string& password)
             FileManager file;
             User user;
             user = file.loadSingleUser(username, password);
-
             browseAndBookCarpoolListingsByCriteria(user); // Assuming this function doesn't need username and password
         } else if (choice == '3') {
             FileManager file;
@@ -520,7 +519,7 @@ void newRegister() {
     std::getline(std::cin, IDtype);
     input.inputValidator::validateIDType(IDtype);
 
-    std::cout << GREEN << "Enter your passport number: " << RESET;
+    std::cout << GREEN << "Enter your ID number: " << RESET;
     std::getline(std::cin, passportNumber);
     input.inputValidator::validatePassportNumber(passportNumber);
 

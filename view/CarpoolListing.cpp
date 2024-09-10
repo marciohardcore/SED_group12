@@ -58,6 +58,11 @@ string CarpoolListing::getDate() const { return date; }
 float CarpoolListing::getMinimumPassengerRating() const { return minimumPassengerRating; }
 int CarpoolListing::getContributionPerPassenger() const { return contributionPerPassenger; }
 string CarpoolListing::getIDowner() const {return IDowner;}
+
+
+void CarpoolListing::setAvailableSeat(int seats) { 
+    this->availableSeats = seats; 
+}
 // vector<Booking*> CarpoolListing::getPassengerRequests() const { return passengerRequests; }
 
 // void CarpoolListing::addRequest(Booking* booking) {

@@ -392,9 +392,30 @@ void CarpoolController::viewRequest(User &user) {
     if (choice == 1) {
         std::cout << GREEN << "You accepted the request from Passenger ID: " << selectedRequest.getPassengerID() << RESET << std::endl;
         selectedRequest.setStatusInfor(1); // Update status to accepted
+        vector<CarpoolListing> carpools = fileManager.loadCarpoolListing();
+        std::string carpoolID = selectedRequest.getCPID();
+
+        if (carpools.empty()) {
+        std::cout << "Error!\n";
+        std::cout << YELLOW << "Press any key to return to the menu..." << RESET;
+        _getch(); // Wait for user to press any key
+        return;
+    }
+
+        for (auto& cars : carpools)
+        {
+            if (cars.getID() == carpoolID)
+            {
+                int seatsLeft = cars.getAvailableSeats() - 1;
+                cars.setAvailableSeat(seatsLeft);
+            }
+        }
+        fileManager.saveAllCarpoolListing(carpools);
+
     } else if (choice == 2) {
         std::cout << RED << "You rejected the request from Passenger ID: " << selectedRequest.getPassengerID() << RESET << std::endl;
         selectedRequest.setStatusInfor(0); // Update status to rejected
+
     }
 
     // Save updated requests to the file
