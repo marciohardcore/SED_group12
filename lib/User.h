@@ -52,7 +52,7 @@ public:
     void setPhoneNumber(string newPhoneNumber);
     void setEmail(string newEmail);
     void setPassword(string newPassword);
-
+    void setCreditPoint(int newCredit);
     //function
     void addCreditPoints(int points);
     // Function to get carpool info

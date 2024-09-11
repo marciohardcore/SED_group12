@@ -32,6 +32,9 @@ void User::setFullName(string newFullName){this->fullName = newFullName; }
 void User::setPhoneNumber(string newPhoneNumber){this->phoneNumber = newPhoneNumber; }
 void User::setEmail(string newEmail){this->email = newEmail; }
 void User::setPassword(string newPassword){this->password = newPassword;}
+void User::setCreditPoint(int newCredit){
+    this->creditPoint = newCredit;
+};
 // Method to update the user profile
 // Method to add credit points
 void User::addCreditPoints(int points)

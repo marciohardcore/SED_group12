@@ -240,13 +240,13 @@ void FileManager::saveAllCarpoolListing(const std::vector<CarpoolListing> &carpo
         std::cerr << "Failed to open the file for saving users.\n";
         return;
     }
-    outFile.close(); // Close the file after clearing
 
     // Write each CarpoolListing to the file
     for (const auto &listing : carpoolList)
     {
         saveCarpoolListing(listing);
     }
+    outFile.close(); // Close the file after clearing
 }
 
 void FileManager::pullRequestCarpool(CarpoolListing carpool, User user){
@@ -262,9 +262,8 @@ void FileManager::pullRequestCarpool(CarpoolListing carpool, User user){
     request_file << carpool.getID() << ","
                  << carpool.getIDowner() << ","
                  << user.getUID() << ","
-                 << a 
+                 << a << "\n";
                  // << user rating
-                 << std::endl;
     request_file.close();
 
 }
