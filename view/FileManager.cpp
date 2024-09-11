@@ -255,17 +255,15 @@ void FileManager::pullRequestCarpool(CarpoolListing carpool, User user){
     request_file.open(file_path, std::ios::out | std::ios::app);
     if (!request_file.is_open())
     {
-        std::cerr << "File not found\n";
+        std::cerr << "File not found!";
     }
 
     int a = -1;
     request_file << carpool.getID() << ","
                  << carpool.getIDowner() << ","
                  << user.getUID() << ","
-                 << a << "\n";
-                 // << user rating
+                 << a << std::endl;
     request_file.close();
-
 }
 
 void FileManager::saveRequest(const Booking& request) {
