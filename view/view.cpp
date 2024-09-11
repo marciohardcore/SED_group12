@@ -84,7 +84,6 @@ void profileManagement(const std::string& username, const std::string& password)
             std::cout << "-----------------------------------\n";
             UserController userControl;
             userControl.updateProfile(username, password);
-            // CAN NOT CLEAR ALL CONTENT IN THE DATA FILE
         } else if (choice == '3') {
             UserController userControl;
             userControl.updatePassword(username, password);
@@ -143,16 +142,13 @@ void CarpoolManagement(const std::string& username, const std::string& password)
             call.createCarpool(user);
         } else if (choice == '2') {
             std::cout << "View carpool\n";
-            // Call the method to view carpool listings
             call.viewCarpool(user); // Pass the user or necessary parameters
         } else if (choice == '3') {
             std::cout << "Unlist carpool\n";
-            //CarpoolController::unlistCarpool();
             call.unlistCarpool(user);
         } else if (choice == '4') {
             std::cout << "Viewing requests\n";
             call.viewRequest(user);
-            // CarpoolController::viewRequests();
         } else if (choice == '5') {
             std::cout << "Viewing ratings...\n";
             // CarpoolController::viewRatings();
@@ -320,15 +316,9 @@ void rate_driver(std::map <int, string>& rating_map){
         std::cout << "Leave your comment: \n";
         std::getline(std::cin, comment);
 
-        RatingSystem rating(driver.getUID());
-        rating.addRating(rate, comment);
-        // std::cout << "receive rating: " << rate << "\n";
-        // std::cout << "receive comment: " << comment << "\n";
-        // tinh diem luon
-        // save to file rating.dat
-
+        RatingSystem rating(driver.getUID(), rate, comment);
+        file.saveRating(rating);
     }
-
 }
 
 
@@ -391,7 +381,6 @@ void requestState(User &user)
     if (inp == 'r'){
         rate_driver(rating_map);
     }
-
 }
 // Main function for booking management
 void BookingManagement(const std::string& username, const std::string& password) {
@@ -439,18 +428,38 @@ void BookingManagement(const std::string& username, const std::string& password)
         _getch(); // Wait for user to press any key
     }
 }
-// void viewMyRating(std::string username, std::string password){
-//     // FileManager file;
-//     // User user = file.loadSingleUser(username, password);
-//     // std::vector <Rating> myRating;
-//     // myRating = file.loadRating();
-//     // string Uid = user.getUID();
-//     // for(auto &rat: myRating){
-//     //     if(rat.get)
-//     // }
+void viewMyRating(std::string& username, std::string& password) {
+    FileManager file;
+    User user = file.loadSingleUser(username, password);
+    std::vector<RatingSystem> myRating = file.loadRating();
+    std::string Uid = user.getUID();
 
-// }
+    double totalScore = 0;
+    int count = 0;
+    std::string allComments;
 
+    for (auto &rat : myRating) {
+        if (rat.getUserID() == Uid) {
+            totalScore += rat.getScore(); // Add score to total
+            count++; // Increment the count of ratings
+            if (!allComments.empty()) {
+                allComments += ", "; // Add a comma before adding the next comment
+            }
+            allComments += rat.getComments(); // Append the comment
+        }
+    }
+    if (count > 0) {
+        double averageScore = totalScore / count;
+        std::cout << "Average Score: " << averageScore << std::endl;
+    } else {
+        std::cout << "No ratings available for this user." << std::endl;
+    }
+    if (!allComments.empty()) {
+        std::cout << "Comments: " << allComments << std::endl;
+    }
+     std::cout << "\nPress any key to continue...";
+        _getch(); // Wait for user to press any key
+}
 // memberUtils function
 void memberUtils(std::string username, std::string password) {
     char choice;
@@ -490,7 +499,7 @@ void memberUtils(std::string username, std::string password) {
                     break;
                 case '4':
                     std::cout << "Viewing rating...\n";
-                    //viewMyRating(username, password);
+                    viewMyRating(username, password);
                     break;
                 case '5':
                     std::cout << "Logging out...\n";

@@ -7,8 +7,9 @@
 #include "..\lib\FileManager.h"
 #include "..\lib\CarpoolListing.h"
 #include "..\lib\booking.h"
-
 #include "..\lib\User.h"
+#include "..\lib\RatingSystem.h"
+
 #define GREEN "\033[0;32m"
 using namespace std;
 class Member;
@@ -335,64 +336,54 @@ std::vector<Booking> FileManager::loadRequest() {
     return loadRequest;
 }
 
-std::vector <Rating> FileManager::loadRating(){
+std::vector<RatingSystem> FileManager::loadRating() {
     std::ifstream rating_file;
-    std::vector<Rating> loadRating;
+    std::vector<RatingSystem> loadRating;
 
     std::string file_path = getFilePath(RATING); // Ensure this path is correct
     rating_file.open(file_path, std::ios::in);   // Open for reading
 
-    if (!rating_file.is_open())
-    {
+    if (!rating_file.is_open()) {
         std::cerr << "File not found\n";
-        return loadRating; // Return an empty or default User object
+        return loadRating; // Return an empty vector
     }
 
     std::string uid, comment;
-    // std::vector <std::string> comments;
     double score;
 
-
-    while (getline(rating_file, uid, ',') &&
-           (rating_file >> score, ',') &&
-            getline(rating_file, comment)) 
+    // Read the file line by line
+    while (getline(rating_file, uid, ',') && 
+           rating_file >> score &&
+           rating_file.ignore(1, ',') &&  // Skip the comma after the score
+           getline(rating_file, comment)) 
     {
-
-        rating_file.ignore(1, ','); // Skip the comma after the integer
-        Rating rating(uid, score, comment);
+        // Create a RatingSystem object with the read data and add it to the vector
+        RatingSystem rating(uid, score, comment);
         loadRating.push_back(rating);
     }
 
-    // If no matching user was found
     rating_file.close();
-    return loadRating; // Return an empty or default User object
+    return loadRating; // Return the populated vector
 }
 
-void FileManager::saveRating(std::string userID,double score,std::vector <std::string> comments){
+void FileManager::saveRating(RatingSystem& rating) {
     std::ofstream rating_file;
     std::string file_path = getFilePath(RATING);
-    rating_file.open(file_path, std::ios::out | std::ios::app);
-    if (!rating_file.is_open())
-    {
-        std::cerr << "File not found\n";
-    }
-    // // load Rating
-    // if (userID == loadAllRating.userID()){
-    //     //update
-    // }
-    // else{
-    //     //thêm dòng mới
-    // }
-    rating_file << userID << ","
-                 << score << ",";
 
-    for (auto &item: comments){
-        rating_file << item << " ";
+    // Open the file in append mode
+    rating_file.open(file_path, std::ios::out | std::ios::app);
+    if (!rating_file.is_open()) {
+        std::cerr << "File not found\n";
+        return;
     }
-    rating_file << "\n";
+
+    // Write user ID, score, and comments to the file using getter methods
+    rating_file << rating.getUserID() << "," 
+                << rating.getScore() << "," 
+                << rating.getComments() << "\n";
+
     rating_file.close();
 }
-
 
 
 User FileManager::loadSingleUser(const std::string idVal)
