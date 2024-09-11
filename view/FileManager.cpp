@@ -336,6 +336,75 @@ std::vector<Booking> FileManager::loadRequest() {
 }
 
 
+void FileManager::updateRating(std::string userID,double score,std::vector <std::string> comments){
+    std::ofstream rating_file;
+    std::string file_path = getFilePath(RATING);
+    rating_file.open(file_path, std::ios::out | std::ios::app);
+    if (!rating_file.is_open())
+    {
+        std::cerr << "File not found\n";
+    }
+    // // load Rating
+    // if (userID == loadAllRating.userID()){
+    //     //update
+    // }
+    // else{
+    //     //thêm dòng mới
+    // }
+    rating_file << userID << ","
+                 << score << ",";
+
+    for (auto &item: comments){
+        rating_file << item << " ";
+    }
+    rating_file << "\n";
+    rating_file.close();
+}
+
+
+
+User FileManager::loadSingleUser(const std::string idVal)
+{
+    std::ifstream user_file;
+    std::string file_path = getFilePath(USER); // Ensure this path is correct
+    user_file.open(file_path, std::ios::in);   // Open for reading
+
+    if (!user_file.is_open())
+    {
+        std::cerr << "File not found\n";
+        return User(); // Return an empty or default User object
+    }
+
+    std::string id, username, password, fullname, phone_number, email, IDtype, IDnum;
+    int creditpoint;
+
+    while (getline(user_file, id, ',') &&
+           getline(user_file, username, ',') &&
+           getline(user_file, password, ',') &&
+           getline(user_file, fullname, ',') &&
+           getline(user_file, phone_number, ',') &&
+           getline(user_file, email, ',') &&
+           getline(user_file, IDtype, ',') &&
+           getline(user_file, IDnum, ',') &&
+           (user_file >> creditpoint))
+    {
+
+        user_file.ignore(1, ','); // Skip the comma after the integer
+
+        // Check if the credentials match
+        if (id == idVal)
+        {
+            user_file.close();
+            return User(id, username, password, fullname, phone_number, email, IDtype, IDnum, creditpoint);
+        }
+    }
+
+    // If no matching user was found
+    user_file.close();
+    return User(); // Return an empty or default User object
+}
+
+
 // void FileManager::deleteCarpoolListing(CarpoolListing& item){
 //     std::ifstream carpool_file;
 //     std::string file_path = getFilePath(CARPOOL);

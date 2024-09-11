@@ -16,6 +16,7 @@
 #include "..\lib\CarpoolListing.h"
 
 #include "..\lib\member.h"
+#include "..\lib\RatingSystem.h"
 
 using namespace std;
 
@@ -191,6 +192,7 @@ void showAllCarpoolListings(){
 void browseAndBookCarpoolListingsByCriteria(User user) {
     // Input search criteria
     std::string departureLocation, destinationLocation, date;
+    inputValidator input;
 
     std::cout << "Enter Departure Location: ";
     std::cin.ignore(); // Ignore any leftover newline characters in the input buffer
@@ -201,7 +203,7 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
 
     std::cout << "Enter Date (dd/mm/yyyy): ";
     std::getline(std::cin, date);
-    //validateDate()
+    input.validateDate(date);    
     std::cout << "-----------------------------------\n";
 
     // Load all carpool listings
@@ -284,6 +286,53 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
     }
 }
 
+void rate_driver(std::map <int, string>& rating_map){
+    system("cls"); // Clear the screen
+    printHeader("Carpool Rating");
+    std::cout << "-----------------------------------\n";
+    std::cout << YELLOW << "List of carpool you have experienced: \n" << RESET;
+    for (auto& item : rating_map){
+        std::cout << item.first << ": " << item.second << "\n";
+    }
+    int option;
+    std::cout << YELLOW << "Enter a carpool that you want to rate below: \n";
+    std::cin >> option;
+
+    std::map<int, string>::iterator it;
+    it = rating_map.find(option);
+    if (it == rating_map.end()){
+        std::cout << "Not included in the carpool list\n";
+    }
+    else{
+        double rate;
+        std::string comment;
+
+        FileManager file;
+
+        User driver = file.loadSingleUser(it->second);
+        std::cout << YELLOW << "You are rating driver: " << driver.getFullName() << "\n";
+
+
+        std::cout << "Enter your rating (1 - 5): \n";
+        std::cin >> rate;
+
+        std::cin.ignore();
+        std::cout << "Leave your comment: \n";
+        std::getline(std::cin, comment);
+
+        RatingSystem rating(driver.getUID());
+        rating.addRating(rate, comment);
+        // std::cout << "receive rating: " << rate << "\n";
+        // std::cout << "receive comment: " << comment << "\n";
+        // tinh diem luon
+        // save to file rating.dat
+
+    }
+
+}
+
+
+
 void requestState(User &user)
 {
     FileManager fileManager;
@@ -303,6 +352,9 @@ void requestState(User &user)
 
     int i = 0; // Initialize index for request numbering
     int displayIndex = 1; // Display index for user interface
+   
+    std::map <int, string> rating_map;
+    int rating_index = 0;
 
     // Display requests associated with the current user
     for (const auto& request : requests) {
@@ -315,6 +367,9 @@ void requestState(User &user)
             }
             else if (request.getStatusInfo() == 1){
                 std::cout << GREEN << "ALREADY ACCEPTED!\n" << RESET;
+                ++rating_index;
+                rating_map[rating_index] = request.getOwnerID();
+            
             }
             else if (request.getStatusInfo() == -1){
                 std::cout << "REQUEST APPROVED!\n";
@@ -330,6 +385,13 @@ void requestState(User &user)
         _getch(); // Wait for user to press any key
         return;
     }
+    char inp;
+    std::cout << "Press 'r' to rate your previous carpool: ";
+    std::cin >> inp;
+    if (inp == 'r'){
+        rate_driver(rating_map);
+    }
+
 }
 // Main function for booking management
 void BookingManagement(const std::string& username, const std::string& password) {
