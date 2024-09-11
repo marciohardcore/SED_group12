@@ -1,6 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
+#pragma once
 #include <iostream>
 #include <fstream>  
 #include <string>
@@ -10,7 +11,6 @@
 #include "..\lib\booking.h"
 #include "..\lib\RatingSystem.h"
 
-#pragma once
 
 
 const std::string PATH = "../data/";
@@ -41,8 +41,8 @@ public:
     //CarpoolListing loadSingleCarpool(string CarpoolID);
     void saveAllCarpoolListing(const std::vector<CarpoolListing>& carpoolList);
     // vector<CarpoolListing> loadCarpool();
-    void saveRating(std::string userID,double score,std::vector <std::string> comments);
-    void loadRating();
+    void saveRating(RatingSystem& rating);            // Save a single rating to a file
+    std::vector<RatingSystem> loadRating(); 
     // void saveData();
     // void reloadData(std::string nameVal, std::string pwdVal);    
     void pullRequestCarpool(CarpoolListing carpool, User user);

@@ -3,26 +3,23 @@
 #ifndef RATING_H
 #define RATING_H
 
-// content of the header file
-
-
-#include <iostream>
-#include <vector>
-#include "..\lib\FileManager.h"
+#include <string>
 
 class RatingSystem {
 private:
-    std::string userID;
-    std::vector <std::string> comments;
-    double score;
-    int size;
-    double value;
+    std::string userID;    // The ID of the user being rated
+    std::string comments;  // Comments associated with the rating
+    double score;          // The score of the rating (e.g., 1-5 scale)
+
 public:
-    RatingSystem(std::string userIDVal);
-    RatingSystem(std::string userIDVal, float scoreVal, double valueVal);
+    // Constructors
+    RatingSystem(std::string userIDVal); // Constructor for userID only
+    RatingSystem(std::string userIDVal, double scoreVal, std::string commentsVal); // Full constructor
 
-    void addRating(double rate, std::string comment);
+    // Getters
+    std::string getUserID() const;    // Getter for userID
+    std::string getComments() const;  // Getter for comments
+    double getScore() const;          // Getter for score
 };
-
 
 #endif
