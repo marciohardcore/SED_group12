@@ -439,6 +439,18 @@ void BookingManagement(const std::string& username, const std::string& password)
         _getch(); // Wait for user to press any key
     }
 }
+// void viewMyRating(std::string username, std::string password){
+//     // FileManager file;
+//     // User user = file.loadSingleUser(username, password);
+//     // std::vector <Rating> myRating;
+//     // myRating = file.loadRating();
+//     // string Uid = user.getUID();
+//     // for(auto &rat: myRating){
+//     //     if(rat.get)
+//     // }
+
+// }
+
 // memberUtils function
 void memberUtils(std::string username, std::string password) {
     char choice;
@@ -478,7 +490,7 @@ void memberUtils(std::string username, std::string password) {
                     break;
                 case '4':
                     std::cout << "Viewing rating...\n";
-                    // Example: viewMyRating(username);
+                    //viewMyRating(username, password);
                     break;
                 case '5':
                     std::cout << "Logging out...\n";

@@ -335,8 +335,40 @@ std::vector<Booking> FileManager::loadRequest() {
     return loadRequest;
 }
 
+std::vector <Rating> FileManager::loadRating(){
+    std::ifstream rating_file;
+    std::vector<Rating> loadRating;
 
-void FileManager::updateRating(std::string userID,double score,std::vector <std::string> comments){
+    std::string file_path = getFilePath(RATING); // Ensure this path is correct
+    rating_file.open(file_path, std::ios::in);   // Open for reading
+
+    if (!rating_file.is_open())
+    {
+        std::cerr << "File not found\n";
+        return loadRating; // Return an empty or default User object
+    }
+
+    std::string uid, comment;
+    // std::vector <std::string> comments;
+    double score;
+
+
+    while (getline(rating_file, uid, ',') &&
+           (rating_file >> score, ',') &&
+            getline(rating_file, comment)) 
+    {
+
+        rating_file.ignore(1, ','); // Skip the comma after the integer
+        Rating rating(uid, score, comment);
+        loadRating.push_back(rating);
+    }
+
+    // If no matching user was found
+    rating_file.close();
+    return loadRating; // Return an empty or default User object
+}
+
+void FileManager::saveRating(std::string userID,double score,std::vector <std::string> comments){
     std::ofstream rating_file;
     std::string file_path = getFilePath(RATING);
     rating_file.open(file_path, std::ios::out | std::ios::app);

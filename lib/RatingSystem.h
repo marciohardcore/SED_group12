@@ -14,12 +14,12 @@ class RatingSystem {
 private:
     std::string userID;
     std::vector <std::string> comments;
-    double score = 0;
+    double score;
     int size;
     double value;
 public:
     RatingSystem(std::string userIDVal);
-    // RatingSystem(std::string userIDVal, float scoreVal, double valueVal);
+    RatingSystem(std::string userIDVal, float scoreVal, double valueVal);
 
     void addRating(double rate, std::string comment);
 };

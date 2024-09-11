@@ -41,8 +41,8 @@ public:
     //CarpoolListing loadSingleCarpool(string CarpoolID);
     void saveAllCarpoolListing(const std::vector<CarpoolListing>& carpoolList);
     // vector<CarpoolListing> loadCarpool();
-    void updateRating(std::string userID,double score,std::vector <std::string> comments);
-
+    void saveRating(std::string userID,double score,std::vector <std::string> comments);
+    void loadRating();
     // void saveData();
     // void reloadData(std::string nameVal, std::string pwdVal);    
     void pullRequestCarpool(CarpoolListing carpool, User user);
