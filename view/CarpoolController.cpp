@@ -6,7 +6,7 @@
 #include "..\lib\IDgenerator.h"
 #include <conio.h>
 #include "..\lib\InputValidator.h"
-
+#include "..\lib\UserController.h"
 using namespace std;
 
 // // Forward declaration of CarpoolListing
@@ -408,6 +408,17 @@ void CarpoolController::viewRequest(User &user) {
             {
                 int seatsLeft = cars.getAvailableSeats() - 1;
                 cars.setAvailableSeat(seatsLeft);
+                vector<User> users = fileManager.loadUser();
+                for (auto& us : users) // use reference to modify the user directly in the vector
+                {
+                    if(us.getUID() == selectedRequest.getPassengerID())
+                    {
+                        int afterCredit = us.getCreditPoint() - cars.getContributionPerPassenger(); // modify the user in the vector
+                        us.setCreditPoint(afterCredit); // update the credit points for 'us' directly
+                        fileManager.saveAllUsers(users); // save the updated users vector
+                        break; // exit loop after finding the user
+                    }
+                }
             }
         }
         fileManager.saveAllCarpoolListing(carpools);

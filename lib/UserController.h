@@ -26,6 +26,6 @@ class UserController
         // void logoutUser(User *user);
         void purchaseCredits(User userAmount, int amount);
         // ~UserController();
-
+        
 };
 #endif

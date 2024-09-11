@@ -203,6 +203,7 @@ void UserController::purchaseCredits(User userAmount, int amount) {
     std::cout << "Press any key to continue...";
     _getch(); // Wait for user to press any key
 }
+
 // Destructor to clean up user objects
 // ~UserController()
 // {
