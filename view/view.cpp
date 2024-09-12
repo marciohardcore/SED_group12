@@ -128,8 +128,7 @@ void CarpoolManagement(const std::string& username, const std::string& password)
         std::cout << "2. View Carpool\n";
         std::cout << "3. Unlist Carpool\n";
         std::cout << "4. View Requests\n";
-        std::cout << "5. View Ratings\n";
-        std::cout << "6. Back\n"; // Added option to go back to the previous menu
+        std::cout << "5. Back\n"; // Added option to go back to the previous menu
         std::cout << "-----------------------------------\n";
         std::cout << GREEN << "Enter your choice: " << RESET;
         
@@ -150,9 +149,6 @@ void CarpoolManagement(const std::string& username, const std::string& password)
             std::cout << "Viewing requests\n";
             call.viewRequest(user);
         } else if (choice == '5') {
-            std::cout << "Viewing ratings...\n";
-            // CarpoolController::viewRatings();
-        } else if (choice == '6') {
             // Return to the previous menu
             return; // Exit the function and return to the calling function
         } else {
@@ -321,7 +317,56 @@ void rate_driver(std::map <int, string>& rating_map){
     }
 }
 
+void cancel_request(User &user) {
+    FileManager file;
+    vector<Booking> books = file.loadRequest();
+    vector<int> cancelableRequests; // To store indices of requests eligible for cancellation
 
+    // Display cancelable requests
+    std::cout << "Pending requests for cancellation:\n";
+    int index = 0;
+    for (size_t i = 0; i < books.size(); ++i) {
+        Booking& book = books[i];
+        if (book.getStatusInfo() == -1 && user.getUID() == book.getPassengerID()) {
+            index++;
+            std::cout << index
+                      << ". Owner ID: " << book.getOwnerID() << "\n";
+            cancelableRequests.push_back(i); // Store the index of the cancelable request
+        }
+    }
+
+    if (cancelableRequests.empty()) {
+        std::cout << "You have no pending requests to cancel.\n";
+        std::cout << "Press any key to return to the menu...";
+        _getch(); // Wait for user to press any key
+        return;
+    }
+
+    // Prompt user to choose a request to cancel
+    int choice;
+    std::cout << "Enter the number of the request you want to cancel: ";
+    std::cin >> choice;
+
+    if (choice < 1 || choice > cancelableRequests.size()) {
+        std::cout << "Invalid choice. No request was cancelled.\n";
+        return;
+    }
+
+    // Confirm cancellation
+    int selectedIndex = cancelableRequests[choice - 1];
+    std::cout << "Are you sure you want to cancel this request? (y/n): ";
+    char confirm;
+    std::cin >> confirm;
+
+    if (confirm == 'y' || confirm == 'Y') {
+        // Cancel the request
+        books[selectedIndex].setStatusInfor(0); // Set status to 'rejected' (0)
+        file.saveAllRequest(books); // Save the updated requests
+        std::cout << "Request cancelled successfully.\n";
+    } else {
+        std::cout << "Cancellation aborted.\n";
+    }
+}
 
 void requestState(User &user)
 {
@@ -353,16 +398,17 @@ void requestState(User &user)
             std::string passengerID = request.getPassengerID();
             hasCarpools = true;
             if (request.getStatusInfo() == 0){
-                std::cout << RED << "ALREADY REJECTED!\n" << RESET;
+                std::cout << RED << "Already rejected!\n" << RESET;
             }
             else if (request.getStatusInfo() == 1){
-                std::cout << GREEN << "ALREADY ACCEPTED!\n" << RESET;
+                std::cout << GREEN << "Already accepted!\n" << RESET;
                 ++rating_index;
                 rating_map[rating_index] = request.getOwnerID();
             
             }
             else if (request.getStatusInfo() == -1){
-                std::cout << "REQUEST APPROVED!\n";
+                std::cout << "Request waiting...!\n";
+                //MAYBE code cancel here
             }
             displayIndex++; // Increment display index for next request
         }
@@ -376,10 +422,17 @@ void requestState(User &user)
         return;
     }
     char inp;
-    std::cout << "Press 'r' to rate your previous carpool: ";
+    std::cout << "Press 'r' to rate your previous carpool or 'c' to cancel a pending request: ";
     std::cin >> inp;
+
     if (inp == 'r'){
         rate_driver(rating_map);
+    }
+    else if (inp == 'c') {
+        cancel_request(user);
+    } 
+    else {
+        std::cout << "Invalid input or no available actions for the selected option.\n";
     }
 }
 // Main function for booking management

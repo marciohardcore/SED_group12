@@ -416,6 +416,25 @@ void CarpoolController::viewRequest(User &user) {
                         int afterCredit = us.getCreditPoint() - cars.getContributionPerPassenger(); // modify the user in the vector
                         us.setCreditPoint(afterCredit); // update the credit points for 'us' directly
                         fileManager.saveAllUsers(users); // save the updated users vector
+                        // rating 
+                        char rateChoice;
+                        std::cout << "Do you want to rate this carpool? Press 'r' to rate, or any other key to skip: ";
+                        std::cin >> rateChoice;
+
+                        if (rateChoice == 'r' || rateChoice == 'R') {
+                            // Prompt for rating details
+                            int point;
+                            std::string comment;
+                            std::cout << "Enter your rating (1-5): ";
+                            std::cin >> point;
+                            std::cin.ignore(); // to handle newline character after entering rating
+                            std::cout << "Enter your comment: ";
+                            std::getline(std::cin, comment);
+
+                            // Create and save the rating
+                            RatingSystem rating(selectedRequest.getPassengerID(), point, comment);
+                            fileManager.saveRating(rating);
+                        }
                         break; // exit loop after finding the user
                     }
                 }
