@@ -33,18 +33,6 @@ bool UserController::loginUser(string username, string password)
     return false;
 }
 
-// // Method to logout a user
-// void UserController::logoutUser(User *user)
-// {
-//     if (user)
-//     {
-//         cout << "User " << user->getUserName() << " logged out successfully.\n";
-//     }
-//     else
-//     {
-//         cout << "You have not logged in.\n";
-//     }
-// }
 
 // Method to manage a user's profile
 // void UserController::updateProfile(string &username, string &password) {

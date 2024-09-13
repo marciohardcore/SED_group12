@@ -241,6 +241,10 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
             matches = false;
         }
 
+        if (carpool.getAvailableSeats() == 0){
+            cout << "Your chosen carpool no longer have available seat. \n";
+            matches = false;
+        }
         if (matches) {
             cout << "The carpool that meet the criteria: \n";
             ++index;

@@ -24,6 +24,7 @@ void UserView::displayUserProfile( std::string name,  std::string password) {
 
     std::cout << "User Profile:\n";
     std::cout << "Username: " << user.getUserName() << "\n";
+    std::cout << "Status: " << GREEN <<"Verified" << "\n" << RESET;    
     std::cout << "Full Name: " << user.getFullName() << "\n";
     std::cout << "Phone Number: " << user.getPhoneNumber() << "\n";
     std::cout << "Email: " << user.getEmail() << "\n";
