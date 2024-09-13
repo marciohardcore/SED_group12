@@ -320,7 +320,9 @@ void CarpoolController::viewCarpool(User &user)
 
 void CarpoolController::unlistCarpool(User &user)
 {
+    // Retrieve the user's carpool info map (carpoolID -> plateNumber)
     FileManager fileManager;
+
     std::vector<CarpoolListing> unlistCarpool = fileManager.loadCarpoolListing();
     if (unlistCarpool.empty())
     {
@@ -330,18 +332,20 @@ void CarpoolController::unlistCarpool(User &user)
         return;
     }
 
-    std::string IDowner = user.getUID();
+
+    string IDowner = user.getUID();
     std::cout << "Your Carpool Listings:\n";
     bool hasCarpools = false;
-
+    
     for (int i = 0; i < unlistCarpool.size(); ++i)
     {
         if (unlistCarpool[i].getIDowner() == IDowner)
         {
             hasCarpools = true;
-            std::cout << GREEN << "\n     Car #" << i + 1 << "\n" << RESET;
-            std::cout << YELLOW
-                      << "Carpool ID: " << unlistCarpool[i].getID() << "\n"
+
+            std::cout << GREEN << "\n     Car #" << i + 1 << "\n" << RESET; // Display car number
+
+            std::cout << YELLOW << "Carpool ID: " << unlistCarpool[i].getID() << "\n"
                       << "Vehicle Model: " << unlistCarpool[i].getVehicleModel() << "\n"
                       << "Vehicle Color: " << unlistCarpool[i].getVehicleColor() << "\n"
                       << "Plate Number: " << unlistCarpool[i].getPlateNumber() << "\n"
@@ -360,7 +364,6 @@ void CarpoolController::unlistCarpool(User &user)
     if (!hasCarpools)
     {
         std::cout << "No carpool listings found for this user.\n";
-        return;
     }
 
     int option;
@@ -402,5 +405,4 @@ void CarpoolController::unlistCarpool(User &user)
     std::cout << "\nPress any key to return to the menu...";
     _getch();  // Wait for user to press any key
 }
-
 
