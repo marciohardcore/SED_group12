@@ -8,8 +8,6 @@
 
 
 // Constructor that calls the User constructor
-// UserView(string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int credits)
-//     : User(uName, pwd, fName, pNumber, mail, idT, idNum, credits) {};
 
 UserView::UserView(std::string name, std::string password)
     : User("",name, password, "", "", "", "", "", 0) {
@@ -29,14 +27,3 @@ void UserView::displayUserProfile( std::string name,  std::string password) {
     std::cout << "Credit Points: " << user.getCreditPoint() << "\n";
     std::cout << "-----------------------------------\n";
 }
-
-// void UserView::displayCarpoolListings(std::vector <CarpoolListing*> listings){
-
-// }
-// void UserView::displayBookingDetails(std::vector <Booking*> bookings){
-
-// }
-// void UserView::displayDashboard(Member* member){
-
-// }
-

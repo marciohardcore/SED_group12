@@ -6,21 +6,6 @@
 
 using namespace std;
 
-
-// CarpoolListing(Member* driverVal = nullptr,
-//                 string vehicleModelVal = "", string vehicleColorVal = "",
-//                 string plateNumberVal = "", int availableSeatsVal = 0,
-//                 string departureLocationVal = "", string destinationLocationVal = "",
-//                 string departureTimeVal = "", string dateVal = "",
-//                 string estimateDurationVal = "", int contributionPerPassengerVal = 0,
-//                 float minimumPassengerRatingVal = 0.0f, string idCPVal = "")
-//     : driver(driverVal), vehicleModel(vehicleModelVal), vehicleColor(vehicleColorVal),
-//         plateNumber(plateNumberVal), availableSeats(availableSeatsVal),
-//         departureLocation(departureLocationVal), destinationLocation(destinationLocationVal),
-//         departureTime(departureTimeVal), date(dateVal), estimateDuration(estimateDurationVal),
-//         contributionPerPassenger(contributionPerPassengerVal),
-//         minimumPassengerRating(minimumPassengerRatingVal),
-//         cancelFlag(false), fullyBooked(false), idCP(idCPVal) {};
 CarpoolListing::CarpoolListing()
     : vehicleModel(""), vehicleColor(""), plateNumber(""), availableSeats(0),
       departureLocation(""), destinationLocation(""), departureTime(""),
@@ -63,27 +48,6 @@ string CarpoolListing::getIDowner() const {return IDowner;}
 void CarpoolListing::setAvailableSeat(int seats) { 
     this->availableSeats = seats; 
 }
-// vector<Booking*> CarpoolListing::getPassengerRequests() const { return passengerRequests; }
-
-// void CarpoolListing::addRequest(Booking* booking) {
-//     passengerRequests.push_back(booking);
-// }
-
-// void CarpoolListing::rejectAllRequests() {
-//     passengerRequests.clear();
-// }
-
-// void CarpoolListing::acceptRequest(Booking* booking) {
-//     auto it = find(passengerRequests.begin(), passengerRequests.end(), booking);
-//     if (it != passengerRequests.end()) {
-//         approvedPassengers.push_back(booking);
-//         passengerRequests.erase(it);
-//         booking->setStatus("accepted");
-//         availableSeats--;
-//     } else {
-//         cout << "!!! Failed to accept request. Request not found !!!\n";
-//     }
-// }
 
 void CarpoolListing::rejectRequest(Booking* booking) {
     auto it = find(passengerRequests.begin(), passengerRequests.end(), booking);
@@ -96,22 +60,5 @@ void CarpoolListing::rejectRequest(Booking* booking) {
 }
 
 
-// void CarpoolListing::unlist() {
-//     if (approvedPassengers.empty()) {
-//         cancelFlag = true;
-//         cout << "\n! Carpool Listing Unlisted !\n";
-//     } else {
-//         cout << "\n!!! Failed to unlist. Seats are booked !!!\n";
-//     }
-// }
-
-// void CarpoolListing::viewRequests() const {
-//     cout << "\n* LIST OF REQUESTS *\n";
-//     for (size_t i = 0; i < passengerRequests.size(); ++i) {
-//         cout << "> #" << i + 1 << " Passenger Name: " << passengerRequests[i]->getPassenger()->getUsername() << "\n";
-//     }
-// }
-
 void CarpoolListing::setCancelFlag() { cancelFlag = true; } //-1 available slot}
 void CarpoolListing::setFullyBooked() { fullyBooked = true; }
-// Member* CarpoolListing::getDriver() const { return driver; }  // Added getDriver method

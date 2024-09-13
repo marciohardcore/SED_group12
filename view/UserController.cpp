@@ -167,10 +167,6 @@ void UserController::updatePassword(string username, string password) {
         }
     }
 
-    // if (!userFound) {
-    //     std::cout << RED << "User not found or incorrect old password\n" << RESET;
-    // }
-
     // Prompt to press any key to continue
     std::cout << "Press any key to continue...";
     _getch(); // Wait for the user to press any key
@@ -203,13 +199,4 @@ void UserController::purchaseCredits(User userAmount, int amount) {
     std::cout << "Press any key to continue...";
     _getch(); // Wait for user to press any key
 }
-
-// Destructor to clean up user objects
-// ~UserController()
-// {
-//     for (User *user : users)
-//     {
-//         delete user;
-//     }
-// }
 

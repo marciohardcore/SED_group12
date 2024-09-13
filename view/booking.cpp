@@ -10,37 +10,6 @@ Booking::Booking(std::string cpidVal, std::string owneridVal, std::string uidVal
     : cpid(cpidVal), ownerid(owneridVal), uid(uidVal), statuss(statusValue){}
 
 
-// class Booking: public Member{
-// private:
-//     Member *passenger;
-//     CarpoolListing *carpoolListing;
-//     string status;
-//     string date;
-//     string time;
-//     string BookingID;
-    
-// public:
-//     //cancel booking -> user bi anh huong
-//     //pull the user trigger
-
-//     // void Booking::cancel() {
-//     void cancel() {
-//         if (status == "pending") {
-//             status = "cancelled";
-//             cout << "Booking has been cancelled." << std::endl;
-//         } else {
-//             cout << "Booking cannot be cancelled. Status: " << status << std::endl;
-//         }
-//     }
-
-//     void viewStatus() const {
-//         cout << "The current booking status is: " << status << std::endl;
-//     }
-
-//     string getStatus() const { return status; }
-// };
-
-//Booking::Booking():{};
 void Booking::cancel() {
     if (status == "pending") {
         status = "cancelled";
@@ -92,6 +61,3 @@ int Booking::getStatusInfo()const {return statuss;};
 void Booking::setStatusInfor(int statusVal){
     this->statuss = statusVal;
 }
-// return this->carpoolListing->getID();
-// return this->passenger->getUID();
-//return this->user.getUID();
