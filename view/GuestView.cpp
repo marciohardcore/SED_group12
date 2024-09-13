@@ -9,20 +9,20 @@
 using std::ifstream;
 
 void GuestView::displayCarpoolDetails(){
-    std::vector <CarpoolListing> listings;
+    std::vector <CarpoolListing*> listings;
     FileManager listing;
     listings = listing.loadCarpoolListing();
     int i = 0;
     std::cout << "Available carpool listing: \n";
     for (auto list : listings){
         i += 1;
-        if (list.getMinimumPassengerRating() <= 3){
+        if (list->getMinimumPassengerRating() <= 3){
             std::cout   << "Listing "<< i << ":"
-                        << "<" << list.getDate() << ">" 
-                        << "<" << list.getDepartureTime() << ">"
-                        << "<" << list.getDepartureLocation() << ">"
-                        << "<" << list.getDestinationLocation() << ">"
-                        << "<" << list.getAvailableSeats() << ">"
+                        << "<" << list->getDate() << ">" 
+                        << "<" << list->getDepartureTime() << ">"
+                        << "<" << list->getDepartureLocation() << ">"
+                        << "<" << list->getDestinationLocation() << ">"
+                        << "<" << list->getAvailableSeats() << ">"
                         << std::endl;
         }
     }

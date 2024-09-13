@@ -93,11 +93,11 @@ void profileManagement(const std::string& username, const std::string& password)
             std::cout << "-----------------------------------\n";
             std::cout << "Add the amount you want to deposit: \n";
             std::cin >> amount;
-            User newCredit;
+            User* newCredit;
             FileManager userCredits;
             newCredit = userCredits.loadSingleUser(username, password);
             UserController userControl;
-            userControl.purchaseCredits(newCredit, amount);
+            userControl.purchaseCredits(*newCredit, amount);
         } else if (choice == '5') {
             return; // Exit profile management and return to the previous menu
         } else {
@@ -112,7 +112,7 @@ void profileManagement(const std::string& username, const std::string& password)
 // CarpoolManagement function
 void CarpoolManagement(const std::string& username, const std::string& password) {
     FileManager filemanager;
-    User user = filemanager.loadSingleUser(username, password);
+    User* user = filemanager.loadSingleUser(username, password);
     CarpoolController call;
     while (true) {
         system("cls"); // Clear the screen
@@ -161,27 +161,27 @@ void CarpoolManagement(const std::string& username, const std::string& password)
 void showAllCarpoolListings(){
     // Load all carpool listings from the file
      FileManager fileManager;
-        std::vector<CarpoolListing> carpools = fileManager.loadCarpoolListing();
+        std::vector<CarpoolListing*> carpools = fileManager.loadCarpoolListing();
     // Iterate through each carpool and display its details
         std::cout << "Information of all Carpools: \n";
         std::cout << "-----------------------------------\n";
         for (size_t i = 0; i < carpools.size(); ++i) {
             const auto& carpool = carpools[i];
             std::cout << YELLOW << "INFORMATION OF CARPOOL " << (i + 1) << "\n"
-                    << GREEN << "Available Seats: " << carpool.getAvailableSeats() << "\n"
-                    << "Departure Time: " << carpool.getDepartureTime() << "\n"
-                    << "Departure Location: " << carpool.getDepartureLocation() << "\n"
-                    << "Destination Location: " << carpool.getDestinationLocation() << "\n"
-                    << "Vehicle Color: " << carpool.getVehicleColor() << "\n"
-                    << "Vehicle Model: " << carpool.getVehicleModel() << "\n"
-                    << "Vehicle PlateNumber: " << carpool.getPlateNumber() << "\n" 
-                    << "Date: " << carpool.getDate() << "\n"
-                    << "Minimum Passenger Rating: " << carpool.getMinimumPassengerRating() << "\n"
-                    << "Contribution Per Passenger: " << carpool.getContributionPerPassenger() << "\n"
+                    << GREEN << "Available Seats: " << carpool->getAvailableSeats() << "\n"
+                    << "Departure Time: " << carpool->getDepartureTime() << "\n"
+                    << "Departure Location: " << carpool->getDepartureLocation() << "\n"
+                    << "Destination Location: " << carpool->getDestinationLocation() << "\n"
+                    << "Vehicle Color: " << carpool->getVehicleColor() << "\n"
+                    << "Vehicle Model: " << carpool->getVehicleModel() << "\n"
+                    << "Vehicle PlateNumber: " << carpool->getPlateNumber() << "\n" 
+                    << "Date: " << carpool->getDate() << "\n"
+                    << "Minimum Passenger Rating: " << carpool->getMinimumPassengerRating() << "\n"
+                    << "Contribution Per Passenger: " << carpool->getContributionPerPassenger() << "\n"
                     << "-----------------------------------\n";
         }
 }
-void browseAndBookCarpoolListingsByCriteria(User user) {
+void browseAndBookCarpoolListingsByCriteria(const User* user) {
     // Input search criteria
     std::string departureLocation, destinationLocation, date;
     inputValidator input;
@@ -200,17 +200,17 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
 
     // Load all carpool listings
     FileManager fileManager;
-    std::vector<CarpoolListing> carpoolListings = fileManager.loadCarpoolListing();
-    std::vector<RatingSystem> ratings = fileManager.loadRating();
-    std::string Uid = user.getUID();
+    std::vector<CarpoolListing*> carpoolListings = fileManager.loadCarpoolListing();
+    std::vector<RatingSystem*> ratings = fileManager.loadRating();
+    std::string Uid = user->getUID();
 
     double totalScore = 0;
     int count = 0;
      
 
     for (auto &rat : ratings) {
-        if (rat.getUserID() == Uid) {
-            totalScore += rat.getScore(); // Add score to total
+        if (rat->getUserID() == Uid) {
+            totalScore += rat->getScore(); // Add score to total
             count++; // Increment the count of ratings
         }
     }
@@ -221,27 +221,27 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
     bool found = false;
     std::cout << "Filtered Carpool Listings:\n";
     int index = 0;
-    std::map <int, CarpoolListing> mp;
+    std::map <int, CarpoolListing*> mp;
     for (const auto& carpool : carpoolListings) {
         bool matches = true;
 
-        if (!departureLocation.empty() && carpool.getDepartureLocation() != departureLocation) {
+        if (!departureLocation.empty() && carpool->getDepartureLocation() != departureLocation) {
             matches = false;
         }
-        if (!destinationLocation.empty() && carpool.getDestinationLocation() != destinationLocation) {
+        if (!destinationLocation.empty() && carpool->getDestinationLocation() != destinationLocation) {
             matches = false;
         }
-        if (!date.empty() && carpool.getDate() != date) {
+        if (!date.empty() && carpool->getDate() != date) {
             matches = false;
         }
-        if (user.getCreditPoint() < carpool.getContributionPerPassenger()) {
+        if (user->getCreditPoint() < carpool->getContributionPerPassenger()) {
             matches = false;
         }
-        if (averageScore < carpool.getMinimumPassengerRating() && averageScore != 0) {
+        if (averageScore < carpool->getMinimumPassengerRating() && averageScore != 0) {
             matches = false;
         }
 
-        if (carpool.getAvailableSeats() == 0){
+        if (carpool->getAvailableSeats() == 0){
             cout << "Your chosen carpool no longer have available seat. \n";
             matches = false;
         }
@@ -250,18 +250,18 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
             ++index;
             mp[index] = carpool;
             std::cout << GREEN << "Index: " << index << RESET << "\n"
-                      << "Carpool ID: " << carpool.getID() << "\n"
-                      << "Vehicle Model: " << carpool.getVehicleModel() << "\n"
-                      << "Vehicle Color: " << carpool.getVehicleColor() << "\n"
-                      << "Plate Number: " << carpool.getPlateNumber() << "\n"
-                      << "Available Seats: " << carpool.getAvailableSeats() << "\n"
-                      << "Departure Location: " << carpool.getDepartureLocation() << "\n"
-                      << "Destination Location: " << carpool.getDestinationLocation() << "\n"
-                      << "Departure Time: " << carpool.getDepartureTime() << "\n"
-                      << "Date: " << carpool.getDate() << "\n"
-                      << "Estimated Duration: " << carpool.getEstimateDuration() << "\n"
-                      << "Contribution per Passenger: " << carpool.getContributionPerPassenger() << "\n"
-                      << "Minimum Passenger Rating: " << carpool.getMinimumPassengerRating() << "\n"
+                      << "Carpool ID: " << carpool->getID() << "\n"
+                      << "Vehicle Model: " << carpool->getVehicleModel() << "\n"
+                      << "Vehicle Color: " << carpool->getVehicleColor() << "\n"
+                      << "Plate Number: " << carpool->getPlateNumber() << "\n"
+                      << "Available Seats: " << carpool->getAvailableSeats() << "\n"
+                      << "Departure Location: " << carpool->getDepartureLocation() << "\n"
+                      << "Destination Location: " << carpool->getDestinationLocation() << "\n"
+                      << "Departure Time: " << carpool->getDepartureTime() << "\n"
+                      << "Date: " << carpool->getDate() << "\n"
+                      << "Estimated Duration: " << carpool->getEstimateDuration() << "\n"
+                      << "Contribution per Passenger: " << carpool->getContributionPerPassenger() << "\n"
+                      << "Minimum Passenger Rating: " << carpool->getMinimumPassengerRating() << "\n"
                       << "-----------------------------------\n";
             found = true;
         }
@@ -274,10 +274,10 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
         cin >> choice;
         //map find choice
         if (mp.find(choice) != mp.end()) {
-            CarpoolListing selectedCarpool = mp[choice];
-            std::cout << "You have requested carpool with ID: " << selectedCarpool.getID() << "\n";
+            CarpoolListing* selectedCarpool = mp[choice];
+            std::cout << "You have requested carpool with ID: " << selectedCarpool->getID() << "\n";
             // Proceed with booking logic
-            if (selectedCarpool.getID() == user.getUID()){
+            if (selectedCarpool->getID() == user->getUID()){
                 std::cout<< "You cannot book your own car" << std::endl;
             }
             else{
@@ -326,8 +326,8 @@ void rate_driver(std::map <int, string>& rating_map){
 
         FileManager file;
 
-        User driver = file.loadSingleUser(it->second);
-        std::cout << YELLOW << "You are rating driver: " << driver.getFullName() << "\n";
+        User * driver = file.loadSingleUser(it->second);
+        std::cout << YELLOW << "You are rating driver: " << driver->getFullName() << "\n";
 
 
         std::cout << "Enter your rating (1 - 5): \n";
@@ -337,25 +337,26 @@ void rate_driver(std::map <int, string>& rating_map){
         std::cout << "Leave your comment: \n";
         std::getline(std::cin, comment);
 
-        RatingSystem rating(driver.getUID(), rate, comment);
+        RatingSystem rating(driver->getUID(), rate, comment);
         file.saveRating(rating);
     }
 }
 
-void cancel_request(User &user) {
+void cancel_request(const User &user) {
     FileManager file;
-    vector<Booking> books = file.loadRequest();
+    vector<Booking*> books = file.loadRequest();
     vector<int> cancelableRequests; // To store indices of requests eligible for cancellation
 
     // Display cancelable requests
     std::cout << "Pending requests for cancellation:\n";
     int index = 0;
     for (size_t i = 0; i < books.size(); ++i) {
-        Booking& book = books[i];
-        if (book.getStatusInfo() == -1 && user.getUID() == book.getPassengerID()) {
+        // Booking& book = books[i];
+        Booking* book = books[i];
+        if (book->getStatusInfo() == -1 && user.getUID() == book->getPassengerID()) {
             index++;
             std::cout << index
-                      << ". Owner ID: " << book.getOwnerID() << "\n";
+                      << ". Owner ID: " << book->getOwnerID() << "\n";
             cancelableRequests.push_back(i); // Store the index of the cancelable request
         }
     }
@@ -385,7 +386,7 @@ void cancel_request(User &user) {
 
     if (confirm == 'y' || confirm == 'Y') {
         // Cancel the request
-        books[selectedIndex].setStatusInfor(0); // Set status to 'rejected' (0)
+        books[selectedIndex]->setStatusInfor(0); // Set status to 'rejected' (0)
         file.saveAllRequest(books); // Save the updated requests
         std::cout << "Request cancelled successfully.\n";
     } else {
@@ -393,10 +394,10 @@ void cancel_request(User &user) {
     }
 }
 
-void requestState(User &user)
+void requestState(const User &user)
 {
     FileManager fileManager;
-    std::vector<Booking> requests = fileManager.loadRequest();
+    std::vector<Booking*> requests = fileManager.loadRequest();
 
     if (requests.empty()) {
         std::cout << "No request available.\n";
@@ -418,20 +419,20 @@ void requestState(User &user)
 
     // Display requests associated with the current user
     for (const auto& request : requests) {
-        if (request.getPassengerID() == ownerID) {
+        if (request->getPassengerID() == ownerID) {
             std::cout << "REQUEST " << displayIndex << "\n";
-            std::string passengerID = request.getPassengerID();
+            std::string passengerID = request->getPassengerID();
             hasCarpools = true;
-            if (request.getStatusInfo() == 0){
+            if (request->getStatusInfo() == 0){
                 std::cout << RED << "Already rejected!\n" << RESET;
             }
-            else if (request.getStatusInfo() == 1){
+            else if (request->getStatusInfo() == 1){
                 std::cout << GREEN << "Already accepted!\n" << RESET;
                 ++rating_index;
-                rating_map[rating_index] = request.getOwnerID();
+                rating_map[rating_index] = request->getOwnerID();
             
             }
-            else if (request.getStatusInfo() == -1){
+            else if (request->getStatusInfo() == -1){
                 std::cout << "Request waiting...!\n";
                 //MAYBE code cancel here
             }
@@ -487,14 +488,14 @@ void BookingManagement(const std::string& username, const std::string& password)
             showAllCarpoolListings();
         } else if (choice == '2') {
             FileManager file;
-            User user;
+            User* user;
             user = file.loadSingleUser(username, password);
             browseAndBookCarpoolListingsByCriteria(user); // Assuming this function doesn't need username and password
         } else if (choice == '3') {
             FileManager file;
-            User user;
+            User* user;
             user = file.loadSingleUser(username, password);
-            requestState(user);
+            requestState(*user);
         } else if (choice == '4') {
             std::cout << "Returning to previous menu...\n";
             return; // Exit the function and return to the calling function
@@ -508,22 +509,22 @@ void BookingManagement(const std::string& username, const std::string& password)
 }
 void viewMyRating(std::string& username, std::string& password) {
     FileManager file;
-    User user = file.loadSingleUser(username, password);
-    std::vector<RatingSystem> myRating = file.loadRating();
-    std::string Uid = user.getUID();
+    User* user = file.loadSingleUser(username, password);
+    std::vector<RatingSystem*> myRating = file.loadRating();
+    std::string Uid = user->getUID();
 
     double totalScore = 0;
     int count = 0;
     std::string allComments;
 
     for (auto &rat : myRating) {
-        if (rat.getUserID() == Uid) {
-            totalScore += rat.getScore(); // Add score to total
+        if (rat->getUserID() == Uid) {
+            totalScore += rat->getScore(); // Add score to total
             count++; // Increment the count of ratings
             if (!allComments.empty()) {
                 allComments += ", "; // Add a comma before adding the next comment
             }
-            allComments += rat.getComments(); // Append the comment
+            allComments += rat->getComments(); // Append the comment
         }
     }
     if (count > 0) {

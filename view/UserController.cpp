@@ -9,9 +9,11 @@
 // Method to register a user
 void UserController::registerUser(string uid, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum) 
 {
-    User user1(uid, uName, pwd, fName, pNumber, mail, idT, idNum);
+    // User user1(uid, uName, pwd, fName, pNumber, mail, idT, idNum);
+    User* user1 = new User(uid, uName, pwd, fName, pNumber, mail, idT, idNum);
     FileManager file_mana;
-    file_mana.saveUser(user1);
+    file_mana.saveUser(*user1);
+    delete user1;
 }
 
 // Method to login a user
@@ -20,16 +22,20 @@ void UserController::registerUser(string uid, string uName, string pwd, string f
 bool UserController::loginUser(string username, string password)
 {
     FileManager fileMana;
-    vector <User> users;
+    vector <User*> users;
     users = fileMana.loadUser();
-    for (User user : users)
+    for (User* user : users)
     {
-        if (user.getUserName() == username && user.getPassword() == password)
+        // if (user.getUserName() == username && user.getPassword() == password)
+        if (user->getUserName() == username && user->getPassword() == password)
         {
+            // Free allocated memory before returning
+            for (User* u : users) { delete u; }
             return true;
         }
     }
     cout << RED << "Invalid username or password!.\n";
+    for (User* user : users) { delete user;}
     return false;
 }
 
@@ -39,7 +45,7 @@ bool UserController::loginUser(string username, string password)
 
 void UserController::updateProfile(string username, string password) {
     FileManager fileMana;
-    vector<User> users = fileMana.loadUser();
+    vector<User*> users = fileMana.loadUser();
     bool userFound = false;
 
     while (true) {
@@ -67,8 +73,8 @@ void UserController::updateProfile(string username, string password) {
         }
 
         if (choice == '1' || choice == '2' || choice == '3') {
-            for (User& user : users) {
-                if (user.getUserName() == username && user.getPassword() == password) {
+            for (User* user : users) {
+                if (user->getUserName() == username && user->getPassword() == password) {
                     userFound = true;
                     string newFullName, newPhoneNumber, newEmail;
 
@@ -76,17 +82,17 @@ void UserController::updateProfile(string username, string password) {
                         case '1':
                             std::cout << "Enter new full name: ";
                             getline(std::cin, newFullName);
-                            user.setFullName(newFullName);
+                            user->setFullName(newFullName);
                             break;
                         case '2':
                             std::cout << "Enter new phone number: ";
                             getline(std::cin, newPhoneNumber);
-                            user.setPhoneNumber(newPhoneNumber);
+                            user->setPhoneNumber(newPhoneNumber);
                             break;
                         case '3':
                             std::cout << "Enter new email: ";
                             getline(std::cin, newEmail);
-                            user.setEmail(newEmail);
+                            user->setEmail(newEmail);
                             break;
                     }
 
@@ -105,6 +111,8 @@ void UserController::updateProfile(string username, string password) {
             }
         }
     }
+    // Free allocated memory before returning
+    for (User* user : users) { delete user; }
 }
 
 
@@ -116,7 +124,7 @@ void UserController::updateProfile(string username, string password) {
 
 void UserController::updatePassword(string username, string password) {
     FileManager fileMana;
-    vector<User> users = fileMana.loadUser();
+    vector<User*> users = fileMana.loadUser();
     bool userFound = false;
 
     std::string oldPassword;
@@ -130,8 +138,8 @@ void UserController::updatePassword(string username, string password) {
     cin.ignore();
     std::getline(std::cin, oldPassword);
 
-    for (User& user : users) {
-        if (user.getUserName() == username && user.getPassword() == password) {
+    for (User* user : users) {
+        if (user->getUserName() == username && user->getPassword() == password) {
             userFound = true;
 
             // Validate the old password
@@ -151,7 +159,7 @@ void UserController::updatePassword(string username, string password) {
             std::getline(std::cin, newPassword);
 
             // Update the password
-            user.setPassword(newPassword);
+            user->setPassword(newPassword);
             std::cout << GREEN << "Password updated successfully!\n";
             
             // Save the updated user information
@@ -163,21 +171,24 @@ void UserController::updatePassword(string username, string password) {
     // Prompt to press any key to continue
     std::cout << "Press any key to continue...";
     _getch(); // Wait for the user to press any key
+
+    // Free allocated memory before returning
+    for (User* user : users) { delete user; }
 }
 
 // // Method to purchase credits
 // void UserController::purchaseCredits(User &userAmount, int &amount) {
 
-void UserController::purchaseCredits(User userAmount, int amount) {
+void UserController::purchaseCredits(const User &userAmount, int amount) {
     std::cout << "Adding credit points...\n";
 
     FileManager fileMana;
-    vector<User> users = fileMana.loadUser();
+    vector<User*> users = fileMana.loadUser();
 
     bool userFound = false;
-    for (User& user : users) {
-        if (user.getUserName() == userAmount.getUserName()) {
-            user.addCreditPoints(amount);
+    for (User* user : users) {
+        if (user->getUserName() == userAmount.getUserName()) {
+            user->addCreditPoints(amount);
             userFound = true;
             break;
         }
@@ -193,5 +204,7 @@ void UserController::purchaseCredits(User userAmount, int amount) {
     // Prompt to press any key to continue
     std::cout << "Press any key to continue...";
     _getch(); // Wait for user to press any key
+
+    for (User* user : users) { delete user; }
 }
 

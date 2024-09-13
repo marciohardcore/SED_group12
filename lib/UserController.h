@@ -24,7 +24,7 @@ class UserController
         void updateProfile(string username, string password);
         void updatePassword(string username, string password);
         // void logoutUser(User *user);
-        void purchaseCredits(User userAmount, int amount);
+        void purchaseCredits(const User &userAmount, int amount);
         // ~UserController();
         
 };

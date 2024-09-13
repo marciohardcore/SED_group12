@@ -29,9 +29,9 @@ private:
 
 public:
     // Creates a new carpool listing and saves it
-    void createCarpool(User& user);
-    void viewCarpool(User& user);
-    void unlistCarpool(User& user);
+    void createCarpool(const User* user);
+    void viewCarpool(const User* user);
+    void unlistCarpool(const User* user);
     // Searches for carpools based on the provided criteria
     // vector<CarpoolListing*> searchCarpools(string location, string date, int minRating, int credits);
 
@@ -43,7 +43,7 @@ public:
 
     // // Cancels a booking
     // void cancelBooking(Booking* booking);
-    void viewRequest(User &user);
+    void viewRequest(const User* user);
 
 };
 

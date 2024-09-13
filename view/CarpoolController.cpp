@@ -9,7 +9,7 @@
 #include "..\lib\UserController.h"
 using namespace std;
 
-void CarpoolController::createCarpool(User &user)
+void CarpoolController::createCarpool(const User *user)
 {
     std::string vehicleModel;
     std::string vehicleColor;
@@ -92,7 +92,7 @@ void CarpoolController::createCarpool(User &user)
 
     IDgenerator id_obj;
     FileManager filemanager;
-    string IDowner = user.getUID();
+    string IDowner = user->getUID();
     std::string ans = id_obj.generateCarpoolListingID();
     CarpoolListing listing(ans, vehicleModel, vehicleColor, plateNumber,
                            availableSeats, departureLocation, destinationLocation,
@@ -110,9 +110,9 @@ void CarpoolController::createCarpool(User &user)
     // Optionally log the event here if needed
 }
 
-void CarpoolController::viewRequest(User &user) {
+void CarpoolController::viewRequest(const User* user) {
     FileManager fileManager;
-    std::vector<Booking> requests = fileManager.loadRequest();
+    std::vector<Booking*> requests = fileManager.loadRequest();
 
     if (requests.empty()) {
         std::cout << "No request available.\n";
@@ -121,7 +121,7 @@ void CarpoolController::viewRequest(User &user) {
         return;
     }
 
-    std::string ownerID = user.getUID();
+    std::string ownerID = user->getUID();
     bool hasCarpools = false;
     std::vector<int> validOptions; // To store valid options
     std::map<int, int> requestMap; // Map to relate display numbers to actual indices
@@ -131,23 +131,23 @@ void CarpoolController::viewRequest(User &user) {
 
     // Display requests associated with the current user
     for (const auto& request : requests) {
-        if (request.getOwnerID() == ownerID) {
+        if (request->getOwnerID() == ownerID) {
             std::cout << "REQUEST " << displayIndex << "\n";
-            std::string passengerID = request.getPassengerID();
+            std::string passengerID = request->getPassengerID();
 
             if (ownerID == passengerID) {
                 std::cout << RED << "You cannot book your own carpool!\n" << RESET;
-            } else if(ownerID != passengerID && request.getStatusInfo() == -1){
+            } else if(ownerID != passengerID && request->getStatusInfo() == -1){
                 hasCarpools = true;
-                std::cout << YELLOW << "Passenger ID: " << passengerID << " has booked your carpool ID: " << request.getCPID() << RESET "\n";
+                std::cout << YELLOW << "Passenger ID: " << passengerID << " has booked your carpool ID: " << request->getCPID() << RESET "\n";
                 validOptions.push_back(displayIndex); // Store valid display numbers
                 requestMap[displayIndex] = i; // Map display number to request index
             }
             
-            if (request.getStatusInfo() == 0){
+            if (request->getStatusInfo() == 0){
                 std::cout << RED << "Already rejected!\n" << RESET;
             }
-            else if (request.getStatusInfo() == 1){
+            else if (request->getStatusInfo() == 1){
                 std::cout << GREEN << "Already accepted!\n" << RESET;
             }
             displayIndex++; // Increment display index for next request
@@ -178,7 +178,7 @@ void CarpoolController::viewRequest(User &user) {
 
     // Map the selected option to the actual request index
     int index = requestMap[option]; // Get the actual request index from the map
-    Booking& selectedRequest = requests[index]; // Get a reference to allow modification
+    Booking& selectedRequest = *requests[index]; // Get a reference to allow modification
 
     // Ask the user to accept or reject the request
     int choice;
@@ -198,7 +198,7 @@ void CarpoolController::viewRequest(User &user) {
     if (choice == 1) {
         std::cout << GREEN << "You accepted the request from Passenger ID: " << selectedRequest.getPassengerID() << RESET << std::endl;
         selectedRequest.setStatusInfor(1); // Update status to accepted
-        vector<CarpoolListing> carpools = fileManager.loadCarpoolListing();
+        vector<CarpoolListing*> carpools = fileManager.loadCarpoolListing();
         std::string carpoolID = selectedRequest.getCPID();
 
         if (carpools.empty()) {
@@ -210,19 +210,19 @@ void CarpoolController::viewRequest(User &user) {
 
         for (auto& cars : carpools)
         {
-            if (cars.getID() == carpoolID)
+            if (cars->getID() == carpoolID)
             {
-                int seatsLeft = cars.getAvailableSeats() - 1;
-                cars.setAvailableSeat(seatsLeft);
-                vector<User> users = fileManager.loadUser();
+                int seatsLeft = cars->getAvailableSeats() - 1;
+                cars->setAvailableSeat(seatsLeft);
+                vector<User*> users = fileManager.loadUser();
                 // vector<User*> users = fileManager.loadUser();
 
                 for (auto& us : users) // use reference to modify the user directly in the vector
                 {
-                    if(us.getUID() == selectedRequest.getPassengerID())
+                    if(us->getUID() == selectedRequest.getPassengerID())
                     {
-                        int afterCredit = us.getCreditPoint() - cars.getContributionPerPassenger(); // modify the user in the vector
-                        us.setCreditPoint(afterCredit); // update the credit points for 'us' directly
+                        int afterCredit = us->getCreditPoint() - cars->getContributionPerPassenger(); // modify the user in the vector
+                        us->setCreditPoint(afterCredit); // update the credit points for 'us' directly
                         fileManager.saveAllUsers(users); // save the updated users vector
                         // rating 
                         char rateChoice;
@@ -246,6 +246,10 @@ void CarpoolController::viewRequest(User &user) {
                         break; // exit loop after finding the user
                     }
                 }
+
+                for (User* item : users) {
+                    delete item; // Deallocate each User object
+                }
             }
         }
         fileManager.saveAllCarpoolListing(carpools);
@@ -261,14 +265,15 @@ void CarpoolController::viewRequest(User &user) {
 
     std::cout << YELLOW << "Press any key to continue..." << RESET;
     _getch(); // Wait for user to press any key
+
 }
 
-void CarpoolController::viewCarpool(User &user)
+void CarpoolController::viewCarpool(const User* user)
 {
     // Retrieve the user's carpool info map (carpoolID -> plateNumber)
     FileManager fileManager;
 
-    std::vector<CarpoolListing> carpoolListings = fileManager.loadCarpoolListing();
+    std::vector<CarpoolListing*> carpoolListings = fileManager.loadCarpoolListing();
     // std::vector<CarpoolListing*> carpoolListings = fileManager.loadCarpoolListing();
 
     if (carpoolListings.empty())
@@ -280,29 +285,29 @@ void CarpoolController::viewCarpool(User &user)
     }
 
 
-    string IDowner = user.getUID();
+    string IDowner = user->getUID();
     bool hasCarpools = false;
 
     for (int i = 0; i < carpoolListings.size(); ++i)
     {
-        if (carpoolListings[i].getIDowner() == IDowner)
+        if (carpoolListings[i]->getIDowner() == IDowner)
         {
             hasCarpools = true;
 
             std::cout << GREEN << "\n     Car #" << i + 1 << "\n" << RESET; // Display car number
 
-            std::cout << YELLOW << "Carpool ID: " << carpoolListings[i].getID() << "\n"
-                      << "Vehicle Model: " << carpoolListings[i].getVehicleModel() << "\n"
-                      << "Vehicle Color: " << carpoolListings[i].getVehicleColor() << "\n"
-                      << "Plate Number: " << carpoolListings[i].getPlateNumber() << "\n"
-                      << "Available Seats: " << carpoolListings[i].getAvailableSeats() << "\n"
-                      << "Departure Location: " << carpoolListings[i].getDepartureLocation() << "\n"
-                      << "Destination Location: " << carpoolListings[i].getDestinationLocation() << "\n"
-                      << "Departure Time: " << carpoolListings[i].getDepartureTime() << "\n"
-                      << "Date: " << carpoolListings[i].getDate() << "\n"
-                      << "Estimated Duration: " << carpoolListings[i].getEstimateDuration() << "\n"
-                      << "Contribution per Passenger: " << carpoolListings[i].getContributionPerPassenger() << "\n"
-                      << "Minimum Passenger Rating: " << carpoolListings[i].getMinimumPassengerRating() << "\n"
+            std::cout << YELLOW << "Carpool ID: " << carpoolListings[i]->getID() << "\n"
+                      << "Vehicle Model: " << carpoolListings[i]->getVehicleModel() << "\n"
+                      << "Vehicle Color: " << carpoolListings[i]->getVehicleColor() << "\n"
+                      << "Plate Number: " << carpoolListings[i]->getPlateNumber() << "\n"
+                      << "Available Seats: " << carpoolListings[i]->getAvailableSeats() << "\n"
+                      << "Departure Location: " << carpoolListings[i]->getDepartureLocation() << "\n"
+                      << "Destination Location: " << carpoolListings[i]->getDestinationLocation() << "\n"
+                      << "Departure Time: " << carpoolListings[i]->getDepartureTime() << "\n"
+                      << "Date: " << carpoolListings[i]->getDate() << "\n"
+                      << "Estimated Duration: " << carpoolListings[i]->getEstimateDuration() << "\n"
+                      << "Contribution per Passenger: " << carpoolListings[i]->getContributionPerPassenger() << "\n"
+                      << "Minimum Passenger Rating: " << carpoolListings[i]->getMinimumPassengerRating() << "\n"
                       << "-----------------------------------\n" << RESET;
         }
     }
@@ -318,12 +323,12 @@ void CarpoolController::viewCarpool(User &user)
 }
 
 
-void CarpoolController::unlistCarpool(User &user)
+void CarpoolController::unlistCarpool(const User* user)
 {
     // Retrieve the user's carpool info map (carpoolID -> plateNumber)
     FileManager fileManager;
 
-    std::vector<CarpoolListing> unlistCarpool = fileManager.loadCarpoolListing();
+    std::vector<CarpoolListing*> unlistCarpool = fileManager.loadCarpoolListing();
     if (unlistCarpool.empty())
     {
         std::cout << "No carpool listings available.\n";
@@ -333,30 +338,30 @@ void CarpoolController::unlistCarpool(User &user)
     }
 
 
-    string IDowner = user.getUID();
+    string IDowner = user->getUID();
     std::cout << "Your Carpool Listings:\n";
     bool hasCarpools = false;
     
     for (int i = 0; i < unlistCarpool.size(); ++i)
     {
-        if (unlistCarpool[i].getIDowner() == IDowner)
+        if (unlistCarpool[i]->getIDowner() == IDowner)
         {
             hasCarpools = true;
 
             std::cout << GREEN << "\n     Car #" << i + 1 << "\n" << RESET; // Display car number
 
-            std::cout << YELLOW << "Carpool ID: " << unlistCarpool[i].getID() << "\n"
-                      << "Vehicle Model: " << unlistCarpool[i].getVehicleModel() << "\n"
-                      << "Vehicle Color: " << unlistCarpool[i].getVehicleColor() << "\n"
-                      << "Plate Number: " << unlistCarpool[i].getPlateNumber() << "\n"
-                      << "Available Seats: " << unlistCarpool[i].getAvailableSeats() << "\n"
-                      << "Departure Location: " << unlistCarpool[i].getDepartureLocation() << "\n"
-                      << "Destination Location: " << unlistCarpool[i].getDestinationLocation() << "\n"
-                      << "Departure Time: " << unlistCarpool[i].getDepartureTime() << "\n"
-                      << "Date: " << unlistCarpool[i].getDate() << "\n"
-                      << "Estimated Duration: " << unlistCarpool[i].getEstimateDuration() << "\n"
-                      << "Contribution per Passenger: " << unlistCarpool[i].getContributionPerPassenger() << "\n"
-                      << "Minimum Passenger Rating: " << unlistCarpool[i].getMinimumPassengerRating() << "\n"
+            std::cout << YELLOW << "Carpool ID: " << unlistCarpool[i]->getID() << "\n"
+                      << "Vehicle Model: " << unlistCarpool[i]->getVehicleModel() << "\n"
+                      << "Vehicle Color: " << unlistCarpool[i]->getVehicleColor() << "\n"
+                      << "Plate Number: " << unlistCarpool[i]->getPlateNumber() << "\n"
+                      << "Available Seats: " << unlistCarpool[i]->getAvailableSeats() << "\n"
+                      << "Departure Location: " << unlistCarpool[i]->getDepartureLocation() << "\n"
+                      << "Destination Location: " << unlistCarpool[i]->getDestinationLocation() << "\n"
+                      << "Departure Time: " << unlistCarpool[i]->getDepartureTime() << "\n"
+                      << "Date: " << unlistCarpool[i]->getDate() << "\n"
+                      << "Estimated Duration: " << unlistCarpool[i]->getEstimateDuration() << "\n"
+                      << "Contribution per Passenger: " << unlistCarpool[i]->getContributionPerPassenger() << "\n"
+                      << "Minimum Passenger Rating: " << unlistCarpool[i]->getMinimumPassengerRating() << "\n"
                       << "-----------------------------------\n" << RESET;
         }
     }
@@ -377,16 +382,16 @@ void CarpoolController::unlistCarpool(User &user)
     }
 
     int index = option - 1;  // Get the correct index
-    CarpoolListing selectedCarpool = unlistCarpool[index];  // The carpool selected by the user
+    CarpoolListing* selectedCarpool = unlistCarpool[index];  // The carpool selected by the user
     
     // Load the booking requests
-    std::vector<Booking> req = fileManager.loadRequest();
+    std::vector<Booking*> req = fileManager.loadRequest();
     
     // Check if the selected carpool has any bookings
     bool isBooked = false;
     for (auto& booking : req)
     {
-        if (booking.getCPID() == selectedCarpool.getID())
+        if (booking->getCPID() == selectedCarpool->getID())
         {
             std::cout << "This carpool has been booked! You cannot unlist it.\n";
             isBooked = true;

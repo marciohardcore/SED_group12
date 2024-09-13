@@ -28,27 +28,30 @@ class CarpoolListing;
 
 class FileManager{
 public:
-    void saveUser(User user); // DONE
-    void saveAllUsers(std::vector<User> users);
-    User loadSingleUser(std::string nameVal, std::string pwdVal);
-    User loadSingleUser(std::string idVal);
+    void saveUser(const User &user); // DONE
+    void saveAllUsers(std::vector<User*> &users);
+    User* loadSingleUser(const std::string &nameVal,const std::string &pwdVal);
+    User* loadSingleUser(const std::string &idVal);
+    std::vector<User*> loadUser(); // DONE
 
-    std::vector<User> loadUser(); // DONE
-
-    std::vector<CarpoolListing> loadCarpoolListing();
-    void saveCarpoolListing(CarpoolListing carpoolInfo); // DONE
+    std::vector<CarpoolListing *> loadCarpoolListing(); // DONE
+    void saveCarpoolListing(const CarpoolListing& carpoolInfo); // DONE
     // void deleteCarpoolListing(CarpoolListing &item);//parameter: CLID    
     //CarpoolListing loadSingleCarpool(string CarpoolID);
-    void saveAllCarpoolListing(const std::vector<CarpoolListing>& carpoolList);
+    void saveAllCarpoolListing(const std::vector<CarpoolListing*>& carpoolList);
     // vector<CarpoolListing> loadCarpool();
-    void saveRating(RatingSystem& rating);            // Save a single rating to a file
-    std::vector<RatingSystem> loadRating(); 
+
+
+    void saveRating(const RatingSystem& rating);            // Save a single rating to a file
+    std::vector<RatingSystem*> loadRating(); 
     // void saveData();
-    // void reloadData(std::string nameVal, std::string pwdVal);    
-    void pullRequestCarpool(CarpoolListing carpool, User user);
-    std::vector<Booking> loadRequest();
-    void saveRequest(const Booking& request);
-    void saveAllRequest(vector<Booking> &requestList);
+    // void reloadData(std::string nameVal, std::string pwdVal);   
+    
+     
+    void pullRequestCarpool(const CarpoolListing* carpool, const User* user);
+    std::vector<Booking*> loadRequest(); // DONE
+    void saveRequest(const Booking* request);
+    void saveAllRequest(const vector<Booking*> &requestList);
 };
 std::string getFilePath(const std::string &fileName);
 #endif
