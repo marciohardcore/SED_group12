@@ -215,6 +215,8 @@ void CarpoolController::viewRequest(User &user) {
                 int seatsLeft = cars.getAvailableSeats() - 1;
                 cars.setAvailableSeat(seatsLeft);
                 vector<User> users = fileManager.loadUser();
+                // vector<User*> users = fileManager.loadUser();
+
                 for (auto& us : users) // use reference to modify the user directly in the vector
                 {
                     if(us.getUID() == selectedRequest.getPassengerID())
@@ -267,6 +269,7 @@ void CarpoolController::viewCarpool(User &user)
     FileManager fileManager;
 
     std::vector<CarpoolListing> carpoolListings = fileManager.loadCarpoolListing();
+    // std::vector<CarpoolListing*> carpoolListings = fileManager.loadCarpoolListing();
 
     if (carpoolListings.empty())
     {

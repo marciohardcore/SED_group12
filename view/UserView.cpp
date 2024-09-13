@@ -8,6 +8,7 @@
 
 
 // Constructor that calls the User constructor
+// UserView::UserView(std::string &name, std::string &password)
 
 UserView::UserView(std::string name, std::string password)
     : User("",name, password, "", "", "", "", "", 0) {
@@ -15,6 +16,8 @@ UserView::UserView(std::string name, std::string password)
 }
 
 // Method to view the user profile
+// void UserView::displayUserProfile( std::string &name,  std::string &password) {
+
 void UserView::displayUserProfile( std::string name,  std::string password) {
     FileManager userManager;
     User user = userManager.loadSingleUser(name, password);

@@ -15,6 +15,8 @@ void UserController::registerUser(string uid, string uName, string pwd, string f
 }
 
 // Method to login a user
+// bool UserController::loginUser(string &username, string &password)
+
 bool UserController::loginUser(string username, string password)
 {
     FileManager fileMana;
@@ -45,6 +47,8 @@ bool UserController::loginUser(string username, string password)
 // }
 
 // Method to manage a user's profile
+// void UserController::updateProfile(string &username, string &password) {
+
 void UserController::updateProfile(string username, string password) {
     FileManager fileMana;
     vector<User> users = fileMana.loadUser();
@@ -120,6 +124,7 @@ void UserController::updateProfile(string username, string password) {
 #include <string>
 #include <vector>
 #include <conio.h>  // Include for _getch()
+// void UserController::updatePassword(string &username, string &password) {
 
 void UserController::updatePassword(string username, string password) {
     FileManager fileMana;
@@ -173,6 +178,8 @@ void UserController::updatePassword(string username, string password) {
 }
 
 // // Method to purchase credits
+// void UserController::purchaseCredits(User &userAmount, int &amount) {
+
 void UserController::purchaseCredits(User userAmount, int amount) {
     std::cout << "Adding credit points...\n";
 
