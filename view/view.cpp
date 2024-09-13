@@ -167,8 +167,8 @@ void showAllCarpoolListings(){
         std::cout << "-----------------------------------\n";
         for (size_t i = 0; i < carpools.size(); ++i) {
             const auto& carpool = carpools[i];
-            std::cout << GREEN << "INFORMATION OF CARPOOL " << (i + 1) << "\n"
-                    << "Available Seats: " << carpool.getAvailableSeats() << "\n"
+            std::cout << YELLOW << "INFORMATION OF CARPOOL " << (i + 1) << "\n"
+                    << GREEN << "Available Seats: " << carpool.getAvailableSeats() << "\n"
                     << "Departure Time: " << carpool.getDepartureTime() << "\n"
                     << "Departure Location: " << carpool.getDepartureLocation() << "\n"
                     << "Destination Location: " << carpool.getDestinationLocation() << "\n"
@@ -201,7 +201,22 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
     // Load all carpool listings
     FileManager fileManager;
     std::vector<CarpoolListing> carpoolListings = fileManager.loadCarpoolListing();
+    std::vector<RatingSystem> ratings = fileManager.loadRating();
+    std::string Uid = user.getUID();
 
+    double totalScore = 0;
+    int count = 0;
+     
+
+    for (auto &rat : ratings) {
+        if (rat.getUserID() == Uid) {
+            totalScore += rat.getScore(); // Add score to total
+            count++; // Increment the count of ratings
+        }
+    }
+    
+    double averageScore = totalScore / count;
+        
     // Filter and display carpool listings based on user criteria
     bool found = false;
     std::cout << "Filtered Carpool Listings:\n";
@@ -219,12 +234,18 @@ void browseAndBookCarpoolListingsByCriteria(User user) {
         if (!date.empty() && carpool.getDate() != date) {
             matches = false;
         }
+        if (user.getCreditPoint() < carpool.getContributionPerPassenger()) {
+            matches = false;
+        }
+        if (averageScore < carpool.getMinimumPassengerRating() && averageScore != 0) {
+            matches = false;
+        }
 
         if (matches) {
             cout << "The carpool that meet the criteria: \n";
             ++index;
             mp[index] = carpool;
-            std::cout << "Index: " << index << "\n"
+            std::cout << GREEN << "Index: " << index << RESET << "\n"
                       << "Carpool ID: " << carpool.getID() << "\n"
                       << "Vehicle Model: " << carpool.getVehicleModel() << "\n"
                       << "Vehicle Color: " << carpool.getVehicleColor() << "\n"
