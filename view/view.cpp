@@ -743,38 +743,64 @@ void admin(){
     char choice;
     FileManager fileManager;
     AdminView admin;
-    while (true) {
-        system("cls"); // Clear the screen
-        std::cout << "Admin Dashboard\n";
-        std::cout << "-----------------------------------\n";
-        std::cout << YELLOW<< "1. View All Users\n";
-        std::cout << YELLOW << "2. View All Carpools\n";
-        std::cout << YELLOW << "3. Return to Main Menu\n";
-        std::cout << "-----------------------------------\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
+    inputValidator input;
 
-        // Validate input using a while loop
-        while (choice != '1' && choice != '2' && choice != '3') {
-            std::cout << RED << "Invalid input!, please enter a number from 1 to 3\n";
-            std::cout << GREEN << "Enter your choice: ";
+    std::cout << BOLD << "\t \t ADMIN \n" << RESET;
+    std::cout << "-----------------------------------\n";
+    
+    std::string username, password;
+
+    std::cin.ignore();
+    std::cout << GREEN << "Enter your admin account: " << RESET;
+    std::getline(std::cin, username);
+    input.inputValidator::validateUsername(username);
+
+    std::cout << GREEN << "Enter your password: " << RESET;
+    std::getline(std::cin, password);
+    input.inputValidator::validatePassword(password);
+
+    if (username == "admin" && password == "Admin123@"){
+        while (true) {
+            system("cls"); // Clear the screen
+            std::cout << "Admin Dashboard\n";
+            std::cout << "-----------------------------------\n";
+            std::cout << YELLOW<< "1. View All Users\n";
+            std::cout << YELLOW << "2. View All Carpools\n";
+            std::cout << YELLOW << "3. Return to Main Menu\n";
+            std::cout << "-----------------------------------\n";
+            std::cout << "Enter your choice: ";
             std::cin >> choice;
-        }
 
-        if (choice == '1') {
-            admin.displayAllUsers();
-            
+            // Validate input using a while loop
+            while (choice != '1' && choice != '2' && choice != '3') {
+                std::cout << RED << "Invalid input!, please enter a number from 1 to 3\n";
+                std::cout << GREEN << "Enter your choice: ";
+                std::cin >> choice;
+            }
+
+            if (choice == '1') {
+                admin.displayAllUsers();
+                
+            }
+            else if (choice == '2') {
+                admin.displayAllCarpools();
+            }
+            else if (choice == '3') {
+                std::cout << GREEN << "\nPress any key to continue...";
+                _getch();
+                system("cls");
+                coordinate();
+                return; // Return to main menu or previous function
+            }
         }
-        else if (choice == '2') {
-            admin.displayAllCarpools();
-        }
-        else if (choice == '3') {
-            std::cout << GREEN << "\nPress any key to continue...";
-            _getch();
-            system("cls");
-            coordinate();
-            return; // Return to main menu or previous function
-        }
+    }
+    else{
+        std::cout << RED << "You are not admin" << RESET;
+        std::cout << GREEN << "\nPress any key to continue...";
+        _getch();
+        system("cls");
+        coordinate();
+        return; // Return to main menu or previous function
     }
 }
 
