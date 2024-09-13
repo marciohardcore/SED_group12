@@ -320,9 +320,7 @@ void CarpoolController::viewCarpool(User &user)
 
 void CarpoolController::unlistCarpool(User &user)
 {
-    // Retrieve the user's carpool info map (carpoolID -> plateNumber)
     FileManager fileManager;
-
     std::vector<CarpoolListing> unlistCarpool = fileManager.loadCarpoolListing();
     if (unlistCarpool.empty())
     {
@@ -332,8 +330,7 @@ void CarpoolController::unlistCarpool(User &user)
         return;
     }
 
-
-    string IDowner = user.getUID();
+    std::string IDowner = user.getUID();
     std::cout << "Your Carpool Listings:\n";
     bool hasCarpools = false;
 
@@ -342,10 +339,9 @@ void CarpoolController::unlistCarpool(User &user)
         if (unlistCarpool[i].getIDowner() == IDowner)
         {
             hasCarpools = true;
-
-            std::cout << GREEN << "\n     Car #" << i + 1 << "\n" << RESET; // Display car number
-
-            std::cout << YELLOW << "Carpool ID: " << unlistCarpool[i].getID() << "\n"
+            std::cout << GREEN << "\n     Car #" << i + 1 << "\n" << RESET;
+            std::cout << YELLOW
+                      << "Carpool ID: " << unlistCarpool[i].getID() << "\n"
                       << "Vehicle Model: " << unlistCarpool[i].getVehicleModel() << "\n"
                       << "Vehicle Color: " << unlistCarpool[i].getVehicleColor() << "\n"
                       << "Plate Number: " << unlistCarpool[i].getPlateNumber() << "\n"
@@ -364,25 +360,47 @@ void CarpoolController::unlistCarpool(User &user)
     if (!hasCarpools)
     {
         std::cout << "No carpool listings found for this user.\n";
+        return;
     }
 
     int option;
-    cout << GREEN << "Please select the exactly car number you want to unlist.\n";
-    cout << "Enter the carpool listing you want to unlist( must be an integer): ";
-    cin >> option;
-    int index = option - 1;
+    std::cout << GREEN << "Please select the exact car number you want to unlist.\n";
+    std::cout << "Enter the carpool listing number you want to unlist (must be an integer): ";
+    std::cin >> option;
+    
+    if (option < 1 || option > unlistCarpool.size()) {
+        std::cout << "Invalid car number selected.\n";
+        return;
+    }
 
-    for (int i = 0; i <= unlistCarpool.size(); ++i)
+    int index = option - 1;  // Get the correct index
+    CarpoolListing selectedCarpool = unlistCarpool[index];  // The carpool selected by the user
+    
+    // Load the booking requests
+    std::vector<Booking> req = fileManager.loadRequest();
+    
+    // Check if the selected carpool has any bookings
+    bool isBooked = false;
+    for (auto& booking : req)
     {
-        if (option == i)
+        if (booking.getCPID() == selectedCarpool.getID())
         {
-            unlistCarpool.erase(unlistCarpool.begin() + index);
+            std::cout << "This carpool has been booked! You cannot unlist it.\n";
+            isBooked = true;
+            break;
         }
     }
 
-    cout << GREEN << "Your carpool has been deleted!\n";
-    std::cout << "\nPress any key to return to the admin menu...";
-    _getch(); // Wait for user to press any key
-    fileManager.saveAllCarpoolListing(unlistCarpool);
+    // If the carpool is not booked, proceed with unlisting
+    if (!isBooked)
+    {
+        unlistCarpool.erase(unlistCarpool.begin() + index);  // Remove the carpool from the vector
+        std::cout << GREEN << "Your carpool has been unlisted successfully!\n";
+        fileManager.saveAllCarpoolListing(unlistCarpool);  // Save the updated listings
+    }
+
+    std::cout << "\nPress any key to return to the menu...";
+    _getch();  // Wait for user to press any key
 }
+
 
