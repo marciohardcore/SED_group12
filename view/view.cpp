@@ -88,16 +88,42 @@ void profileManagement(const std::string& username, const std::string& password)
             UserController userControl;
             userControl.updatePassword(username, password);
         } else if (choice == '4'){
+            cin.ignore();
             int amount = 0;
             std::cout << "Purchase Credit...\n";
             std::cout << "-----------------------------------\n";
-            std::cout << "Add the amount you want to deposit: \n";
-            std::cin >> amount;
-            User* newCredit;
-            FileManager userCredits;
-            newCredit = userCredits.loadSingleUser(username, password);
-            UserController userControl;
-            userControl.purchaseCredits(*newCredit, amount);
+            std::string check;
+            std::cout << "Enter your password: ";
+            std::getline(std::cin, check);
+
+            // Assuming 'password' is defined and initialized somewhere in the code
+            if(check == password){
+                std::cout << "Add the amount you want to deposit: \n";
+                
+                // Input validation
+                while(!(std::cin >> amount) || amount <= 0) {
+                    std::cout << "Invalid amount. Please enter a positive number: ";
+                    std::cin.clear(); // clear error flag
+                    cin.ignore();
+                }
+                
+                User* newCredit = nullptr;
+                FileManager userCredits;
+                
+                // Attempt to load user
+                newCredit = userCredits.loadSingleUser(username, password);
+                if(newCredit != nullptr) {
+                    UserController userControl;
+                    userControl.purchaseCredits(*newCredit, amount);
+                    std::cout << "Credits successfully added!\n";
+                } else {
+                    std::cout << "Error: Unable to load user data. Please try again.\n";
+                }
+                
+            } else {
+                std::cout <<RED << "Incorrect password. Press any key to continue..." << RESET;
+                _getch(); // Wait for user to press any key
+            }
         } else if (choice == '5') {
             return; // Exit profile management and return to the previous menu
         } else {
@@ -242,7 +268,7 @@ void browseAndBookCarpoolListingsByCriteria(const User* user) {
         }
 
         if (carpool->getAvailableSeats() == 0){
-            cout << "Your chosen carpool no longer have available seat. \n";
+            //cout << "Your chosen carpool no longer have available seat. \n";
             matches = false;
         }
         if (matches) {
@@ -754,11 +780,9 @@ void admin(){
     std::cin.ignore();
     std::cout << GREEN << "Enter your admin account: " << RESET;
     std::getline(std::cin, username);
-    input.inputValidator::validateUsername(username);
 
     std::cout << GREEN << "Enter your password: " << RESET;
     std::getline(std::cin, password);
-    input.inputValidator::validatePassword(password);
 
     if (username == "admin" && password == "Admin123@"){
         while (true) {
