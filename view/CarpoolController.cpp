@@ -274,7 +274,6 @@ void CarpoolController::viewCarpool(const User* user)
     FileManager fileManager;
 
     std::vector<CarpoolListing*> carpoolListings = fileManager.loadCarpoolListing();
-    // std::vector<CarpoolListing*> carpoolListings = fileManager.loadCarpoolListing();
 
     if (carpoolListings.empty())
     {

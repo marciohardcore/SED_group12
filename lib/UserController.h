@@ -23,7 +23,6 @@ class UserController
         bool loginUser(string username, string password);
         void updateProfile(string username, string password);
         void updatePassword(string username, string password);
-        // void logoutUser(User *user);
         void purchaseCredits(const User &userAmount, int amount);
         // ~UserController();
         

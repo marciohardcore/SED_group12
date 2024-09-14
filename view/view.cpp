@@ -15,7 +15,6 @@
 #include "..\lib\CarpoolController.h"
 #include "..\lib\CarpoolListing.h"
 
-#include "..\lib\member.h"
 #include "..\lib\RatingSystem.h"
 #include "..\lib\AdminView.h"
 using namespace std;
@@ -849,8 +848,6 @@ char coordinate() {
         std::cin >> choice;
     }
 
-    //system("pause");
-    //system("cls"); // Clear the console screen
     if (choice == '1') {
         guestOption();
     } else if (choice == '2') {

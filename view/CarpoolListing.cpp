@@ -59,6 +59,3 @@ void CarpoolListing::rejectRequest(Booking* booking) {
     }
 }
 
-
-void CarpoolListing::setCancelFlag() { cancelFlag = true; } //-1 available slot}
-void CarpoolListing::setFullyBooked() { fullyBooked = true; }

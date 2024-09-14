@@ -8,7 +8,7 @@
 #include <vector>
 #include "..\lib\User.h"
 #include "..\lib\CarpoolListing.h"
-#include "..\lib\booking.h"
+#include "..\lib\Booking.h"
 #include "..\lib\RatingSystem.h"
 
 
@@ -21,7 +21,6 @@ const std::string REQUEST = "request.dat";
 
 
 using namespace std;
-class Member;
 class Booking;
 class CarpoolListing;
 //class User;
@@ -36,16 +35,11 @@ public:
 
     std::vector<CarpoolListing *> loadCarpoolListing(); // DONE
     void saveCarpoolListing(const CarpoolListing& carpoolInfo); // DONE
-    // void deleteCarpoolListing(CarpoolListing &item);//parameter: CLID    
-    //CarpoolListing loadSingleCarpool(string CarpoolID);
     void saveAllCarpoolListing(const std::vector<CarpoolListing*>& carpoolList);
-    // vector<CarpoolListing> loadCarpool();
 
 
     void saveRating(const RatingSystem& rating);            // Save a single rating to a file
     std::vector<RatingSystem*> loadRating(); 
-    // void saveData();
-    // void reloadData(std::string nameVal, std::string pwdVal);   
     
      
     void pullRequestCarpool(const CarpoolListing* carpool, const User* user);

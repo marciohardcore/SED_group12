@@ -27,8 +27,6 @@ private:
     std::string idType;
     std::string idNumber;
     int creditPoint;
-    // map< string, string> mpCarpools;
-    //std::map<std::string, std::string> carpoolInfo; // Map to store carpool ID and , plate number)
     std::vector<std::string> CarIDStores;
 
 public:
@@ -58,12 +56,5 @@ public:
     // Function to get carpool info
     std::vector<std::string> getcarIDstores() const;
     void setCarIDToStore(std::string& carID) ;
-    // Function to add carpool info
-   // void addCarpoolInfo( std::string& carpoolID,  std::string& plateNumber);
-
-
-    // Function to remove carpool info
-    //void removeCarpoolInfo(const std::string& carpoolID);
-    //std::map<std::string, std::string> getCarpoolInfoMap() const;
 };
 #endif

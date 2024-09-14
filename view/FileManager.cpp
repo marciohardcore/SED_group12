@@ -6,7 +6,7 @@
 
 #include "..\lib\FileManager.h"
 #include "..\lib\CarpoolListing.h"
-#include "..\lib\booking.h"
+#include "..\lib\Booking.h"
 #include "..\lib\User.h"
 #include "..\lib\RatingSystem.h"
 
@@ -60,7 +60,6 @@ void FileManager::saveAllUsers(std::vector<User*> &users)
     outFile.close(); // Close the file after clearing
 
     // Save each user to the file
-    // for (const auto &user : users)
     for (auto *user : users)
     {
         saveUser(*user); // Reuse the saveUser function to append each user

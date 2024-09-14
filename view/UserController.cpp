@@ -26,7 +26,6 @@ bool UserController::loginUser(string username, string password)
     users = fileMana.loadUser();
     for (User* user : users)
     {
-        // if (user.getUserName() == username && user.getPassword() == password)
         if (user->getUserName() == username && user->getPassword() == password)
         {
             // Free allocated memory before returning

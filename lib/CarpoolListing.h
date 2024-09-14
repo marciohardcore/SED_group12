@@ -7,9 +7,7 @@
 #include <string>
 using namespace std;
 
-#include "..\lib\member.h"
 
-class Member; // Forward declaration
 class Booking; // Forward declaration
 
 class CarpoolListing {
@@ -34,13 +32,6 @@ private:
     string IDowner;
 public:
     // Constructor
-    // CarpoolListing(Member* driverVal = nullptr,
-    //                string vehicleModelVal = "", string vehicleColorVal = "",
-    //                string plateNumberVal = "", int availableSeatsVal = 0,
-    //                string departureLocationVal = "", string destinationLocationVal = "",
-    //                string departureTimeVal = "", string dateVal = "",
-    //                string estimateDurationVal = "", int contributionPerPassengerVal = 0,
-    //                float minimumPassengerRatingVal = 0.0f, string idCPVal = "");
     CarpoolListing();               
     CarpoolListing(string idCPVal, 
                     string vehicleModelVal, string vehicleColorVal,
@@ -67,22 +58,12 @@ public:
     float getMinimumPassengerRating() const;
     int getContributionPerPassenger() const;
     string getIDowner() const;
-    // vector<Booking*> getPassengerRequests() const;
-    // Member* getDriver() const;
 
     // Setters
-    void setCancelFlag();
-    void setFullyBooked();
     void setAvailableSeat(int seats);
     void rejectRequest(Booking* booking);
 
     
-    // Member functions
-    // void addRequest(Booking* booking);
-    // void rejectAllRequests();
-    // // void acceptRequest(Booking* booking);
-    // void unlist();
-    // void viewRequests() const;
 };
 
 #endif // CARPOOLLISTING_H
