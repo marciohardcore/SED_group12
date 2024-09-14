@@ -28,4 +28,5 @@ void UserView::displayUserProfile( std::string name,  std::string password) {
     std::cout << "Email: " << user->getEmail() << "\n";
     std::cout << "Credit Points: " << user->getCreditPoint() << "\n";
     std::cout << "-----------------------------------\n";
+    delete user;
 }

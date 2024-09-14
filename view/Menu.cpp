@@ -1,39 +1,10 @@
-#include <iostream>
-#include <Windows.h>
-#include <string>
-#include <conio.h>
+#pragma once
 
-#include "..\lib\InputValidator.h"
-#include "..\lib\IDgenerator.h"
-#include "..\lib\FileManager.h"
+#include "..\lib\Menu.h"
 
-#include "..\lib\User.h"
-#include "..\lib\UserView.h"
-#include "..\lib\UserController.h"
-#include "..\lib\GuestView.h"
-
-#include "..\lib\CarpoolController.h"
-#include "..\lib\CarpoolListing.h"
-
-#include "..\lib\RatingSystem.h"
-#include "..\lib\AdminView.h"
 using namespace std;
 
-// Console text formatting
-#define BOLD "\033[1m"
-#define RESET "\033[0m"
-
-#define RED "\033[0;31m"
-#define GREEN "\033[0;32m"
-#define YELLOW "\033[0;33m"
-#define BLUE "\033[0;34m"
-char coordinate();
-void printHeader(const std::string& title) {
-    std::cout << BOLD << "\t \t " << title << "\n" << RESET;
-}
-
-// Introduction function
-void introduction() {
+void Menu::introduction() {
     std::cout << BOLD << "\t \t SOFTWARE ENGINEERING DESIGN\n" << RESET;
     std::cout << BOLD << "\t \t Carpool Listing Application\n" << RESET;
     std::cout << RED << "Instructor:" << BLUE << " Huo Chong Ling, Dr. Jeff Nijsse\n";
@@ -48,8 +19,13 @@ void introduction() {
     system("cls"); 
 }
 
+void Menu::printHeader(const std::string& title) {
+    std::cout << BOLD << "\t \t " << title << "\n" << RESET;
+}
+
+
 // Profile management function
-void profileManagement(const std::string& username, const std::string& password) {
+void Menu::profileManagement(const std::string& username, const std::string& password) {
     while (true) {
         system("cls"); // Clear the screen
         printHeader("Carpool Listing Application");
@@ -89,7 +65,7 @@ void profileManagement(const std::string& username, const std::string& password)
         } else if (choice == '4'){
             cin.ignore();
             int amount = 0;
-            std::cout << "Purchase Credit...\n";
+            std::cout << "Credit Top - Up \n";
             std::cout << "-----------------------------------\n";
             std::string check;
             std::cout << "Enter your password: ";
@@ -135,7 +111,7 @@ void profileManagement(const std::string& username, const std::string& password)
 
 
 // CarpoolManagement function
-void CarpoolManagement(const std::string& username, const std::string& password) {
+void Menu::CarpoolManagement(const std::string& username, const std::string& password) {
     FileManager filemanager;
     User* user = filemanager.loadSingleUser(username, password);
     CarpoolController call;
@@ -183,10 +159,10 @@ void CarpoolManagement(const std::string& username, const std::string& password)
         }
     }
 }
-void showAllCarpoolListings(){
+void Menu::showAllCarpoolListings(){
     // Load all carpool listings from the file
-     FileManager fileManager;
-        std::vector<CarpoolListing*> carpools = fileManager.loadCarpoolListing();
+    FileManager fileManager;
+    std::vector<CarpoolListing*> carpools = fileManager.loadCarpoolListing();
     // Iterate through each carpool and display its details
         std::cout << "Information of all Carpools: \n";
         std::cout << "-----------------------------------\n";
@@ -205,8 +181,10 @@ void showAllCarpoolListings(){
                     << "Contribution Per Passenger: " << carpool->getContributionPerPassenger() << "\n"
                     << "-----------------------------------\n";
         }
+    for (CarpoolListing* item : carpools) { delete item; }
+
 }
-void browseAndBookCarpoolListingsByCriteria(const User* user) {
+void Menu::browseAndBookCarpoolListingsByCriteria(const User* user) {
     // Input search criteria
     std::string departureLocation, destinationLocation, date;
     inputValidator input;
@@ -308,17 +286,7 @@ void browseAndBookCarpoolListingsByCriteria(const User* user) {
             else{
                 fileManager.pullRequestCarpool(selectedCarpool, user);
                 std::cout<< GREEN <<"Book successfully, waiting for approval!" << std::endl << RESET;                
-                //get booking date
-                //get booking time
-                //get cancel
-                //get drivername
-                //get view status
-                //CarpoolListing::rejectRequest
-                // void CarpoolListing::setCancelFlag() { cancelFlag = true; } //-1 available slot}
-                // void CarpoolListing::setFullyBooked() { fullyBooked = true; }
             }
-
-            // if confirmed: - credit point, - 
         } else {
             std::cout << "Invalid selection. Please try again.\n";
         }
@@ -326,9 +294,11 @@ void browseAndBookCarpoolListingsByCriteria(const User* user) {
     else if (!found) {
         std::cout << "No carpool listings found matching the criteria.\n";
     }
+    for (CarpoolListing* item : carpoolListings) { delete item; }
+    for (RatingSystem* item : ratings) { delete item; }
 }
 
-void rate_driver(std::map <int, string>& rating_map){
+void Menu::rate_driver(std::map <int, string>& rating_map){
     system("cls"); // Clear the screen
     printHeader("Carpool Rating");
     std::cout << "-----------------------------------\n";
@@ -364,12 +334,15 @@ void rate_driver(std::map <int, string>& rating_map){
 
         RatingSystem rating(driver->getUID(), rate, comment);
         file.saveRating(rating);
+
+        delete driver;
     }
 }
 
-void cancel_request(const User &user) {
+void Menu::cancel_request(const User &user) {
     FileManager file;
     vector<Booking*> books = file.loadRequest();
+
     vector<int> cancelableRequests; // To store indices of requests eligible for cancellation
 
     // Display cancelable requests
@@ -417,9 +390,12 @@ void cancel_request(const User &user) {
     } else {
         std::cout << "Cancellation aborted.\n";
     }
+
+    for (Booking* item : books) { delete item; }
+
 }
 
-void requestState(const User &user)
+void Menu::requestState(const User &user)
 {
     FileManager fileManager;
     std::vector<Booking*> requests = fileManager.loadRequest();
@@ -449,7 +425,7 @@ void requestState(const User &user)
             std::string passengerID = request->getPassengerID();
             hasCarpools = true;
             if (request->getStatusInfo() == 0){
-                std::cout << RED << "Already rejected!\n" << RESET;
+                std::cout << RED << "Already rejected/cancelled!\n" << RESET;
             }
             else if (request->getStatusInfo() == 1){
                 std::cout << GREEN << "Already accepted!\n" << RESET;
@@ -485,9 +461,10 @@ void requestState(const User &user)
     else {
         std::cout << "Back to the previous menu...\n";
     }
+    for (Booking* item : requests) { delete item; }
 }
 // Main function for booking management
-void BookingManagement(const std::string& username, const std::string& password) {
+void Menu::BookingManagement(const std::string& username, const std::string& password) {
     while (true) {
         system("cls"); // Clear the screen
         printHeader("Carpool Listing Application");
@@ -532,12 +509,11 @@ void BookingManagement(const std::string& username, const std::string& password)
         _getch(); // Wait for user to press any key
     }
 }
-void viewMyRating(std::string& username, std::string& password) {
+void Menu::viewMyRating(std::string& username, std::string& password) {
     FileManager file;
     User* user = file.loadSingleUser(username, password);
     std::vector<RatingSystem*> myRating = file.loadRating();
     std::string Uid = user->getUID();
-
     double totalScore = 0;
     int count = 0;
     std::string allComments;
@@ -563,9 +539,12 @@ void viewMyRating(std::string& username, std::string& password) {
     }
      std::cout << "\nPress any key to continue...";
         _getch(); // Wait for user to press any key
+
+    for (RatingSystem* item : myRating) { delete item; }
+    delete user;
 }
-// memberUtils function
-void memberUtils(std::string username, std::string password) {
+
+void Menu::memberUtils(std::string username, std::string password) {
     char choice;
     while (true) {
         system("cls"); // Clear the screen before printing the menu
@@ -621,7 +600,7 @@ void memberUtils(std::string username, std::string password) {
 
 
 // member function
-void member(){
+void Menu::member(){
     std::string username, password;
     inputValidator input;
     // //log in
@@ -643,7 +622,6 @@ void member(){
         getline(cin, username);
         std::cout << GREEN << "Enter password: ";
         getline(cin, password);
-        // đổ màu và thêm tính năng back về coordinate
     }
     //Assume that log-in sucess
     std::cout << GREEN << "Login successfully!\n";
@@ -651,13 +629,11 @@ void member(){
     system("cls");
     FileManager filemanagement;
     memberUtils(username, password);
-    // //Test
-    // system("pause");
 }
 
 
 // Member options function
-void memberOption() {
+void Menu::memberOption() {
     char choice;
     
     std::cout << BOLD << "\t \t Member\n" << RESET;
@@ -674,7 +650,7 @@ void memberOption() {
 
 
 
-void newRegister() {
+void Menu::newRegister() {
     std::string username, password, fullName, phoneNumber, email, IDtype, passportNumber;
     inputValidator input;
 
@@ -727,7 +703,7 @@ void newRegister() {
 
 
 // Guest options function
-void guestOption() {
+void Menu::guestOption() {
     char choice;
     while (true) {
         system("cls"); // Clear the screen
@@ -765,7 +741,7 @@ void guestOption() {
         }
     }
 }
-void admin(){
+void Menu::admin(){
     char choice;
     FileManager fileManager;
     AdminView admin;
@@ -828,13 +804,13 @@ void admin(){
     }
 }
 
-void exitProgram() {
+void Menu::exitProgram() {
     std::cout << "\n\nExiting the program. Goodbye!" << std::endl;
     exit(0); // Terminates the program
 }
 
 // Coordinate function to select user type
-char coordinate() {
+char Menu::coordinate() {
     char choice;
     std::cout << BOLD << "\t \t Carpool Listing Application\n" << RESET;
     std::cout << "-----------------------------------\n";
@@ -861,9 +837,7 @@ char coordinate() {
     return choice;
 }
 
-
-// Main function
-int main() {
+void Menu::run_program(){
     system("cls");
 
     // Welcome scene
@@ -871,6 +845,4 @@ int main() {
 
     // Guest, user, admin selection
     coordinate();
-
-    return 0;
 }

@@ -115,12 +115,6 @@ void UserController::updateProfile(string username, string password) {
 }
 
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <conio.h>  // Include for _getch()
-// void UserController::updatePassword(string &username, string &password) {
-
 void UserController::updatePassword(string username, string password) {
     FileManager fileMana;
     vector<User*> users = fileMana.loadUser();

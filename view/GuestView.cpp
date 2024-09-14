@@ -26,5 +26,8 @@ void GuestView::displayCarpoolDetails(){
                         << std::endl;
         }
     }
+    for (CarpoolListing* item : listings) {
+        delete item; // Deallocate each User object
+    }
     return;
 }

@@ -30,17 +30,14 @@ void CarpoolController::createCarpool(const User *user)
     std::cin.ignore();
     std::cout << YELLOW << "Enter vehicle model: " << RESET;
     std::getline(std::cin, vehicleModel);
-    // nay nhap gi cung dc
 
     std::cout << YELLOW << "Enter vehicle color: " << RESET;
     std::getline(std::cin, vehicleColor);
     input.inputValidator::validateVehicleColor(vehicleColor);
-    //no number
 
     std::cout << YELLOW << "Enter plate number: " << RESET;
     std::getline(std::cin, plateNumber);
     input.inputValidator::validatePlateNumber(plateNumber);
-    //no space
 
     std::cout << YELLOW << "Enter available seat(s): " << RESET;
     std::cin >> availableSeats;
@@ -100,14 +97,11 @@ void CarpoolController::createCarpool(const User *user)
                            contributionPerPassenger, minimumPassengerRating, cancelFlag, IDowner);
 
     filemanager.saveCarpoolListing(listing);
-    // user.setCarIDToStore(ans);
     std::cout << GREEN << "\n\nCarpool Created! \n"
               << RESET;
     std::cout << "Press any key to continue...";
     _getch();      // Wait for user to press any key
     system("cls"); // Clear the screen
-
-    // Optionally log the event here if needed
 }
 
 void CarpoolController::viewRequest(const User* user) {
@@ -215,7 +209,6 @@ void CarpoolController::viewRequest(const User* user) {
                 int seatsLeft = cars->getAvailableSeats() - 1;
                 cars->setAvailableSeat(seatsLeft);
                 vector<User*> users = fileManager.loadUser();
-                // vector<User*> users = fileManager.loadUser();
 
                 for (auto& us : users) // use reference to modify the user directly in the vector
                 {
@@ -265,7 +258,10 @@ void CarpoolController::viewRequest(const User* user) {
 
     std::cout << YELLOW << "Press any key to continue..." << RESET;
     _getch(); // Wait for user to press any key
-
+    
+    for (Booking* item : requests) {
+        delete item; // Deallocate each User object
+    }
 }
 
 void CarpoolController::viewCarpool(const User* user)
@@ -396,6 +392,10 @@ void CarpoolController::unlistCarpool(const User* user)
             isBooked = true;
             break;
         }
+    }
+
+    for (Booking* item : req) {
+        delete item; // Deallocate each User object
     }
 
     // If the carpool is not booked, proceed with unlisting
