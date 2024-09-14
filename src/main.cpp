@@ -1,4 +1,4 @@
-#include "../lib/Menu.h"
+#include "./lib/Menu.h"
 
 using namespace std;
 

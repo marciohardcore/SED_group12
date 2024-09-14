@@ -1,14 +1,14 @@
-#include <iostream>
-#include <vector>
+// #include <iostream>
+// #include <vector>
 
-class IdentifyVerifier{
-public:
-    bool verifyIndentity(User* user, std::string idType, std::string idNumber){
+// class IdentifyVerifier{
+// public:
+//     bool verifyIndentity(User* user, std::string idType, std::string idNumber){
 
-    }
+//     }
 
-    void setVerifiedStatus(User* user, bool status){
+//     void setVerifiedStatus(User* user, bool status){
 
-    }
+//     }
 
-};
+// };
