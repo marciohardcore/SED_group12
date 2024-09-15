@@ -29,7 +29,7 @@ void FileManager::saveUser(const User &user)
     user_file.open(file_path, std::ios::out | std::ios::app);
     if (!user_file.is_open())
     {
-        std::cerr << "File not found\n";
+        std::cerr << "User file not found\n";
         return;
     }
     user_file << user.getUID() << ","
@@ -74,7 +74,7 @@ User* FileManager::loadSingleUser(const std::string &nameVal,const std::string &
 
     if (!user_file.is_open())
     {
-        std::cerr << "File not found\n";
+        std::cerr << "User file not found\n";
         return new User(); // Return an empty or default User object
     }
 
@@ -117,7 +117,7 @@ std::vector<User*> FileManager::loadUser()
 
     if (!user_file.is_open())
     {
-        std::cerr << "File not found\n";
+        std::cerr << "User file not found\n";
         return loadUser; // Return an empty or default User object
     }
 
@@ -158,7 +158,7 @@ std::vector<CarpoolListing*> FileManager::loadCarpoolListing()
 
     if (!carpool_file.is_open())
     {
-        std::cerr << "File not found\n";
+        std::cerr << "Carpool file not found\n";
         return carpoolListings;
     }
 
@@ -210,7 +210,7 @@ void FileManager::saveCarpoolListing(const CarpoolListing& carpoolInfo)
     carpool_file.open(file_path, std::ios::out | std::ios::app);
     if (!carpool_file.is_open())
     {
-        std::cerr << "File not found\n";
+        std::cerr << "Carpool file not found\n";
     }
 
     carpool_file << carpoolInfo.getID() << ","
@@ -256,7 +256,7 @@ void FileManager::pullRequestCarpool(const CarpoolListing* carpool, const User* 
     request_file.open(file_path, std::ios::out | std::ios::app);
     if (!request_file.is_open())
     {
-        std::cerr << "File not found!";
+        std::cerr << "Request not found!";
     }
 
     int a = -1;
@@ -310,7 +310,7 @@ std::vector<Booking*> FileManager::loadRequest() {
     request_file.open(file_path, std::ios::in);
 
     if (!request_file.is_open()) {
-        std::cerr << "File not found: " << file_path << '\n';
+        std::cerr << "Request file not found: " << file_path << '\n';
         return {}; // Return an empty vector if the file couldn't be opened
     }
 
@@ -344,7 +344,7 @@ std::vector<RatingSystem*> FileManager::loadRating() {
     rating_file.open(file_path, std::ios::in);   // Open for reading
 
     if (!rating_file.is_open()) {
-        std::cerr << "File not found\n";
+        std::cerr << "Rating file not found\n";
         return loadRating; // Return an empty vector
     }
 
@@ -373,7 +373,7 @@ void FileManager::saveRating(const RatingSystem& rating) {
     // Open the file in append mode
     rating_file.open(file_path, std::ios::out | std::ios::app);
     if (!rating_file.is_open()) {
-        std::cerr << "File not found\n";
+        std::cerr << "Rating file not found\n";
         return;
     }
 
@@ -394,7 +394,7 @@ User* FileManager::loadSingleUser(const std::string& idVal)
 
     if (!user_file.is_open())
     {
-        std::cerr << "File not found\n";
+        std::cerr << "User file not found\n";
         return new User(); // Return an empty or default User object
     }
 

@@ -22,7 +22,7 @@ bool find(const std::string& usernameVal, const std::string& filePath) {
     std::ifstream file(filePath);
 
     if (!file.is_open()) {
-        std::cerr << "File not found\n";
+        std::cerr << "File not found 1234\n";
         return false;
     }
 
@@ -45,7 +45,7 @@ bool find(const std::string& usernameVal, const std::string& filePath) {
 }
 
 void inputValidator::validateUsername(std::string& usernameVal) {
-    while (find(usernameVal, "../data/user.dat")) {
+    while (find(usernameVal, "./data/user.dat")) {
         std::cout << RED << "Username already taken, please try again\n" << RESET;
         std::cout << "Enter a username: ";
         std::getline(cin, usernameVal);

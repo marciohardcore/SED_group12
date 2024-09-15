@@ -11,6 +11,7 @@ public:
     std::string generateUserID();
     std::string generateCarpoolListingID();
     std::string generateBookingID();
+    std::string generate_capcha();
 };
 
 #endif

@@ -13,7 +13,7 @@
 
 
 
-const std::string PATH = "../data/";
+const std::string PATH = "./data/";
 const std::string USER = "user.dat";
 const std::string CARPOOL = "carpool.dat";
 const std::string RATING = "rating.dat";

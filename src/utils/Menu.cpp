@@ -685,12 +685,18 @@ void Menu::newRegister() {
     std::getline(std::cin, passportNumber);
     input.inputValidator::validatePassportNumber(passportNumber);
 
-
-    UserController regis;
-    IDgenerator id_obj;
-    std::string ans = id_obj.generateUserID();
-    regis.UserController::registerUser(ans, username, password, fullName, phoneNumber, email, IDtype, passportNumber);
-    std::cout << GREEN <<"\n\nRegister complete!\n";
+    IdentityVerifier verify;
+    bool validate = verify.verifyCapCha();
+    if (validate == true){
+        UserController regis;
+        IDgenerator id_obj;
+        std::string ans = id_obj.generateUserID();
+        regis.UserController::registerUser(ans, username, password, fullName, phoneNumber, email, IDtype, passportNumber);
+        std::cout << GREEN <<"\n\nRegister complete!\n" << RESET;
+    }
+    else {
+        std::cout << RED <<"\n\nRegister failed!\n" << RESET;
+    }
     std::cout << "Press any key to continue...";
     _getch(); // Wait for user to press any key
     system("cls"); // Clear the screen

@@ -18,6 +18,9 @@
 
 #include "..\lib\RatingSystem.h"
 #include "..\lib\AdminView.h"
+
+#include "..\lib\IdentityVerifier.h"
+
 using namespace std;
 
 // Console text formatting
