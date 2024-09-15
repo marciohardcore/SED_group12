@@ -650,7 +650,7 @@ void Menu::memberOption() {
 
 
 void Menu::newRegister() {
-    std::string username, password, fullName, phoneNumber, email, IDtype, passportNumber;
+    std::string username, password, fullName, phoneNumber, email, IDtype, passportNumber, amountCredit;
     inputValidator input;
 
     std::cout << BOLD << "\t \t Register New User \n" << RESET;
@@ -685,13 +685,19 @@ void Menu::newRegister() {
     std::getline(std::cin, passportNumber);
     input.inputValidator::validatePassportNumber(passportNumber);
 
+    std::cout << GREEN << "Enter the amount of credit you want to purchase: " << RESET;
+    std::getline(std::cin, amountCredit);
+    input.inputValidator::validateCredit(amountCredit);
+    int creditAmount = std::stoi(amountCredit);
+
+
     IdentityVerifier verify;
     bool validate = verify.verifyCapCha();
     if (validate == true){
         UserController regis;
         IDgenerator id_obj;
         std::string ans = id_obj.generateUserID();
-        regis.UserController::registerUser(ans, username, password, fullName, phoneNumber, email, IDtype, passportNumber);
+        regis.UserController::registerUser(ans, username, password, fullName, phoneNumber, email, IDtype, passportNumber, creditAmount);
         std::cout << GREEN <<"\n\nRegister complete!\n" << RESET;
     }
     else {

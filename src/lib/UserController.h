@@ -19,7 +19,7 @@ class UserController
 {
     public:
         void registerUser(string uid, string uName, string pwd, string fName, 
-                          string pNumber, string mail, string idT, string idNum);
+                          string pNumber, string mail, string idT, string idNum, int credit);
         bool loginUser(string username, string password);
         void updateProfile(string username, string password);
         void updatePassword(string username, string password);

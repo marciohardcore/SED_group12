@@ -193,20 +193,23 @@ void CarpoolController::viewRequest(const User* user) {
         std::cout << GREEN << "You accepted the request from Passenger ID: " << selectedRequest.getPassengerID() << RESET << std::endl;
         selectedRequest.setStatusInfor(1); // Update status to accepted
         vector<CarpoolListing*> carpools = fileManager.loadCarpoolListing();
+
+        //carpool ID of the selected request
         std::string carpoolID = selectedRequest.getCPID();
 
         if (carpools.empty()) {
-        std::cout << "Error!\n";
-        std::cout << YELLOW << "Press any key to return to the menu..." << RESET;
-        _getch(); // Wait for user to press any key
-        return;
-    }
+            std::cout << "Error!\n";
+            std::cout << YELLOW << "Press any key to return to the menu..." << RESET;
+            _getch(); // Wait for user to press any key
+            return;
+        }
 
         for (auto& cars : carpools)
         {
-            if (cars->getID() == carpoolID)
+            if (cars->getID() == carpoolID && cars->getAvailableSeats() > 0)
             {
                 int seatsLeft = cars->getAvailableSeats() - 1;
+
                 cars->setAvailableSeat(seatsLeft);
                 vector<User*> users = fileManager.loadUser();
 
@@ -243,8 +246,44 @@ void CarpoolController::viewRequest(const User* user) {
                 for (User* item : users) {
                     delete item; // Deallocate each User object
                 }
+
+                // // Check if the carpool is now full
+                // if (cars->getAvailableSeats() == 0) {
+                //     std::cout << RED << "All seats are now taken. Rejecting other pending requests" << RESET << std::endl;
+
+                //     vector<Request*> allRequests = fileManager.loadRequests(); // Load all requests
+
+                //     // Loop through requests and reject any pending ones for the same carpool
+                //     for (auto& req : allRequests) {
+                //         if (req->getCPID() == carpoolID && req->getStatusInfor() == 0) { // Check if the request is pending (status 0)
+                //             req->setStatusInfor(-1); // Set status to rejected (0)
+                //         }
+                //     }
+
+                //     fileManager.saveAllRequests(allRequests); // Save all updated requests
+
+                //     // Free up memory for the request objects
+                //     for (Request* req : allRequests) {
+                //         delete req;
+                //     }
+                // }
+
             }
         }
+        // for (auto& cars : carpools){
+        //     if (cars->getID() == carpoolID && cars->getAvailableSeats() == 0){
+        //         vector<User*> users = fileManager.loadUser();
+        //         for (auto& us : users) // use reference to modify the user directly in the vector
+        //         {
+        //             if(us->getUID() == selectedRequest.getPassengerID())
+        //             {
+        //                 selectedRequest.getPassengerID.setStatusInfor(0); // Update status to rejected
+        //             }                    
+        //         }
+        //     }
+        // }
+
+
         fileManager.saveAllCarpoolListing(carpools);
 
     } else if (choice == 2) {

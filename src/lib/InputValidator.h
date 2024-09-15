@@ -24,6 +24,7 @@ public:
     void validateVehicleColor(std::string& vehicleColor);
     void validatePlateNumber(std::string& plateNumber);
     void validateLocation(std::string& location);
+    void validateCredit(std::string& amountCredit);
 
 };
 

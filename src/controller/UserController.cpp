@@ -7,10 +7,10 @@
 #include "..\lib\FileManager.h"
 
 // Method to register a user
-void UserController::registerUser(string uid, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum) 
+void UserController::registerUser(string uid, string uName, string pwd, string fName, string pNumber, string mail, string idT, string idNum, int credit) 
 {
     // User user1(uid, uName, pwd, fName, pNumber, mail, idT, idNum);
-    User* user1 = new User(uid, uName, pwd, fName, pNumber, mail, idT, idNum);
+    User* user1 = new User(uid, uName, pwd, fName, pNumber, mail, idT, idNum, credit);
     FileManager file_mana;
     file_mana.saveUser(*user1);
     delete user1;
