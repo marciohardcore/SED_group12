@@ -263,7 +263,7 @@ void FileManager::pullRequestCarpool(const CarpoolListing* carpool, const User* 
     request_file << carpool->getID() << ","
                  << carpool->getIDowner() << ","
                  << user->getUID() << ","
-                 << a << std::endl;
+                 << a;
     request_file.close();
 }
 

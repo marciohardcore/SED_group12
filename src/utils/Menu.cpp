@@ -436,6 +436,10 @@ void Menu::requestState(const User &user)
                 std::cout << "Request waiting...!\n";
                 //MAYBE code cancel here
             }
+            else if (request->getStatusInfo() == -2) {
+                std::cout << RED << "Already rejected because seats not available\n" << RESET;
+            } 
+
             displayIndex++; // Increment display index for next request
         }
         i++; // Increment index for next request

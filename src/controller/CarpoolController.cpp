@@ -131,19 +131,21 @@ void CarpoolController::viewRequest(const User* user) {
 
             if (ownerID == passengerID) {
                 std::cout << RED << "You cannot book your own carpool!\n" << RESET;
-            } else if(ownerID != passengerID && request->getStatusInfo() == -1){
+            } else if (ownerID != passengerID && request->getStatusInfo() == -1) {
                 hasCarpools = true;
-                std::cout << YELLOW << "Passenger ID: " << passengerID << " has booked your carpool ID: " << request->getCPID() << RESET "\n";
+                std::cout << YELLOW << "Passenger ID: " << passengerID << " has booked your carpool ID: " << request->getCPID() << RESET << "\n";
                 validOptions.push_back(displayIndex); // Store valid display numbers
                 requestMap[displayIndex] = i; // Map display number to request index
             }
-            
-            if (request->getStatusInfo() == 0){
+
+            if (request->getStatusInfo() == 0) {
                 std::cout << RED << "Already rejected!\n" << RESET;
-            }
-            else if (request->getStatusInfo() == 1){
+            } else if (request->getStatusInfo() == 1) {
                 std::cout << GREEN << "Already accepted!\n" << RESET;
-            }
+            } 
+            else if (request->getStatusInfo() == -2) {
+                std::cout << RED << "Already rejected because seats not available\n" << RESET;
+            } 
             displayIndex++; // Increment display index for next request
         }
         i++; // Increment index for next request
@@ -158,7 +160,7 @@ void CarpoolController::viewRequest(const User* user) {
 
     // Let the user choose a valid request option
     int option;
-    std::cout << GREEN << "Enter request option you want (1 to " << displayIndex-1 << "): " << RESET << std::endl;
+    std::cout << GREEN << "Enter request option you want (1 to " << displayIndex - 1 << "): " << RESET << std::endl;
 
     // Ensure the user inputs a valid request number
     while (true) {
@@ -190,106 +192,87 @@ void CarpoolController::viewRequest(const User* user) {
 
     // Handle accept/reject logic
     if (choice == 1) {
-        std::cout << GREEN << "You accepted the request from Passenger ID: " << selectedRequest.getPassengerID() << RESET << std::endl;
-        selectedRequest.setStatusInfor(1); // Update status to accepted
         vector<CarpoolListing*> carpools = fileManager.loadCarpoolListing();
-
-        //carpool ID of the selected request
         std::string carpoolID = selectedRequest.getCPID();
 
         if (carpools.empty()) {
-            std::cout << "Error!\n";
+            std::cout << "Error! No carpools found.\n";
             std::cout << YELLOW << "Press any key to return to the menu..." << RESET;
             _getch(); // Wait for user to press any key
             return;
         }
 
-        for (auto& cars : carpools)
-        {
-            if (cars->getID() == carpoolID && cars->getAvailableSeats() > 0)
-            {
-                int seatsLeft = cars->getAvailableSeats() - 1;
+        // Find the carpool by ID and check if there are available seats
+        bool foundCarpool = false;
+        for (auto& cars : carpools) {
+            if (cars->getID() == carpoolID) {
+                foundCarpool = true;
 
-                cars->setAvailableSeat(seatsLeft);
-                vector<User*> users = fileManager.loadUser();
+                // Check if there are available seats
+                if (cars->getAvailableSeats() > 0) {
+                    std::cout << GREEN << "You accepted the request from Passenger ID: " << selectedRequest.getPassengerID() << RESET << std::endl;
 
-                for (auto& us : users) // use reference to modify the user directly in the vector
-                {
-                    if(us->getUID() == selectedRequest.getPassengerID())
-                    {
-                        int afterCredit = us->getCreditPoint() - cars->getContributionPerPassenger(); // modify the user in the vector
-                        us->setCreditPoint(afterCredit); // update the credit points for 'us' directly
-                        fileManager.saveAllUsers(users); // save the updated users vector
-                        // rating 
-                        char rateChoice;
-                        std::cout << "Do you want to rate this carpool? Press 'r' to rate, or any other key to skip: ";
-                        std::cin >> rateChoice;
+                    selectedRequest.setStatusInfor(1); // Update status to accepted
+                    int seatsLeft = cars->getAvailableSeats() - 1;
+                    cars->setAvailableSeat(seatsLeft);
 
-                        if (rateChoice == 'r' || rateChoice == 'R') {
-                            // Prompt for rating details
-                            int point;
-                            std::string comment;
-                            std::cout << "Enter your rating (1-5): ";
-                            std::cin >> point;
-                            std::cin.ignore(); // to handle newline character after entering rating
-                            std::cout << "Enter your comment: ";
-                            std::getline(std::cin, comment);
+                    vector<User*> users = fileManager.loadUser();
 
-                            // Create and save the rating
-                            RatingSystem rating(selectedRequest.getPassengerID(), point, comment);
-                            fileManager.saveRating(rating);
+                    for (auto& us : users) {
+                        if (us->getUID() == selectedRequest.getPassengerID()) {
+                            int afterCredit = us->getCreditPoint() - cars->getContributionPerPassenger(); // Deduct contribution
+                            us->setCreditPoint(afterCredit); // Update the user's credit points
+                            fileManager.saveAllUsers(users); // Save the updated user info
+
+                            // Rating prompt
+                            char rateChoice;
+                            std::cout << "Do you want to rate this carpool? Press 'r' to rate, or any other key to skip: ";
+                            std::cin >> rateChoice;
+
+                            if (rateChoice == 'r' || rateChoice == 'R') {
+                                // Prompt for rating details
+                                int point;
+                                std::string comment;
+                                std::cout << "Enter your rating (1-5): ";
+                                std::cin >> point;
+                                std::cin.ignore(); // Handle newline character after entering rating
+                                std::cout << "Enter your comment: ";
+                                std::getline(std::cin, comment);
+
+                                // Create and save the rating
+                                RatingSystem rating(selectedRequest.getPassengerID(), point, comment);
+                                fileManager.saveRating(rating);
+                            }
+                            break; // Exit loop after finding the user
                         }
-                        break; // exit loop after finding the user
+                    }
+
+                    // Deallocate user objects
+                    for (User* item : users) {
+                        delete item;
+                    }
+
+                    // Save updated carpool data
+                    fileManager.saveAllCarpoolListing(carpools);
+
+                    // If no seats left, reject other requests for the same carpool
+                    if (seatsLeft == 0) {
+                        for (auto& request : requests) {
+                            if (request->getCPID() == carpoolID && request->getStatusInfo() == -1) { // Check if request is pending (-1)
+                                request->setStatusInfor(-2); // Set to rejected
+                            }
+                        }
                     }
                 }
-
-                for (User* item : users) {
-                    delete item; // Deallocate each User object
-                }
-
-                // // Check if the carpool is now full
-                // if (cars->getAvailableSeats() == 0) {
-                //     std::cout << RED << "All seats are now taken. Rejecting other pending requests" << RESET << std::endl;
-
-                //     vector<Request*> allRequests = fileManager.loadRequests(); // Load all requests
-
-                //     // Loop through requests and reject any pending ones for the same carpool
-                //     for (auto& req : allRequests) {
-                //         if (req->getCPID() == carpoolID && req->getStatusInfor() == 0) { // Check if the request is pending (status 0)
-                //             req->setStatusInfor(-1); // Set status to rejected (0)
-                //         }
-                //     }
-
-                //     fileManager.saveAllRequests(allRequests); // Save all updated requests
-
-                //     // Free up memory for the request objects
-                //     for (Request* req : allRequests) {
-                //         delete req;
-                //     }
-                // }
-
+                break; // Exit the loop after finding the carpool
             }
         }
-        // for (auto& cars : carpools){
-        //     if (cars->getID() == carpoolID && cars->getAvailableSeats() == 0){
-        //         vector<User*> users = fileManager.loadUser();
-        //         for (auto& us : users) // use reference to modify the user directly in the vector
-        //         {
-        //             if(us->getUID() == selectedRequest.getPassengerID())
-        //             {
-        //                 selectedRequest.getPassengerID.setStatusInfor(0); // Update status to rejected
-        //             }                    
-        //         }
-        //     }
-        // }
-
-
-        fileManager.saveAllCarpoolListing(carpools);
-
+        if (!foundCarpool) {
+            std::cout << "Error! Carpool not found.\n";
+        }
     } else if (choice == 2) {
         std::cout << RED << "You rejected the request from Passenger ID: " << selectedRequest.getPassengerID() << RESET << std::endl;
         selectedRequest.setStatusInfor(0); // Update status to rejected
-
     }
 
     // Save updated requests to the file
@@ -297,11 +280,13 @@ void CarpoolController::viewRequest(const User* user) {
 
     std::cout << YELLOW << "Press any key to continue..." << RESET;
     _getch(); // Wait for user to press any key
-    
+
+    // Deallocate booking objects
     for (Booking* item : requests) {
-        delete item; // Deallocate each User object
+        delete item;
     }
 }
+
 
 void CarpoolController::viewCarpool(const User* user)
 {
