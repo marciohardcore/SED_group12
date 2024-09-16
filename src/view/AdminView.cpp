@@ -17,11 +17,27 @@
 void AdminView::displayAllUsers() {
     FileManager fileManager;
     std::vector<User*> users = fileManager.loadUser();
+    std::vector<RatingSystem*> ratings = fileManager.loadRating();
     std::cout << "Information of all Users:\n";
     std::cout << "-----------------------------------\n";
     int userIndex = 1;
     
     for (const auto& user : users) {
+        double totalScore = 0;
+        int count = 0;
+        std::string allComments;
+        std::string Uid = user->getUID();
+
+        for (const auto& rating : ratings) {
+            if (rating->getUserID() == Uid) {
+                totalScore += rating->getScore(); // Add score to total
+                count++; // Increment the count of ratings
+                if (!allComments.empty()) {
+                    allComments += ", "; // Add a comma before adding the next comment
+                }
+                allComments += rating->getComments(); // Append the comment
+            }
+        }
         std::cout << GREEN << "INFORMATION OF USER " << userIndex++ << RESET <<"\n";
         std::cout << YELLOW << "User ID: " << user->getUID() << "\n"
                   << "Username: " << user->getUserName() << "\n"
@@ -31,8 +47,15 @@ void AdminView::displayAllUsers() {
                   << "Email: " << user->getEmail() << "\n"
                   << "ID type: " << user->getIDtype() << "\n"
                   << "ID num: " << user->getIDnum() << "\n"
-                  << "Credit Points: " << user->getCreditPoint() << "\n"
-                  << "-----------------------------------\n";
+                  << "Credit Points: " << user->getCreditPoint() << "\n";
+        if (count > 0) {
+            double averageScore = totalScore / count;
+            std::cout << "Average Score: " << averageScore << "\n";
+            std::cout << "Comments: " << allComments << "\n";
+        } else {
+            std::cout << "No ratings available for this user.\n";
+        }
+        std::cout << "-----------------------------------\n";
     }
     std::cout << GREEN << "\nPress any key to continue..." << RESET;
     _getch(); // Wait for user to press any key before returning to the menu
@@ -46,7 +69,6 @@ void AdminView::displayAllCarpools() {
     // Load all carpool listings from the file
     FileManager fileManager;
     std::vector<CarpoolListing*> carpools = fileManager.loadCarpoolListing();
-
     std::cout << "Information of all Carpools: \n";
     std::cout << "-----------------------------------\n";
     
