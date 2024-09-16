@@ -447,8 +447,7 @@ void Menu::requestState(const User &user)
 
     if (!hasCarpools) {
         std::cout << "No carpools associated with your ID.\n";
-        std::cout << "Press any key to continue...";
-        _getch(); // Wait for user to press any key
+        
         return;
     }
     char inp;
@@ -589,6 +588,8 @@ void Menu::memberUtils(std::string username, std::string password) {
                     break;
                 case '5':
                     std::cout << "Logging out...\n";
+                    std::cout << "Press any key to continue...";
+                    _getch(); // Wait for user to press any key
                     system("cls");
                     coordinate();
                     return; // Exit the function to log out
@@ -696,7 +697,7 @@ void Menu::newRegister() {
 
 
     IdentityVerifier verify;
-    bool validate = verify.verifyCapCha();
+    bool validate = verify.verifyCaptCha();
     if (validate == true){
         UserController regis;
         IDgenerator id_obj;
