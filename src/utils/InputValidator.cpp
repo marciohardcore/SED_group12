@@ -223,9 +223,6 @@ void inputValidator::validateCredit(std::string& amountCredit) {
     std::regex regx("^[0-9]+$");
 
     while (true) {
-        std::cout << RED << "Enter a valid amount (at least 10): " << RESET;
-        std::getline(std::cin, amountCredit);
-
         // Validate if the input matches the regex
         if (std::regex_match(amountCredit, regx)) {
             int creditAmount = std::stoi(amountCredit);
@@ -235,6 +232,7 @@ void inputValidator::validateCredit(std::string& amountCredit) {
         }
 
         // Prompt again if validation fails
-        std::cout << RED << "Invalid amount. Please enter a number greater than or equal to 10." << RESET << std::endl;
+        std::cout << RED << "Invalid amount. Please enter a number greater than or equal to 10: " << RESET;
+        std::getline(std::cin, amountCredit); // Only ask for input again when invalid
     }
 }

@@ -41,7 +41,7 @@ std::string IDgenerator::generateBookingID() {
 }
 
 
-std::string IDgenerator::generate_capcha(){
+std::string IDgenerator::generate_captcha(){
     std::random_device random;
     std::ranlux48_base generator(random());  // Use 48-bit generator
 

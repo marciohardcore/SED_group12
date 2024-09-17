@@ -12,5 +12,5 @@
 
 class IdentityVerifier{
 public:
-    bool verifyCapCha();
+    bool verifyCaptCha();
 };
