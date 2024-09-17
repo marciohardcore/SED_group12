@@ -248,6 +248,23 @@ void Menu::browseAndBookCarpoolListingsByCriteria(const User* user) {
             matches = false;
         }
         if (matches) {
+            std::string driverID = carpool->getIDowner();
+            double driverTotalScore = 0;
+            int driverRatingCount = 0;
+            std::string driverComments;  // To store concatenated comments for the driver
+
+            // Loop through ratings and calculate the average score for the driver
+            for (const auto& rat : ratings) {
+                if (rat->getUserID() == driverID) {
+                    driverTotalScore += rat->getScore();
+                    driverRatingCount++;
+                    if (!driverComments.empty()) {
+                        driverComments += ", ";  // Add a comma before adding the next comment if not empty
+                    }
+                    driverComments += rat->getComments();  // Append the comment
+                }
+            }
+            double averageDriverRating = driverRatingCount > 0 ? driverTotalScore / driverRatingCount : 0;
             cout << "The carpool that meet the criteria: \n";
             ++index;
             mp[index] = carpool;
@@ -264,7 +281,15 @@ void Menu::browseAndBookCarpoolListingsByCriteria(const User* user) {
                       << "Estimated Duration: " << carpool->getEstimateDuration() << "\n"
                       << "Contribution per Passenger: " << carpool->getContributionPerPassenger() << "\n"
                       << "Minimum Passenger Rating: " << carpool->getMinimumPassengerRating() << "\n"
-                      << "-----------------------------------\n";
+                      << "Average Driver Rating: " << averageDriverRating << "\n";
+                        // Display the driver's comments
+                        if (!driverComments.empty()) {
+                            std::cout << "Driver Comments: " << driverComments << "\n";  // Print concatenated comments
+                        } else {
+                            std::cout << "No comments available for this driver.\n";
+                        }
+
+                    std::cout << "-----------------------------------\n";
             found = true;
         }
     }
