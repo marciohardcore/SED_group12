@@ -264,7 +264,6 @@ void Menu::browseAndBookCarpoolListingsByCriteria(const User* user) {
                     driverComments += rat->getComments();  // Append the comment
                 }
             }
-            double averageDriverRating = driverRatingCount > 0 ? driverTotalScore / driverRatingCount : 0;
             cout << "The carpool that meet the criteria: \n";
             ++index;
             mp[index] = carpool;
@@ -280,15 +279,14 @@ void Menu::browseAndBookCarpoolListingsByCriteria(const User* user) {
                       << "Date: " << carpool->getDate() << "\n"
                       << "Estimated Duration: " << carpool->getEstimateDuration() << "\n"
                       << "Contribution per Passenger: " << carpool->getContributionPerPassenger() << "\n"
-                      << "Minimum Passenger Rating: " << carpool->getMinimumPassengerRating() << "\n"
-                      << "Average Driver Rating: " << averageDriverRating << "\n";
-                        // Display the driver's comments
-                        if (!driverComments.empty()) {
-                            std::cout << "Driver Comments: " << driverComments << "\n";  // Print concatenated comments
-                        } else {
-                            std::cout << "No comments available for this driver.\n";
-                        }
-
+                      << "Minimum Passenger Rating: " << carpool->getMinimumPassengerRating() << "\n";
+                      if (driverRatingCount > 0) {
+                        double averageScore = driverTotalScore / driverRatingCount;
+                        std::cout << "Average Driver Score: " << averageScore << "\n";
+                        std::cout << "Reviews: " << driverComments << "\n";
+                    } else {
+                        std::cout << "No ratings available for this driver.\n";
+                    }
                     std::cout << "-----------------------------------\n";
             found = true;
         }

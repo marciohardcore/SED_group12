@@ -51,7 +51,7 @@ void AdminView::displayAllUsers() {
         if (count > 0) {
             double averageScore = totalScore / count;
             std::cout << "Average Score: " << averageScore << "\n";
-            std::cout << "Comments: " << allComments << "\n";
+            std::cout << "Reviews: " << allComments << "\n";
         } else {
             std::cout << "No ratings available for this user.\n";
         }
@@ -69,10 +69,28 @@ void AdminView::displayAllCarpools() {
     // Load all carpool listings from the file
     FileManager fileManager;
     std::vector<CarpoolListing*> carpools = fileManager.loadCarpoolListing();
+    std::vector<RatingSystem*> ratings = fileManager.loadRating(); // Load all rating
     std::cout << "Information of all Carpools: \n";
     std::cout << "-----------------------------------\n";
     
     for (size_t i = 0; i < carpools.size(); ++i) {
+        std::string driverID = carpools[i]->getIDowner();
+        double driverTotalScore = 0;
+        int driverRatingCount = 0;
+        std::string driverComments;  // To store concatenated comments for the driver
+
+        // Loop through ratings and calculate the average score for the driver
+        for (const auto& rat : ratings) {
+            if (rat->getUserID() == driverID) {
+                driverTotalScore += rat->getScore();
+                driverRatingCount++;
+                if (!driverComments.empty()) {
+                    driverComments += ", ";  // Add a comma before adding the next comment if not empty
+                }
+                driverComments += rat->getComments();  // Append the comment
+            }
+        }
+
         const auto& carpool = carpools[i];
         std::cout << GREEN << "INFORMATION OF CARPOOL " << (i + 1) << RESET << "\n"
                   << YELLOW << "Available Seats: " << carpool->getAvailableSeats() << "\n"
@@ -84,8 +102,15 @@ void AdminView::displayAllCarpools() {
                   << "Vehicle Plate Number: " << carpool->getPlateNumber() << "\n" 
                   << "Date: " << carpool->getDate() << "\n"
                   << "Minimum Passenger Rating: " << carpool->getMinimumPassengerRating() << "\n"
-                  << "Contribution Per Passenger: " << carpool->getContributionPerPassenger() << "\n"
-                  << "-----------------------------------\n";
+                  << "Contribution Per Passenger: " << carpool->getContributionPerPassenger() << "\n";
+                 if (driverRatingCount > 0) {
+                    double averageScore = driverTotalScore / driverRatingCount;
+                    std::cout << "Average Driver Score: " << averageScore << "\n";
+                    std::cout << "Reviews: " << driverComments << "\n";
+                } else {
+                    std::cout << "No ratings available for this driver.\n";
+                }
+                std::cout << "-----------------------------------\n";
     }
 
     std::cout << GREEN << "\nPress any key to continue..." << RESET;
