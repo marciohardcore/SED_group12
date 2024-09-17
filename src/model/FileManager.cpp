@@ -263,7 +263,7 @@ void FileManager::pullRequestCarpool(const CarpoolListing* carpool, const User* 
     request_file << carpool->getID() << ","
                  << carpool->getIDowner() << ","
                  << user->getUID() << ","
-                 << a;
+                 << a << std::endl;
     request_file.close();
 }
 
@@ -280,7 +280,7 @@ void FileManager::saveRequest(const Booking* request) {
     outFile << request->getCPID() << ','
             << request->getOwnerID() << ','
             << request->getPassengerID() << ','
-            << request->getStatusInfo();
+            << request->getStatusInfo() << std::endl;
             // Add other attributes here
 
     // Close the file
@@ -325,7 +325,7 @@ std::vector<Booking*> FileManager::loadRequest() {
            (request_file >> stat)) {
         
         // Ignore the rest of the line after reading stat
-        // request_file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        request_file.ignore(10000, '\n');  // Skip up to 10,000 characters or until newline
         
         // Create a Booking object and add it to the vector
         Booking* request = new Booking(cpid, ownerid, uid, stat);
