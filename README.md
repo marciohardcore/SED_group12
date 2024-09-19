@@ -32,6 +32,7 @@ Designing a car pooling service that allow ride-sharing among user.
 ---
 
 # **EXTRA NOTES:**
+- Only work in Window OS
 - Admin account:
   - Username: admin
   - Password: Admin123@
